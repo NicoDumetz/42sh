@@ -40,6 +40,7 @@ typedef enum lexing_s {
 typedef struct token_s {
     char sep;
     char *arg;
+    int index;
     struct token_s *next;
 } token_t;
 
@@ -56,7 +57,7 @@ typedef struct garbage_s {
 } garbage_t;
 
 token_t **init_token_list(char *str);
-
+char **token_to_str_array(token_t *start, int end);
 void insert_spaces(char **input);
 void freeing(char *str, char **board);
 void format_str(char *str);

@@ -44,6 +44,10 @@ static void build_token_item(token_t **token_list, char *str, int i)
 
     token->sep = str[i];
     token->arg = NULL;
+    if (*token_list == NULL)
+        token->index = 0;
+    else
+        token->index = (*token_list)->index + 1;
     token->next = *token_list;
     *token_list = token;
 }
@@ -60,6 +64,10 @@ static void build_token_arg(token_t **token_list, char *str, int i, int index)
     token->sep = 0;
     for (j = 0; tmp[j] && !check_item(tmp[j]); j++);
     token->arg = strndup(tmp, j);
+    if (*token_list == NULL)
+        token->index = 0;
+    else
+        token->index = (*token_list)->index + 1;
     token->next = *token_list;
     *token_list = token;
 }
