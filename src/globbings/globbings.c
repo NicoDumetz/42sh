@@ -7,13 +7,17 @@
 
 #include "minishell.h"
 
-char **make_globbings(char *str)
+char **make_globbings(token_t *token)
 {
     glob_t glob_result;
-    int error = glob(str, GLOB_NOCHECK, NULL, &glob_result);
+    int error = 0;
     int len = 0;
     char **arr = 0;
 
+    if (token->sep == ' ' || token->sep == '\n')
+        glob(" ", GLOB_NOCHECK, NULL, &glob_result);
+    if (token->arg)
+        glob(token->arg, GLOB_NOCHECK, NULL, &glob_result);
     for (; glob_result.gl_pathv[len] != NULL; len++);
     arr = malloc(sizeof(char *) * (len + 1));
     for (int i = 0; i < len; i++)
@@ -23,7 +27,7 @@ char **make_globbings(char *str)
     return arr;
 }
 
-token_t *create_new_arg(token_t *head, char **new_arg, token_t **actual)
+token_t *create_new_arg(token_t *head, char **new_arg)
 {
     token_t *new_list = NULL;
     token_t *current = NULL;
@@ -42,7 +46,7 @@ token_t *create_new_arg(token_t *head, char **new_arg, token_t **actual)
         }
     }
     current->next = head->next;
-    *actual = current;
+    head->prev->next = new_list;
     free(head);
     return new_list;
 }
@@ -52,16 +56,20 @@ int globbings_function(garbage_t *garbage, token_t **token_list)
     token_t *head = *token_list;
     token_t *prev = NULL;
     token_t *current = NULL;
-    char **new_arg = make_globbings(head->arg);
+    char **new_arg = NULL.
 
+    lexing_features(garbage, token_list);
+    if (garbage->return_value < 0)
+        return -1;
+    new_arg = make_globbings(head->next);
     if (new_arg) {
-        *token_list = create_new_arg(head, new_arg, &current);
+        *token_list = create_new_arg(head, new_arg);
         free(new_arg);
     }
-    while (current && current->next) {
-        new_arg = make_globbings(current->next->arg);
-        current->next = create_new_arg(current->next, new_arg, &current);
-        free(new_arg);
-    }
+    // while (current && current->next) {
+    //     new_arg = make_globbings(current->next->arg);
+    //     current->next = create_new_arg(current->next, new_arg, &current);
+    //     free(new_arg);
+    // }
     return 0;
 }
