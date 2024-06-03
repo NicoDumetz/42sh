@@ -7,6 +7,8 @@
 
 #ifndef MINISHELL_HEADER
     #define MINISHELL_HEADER
+    #include "my.h"
+    #include <stdlib.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
 typedef struct garbage_s {
@@ -16,6 +18,7 @@ typedef struct garbage_s {
     int save_in;
     int save_out;
 } garbage_t;
+void insert_spaces(char **input);
 void freeing(char *str, char **board);
 void format_str(char *str);
 int function(char *str, char ***env);

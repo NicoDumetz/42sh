@@ -14,7 +14,8 @@ SRC = main.c \
 	  src/pipe/fork.c \
 	  src/redirection/redirection.c \
 	  src/redirection/redirection_errors.c \
-	  src/command_errors.c
+	  src/command_errors.c\
+	  src/add_separator.c
 
 OBJ = $(SRC:.c=.o)
 
