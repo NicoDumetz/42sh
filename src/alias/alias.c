@@ -32,7 +32,7 @@ token_t *check_alias(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
         return token;
     for (; current; current = current->next) {
         if (my_strcmp(current->name, token->arg) == 0) {
-            return insert_node(token, current->com, garbage, pipeline);
+            return insert_node(token, current->com, 0, pipeline);
         }
     }
     return token;

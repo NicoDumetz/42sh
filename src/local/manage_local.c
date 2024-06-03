@@ -43,14 +43,14 @@ int var_len(garbage_t *garbage)
 }
 
 token_t *insert_node(token_t *token, char *com,
-    garbage_t *, pipeline_t *pipeline)
+    int var_env, pipeline_t *pipeline)
 {
     char temp[my_strlen(com) + 2];
     token_t **insert;
     token_t *current;
 
     my_strcpy(temp, com);
-    temp[my_strlen(com)] = '\n';
+    temp[my_strlen(com)] = var_env == 0 ? '\n' : '\0';
     temp[my_strlen(com) + 1] = '\0';
     insert = init_token_list(temp);
     if (token->prev != NULL)
@@ -66,7 +66,8 @@ token_t *insert_node(token_t *token, char *com,
     return token;
 }
 
-static pipeline_t *format_token(garbage_t *garbage, pipeline_t *pipeline)
+static pipeline_t *format_token(garbage_t *garbage, pipeline_t *pipeline,
+    int who)
 {
     if (pipeline->token_list == NULL)
         return pipeline;
@@ -74,7 +75,10 @@ static pipeline_t *format_token(garbage_t *garbage, pipeline_t *pipeline)
         current && current->index <=
             get_token_list_size(*pipeline->token_list);
             current = current->next) {
-            manage_variable(current, garbage, pipeline);
+            if (who == 1)
+                manage_alias(current, garbage, pipeline);
+            if (who == 2)
+                manage_variable(current, garbage, pipeline);
     }
     return pipeline;
 }
@@ -85,12 +89,16 @@ void format_variable(garbage_t *garbage, pipeline_t **pip)
 
     if (pipeline == NULL)
         return;
+    for (pipeline = *pip; pipeline; pipeline = pipeline->next)
+        pipeline = format_token(garbage, pipeline, 2);
+    if (garbage->execute == 1)
+        return;
     for (pipeline_t *current = *pip; current; current = current->next) {
         if (inibitors(current, garbage)) {
             garbage->execute = 1;
             return;
         }
     }
-    for (; pipeline; pipeline = pipeline->next)
-        pipeline = format_token(garbage, pipeline);
+    for (pipeline = *pip; pipeline; pipeline = pipeline->next)
+        pipeline = format_token(garbage, pipeline, 1);
 }

@@ -33,7 +33,7 @@ int check_local(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
         return 0;
     for (; current; current = current->next) {
         if (my_strcmp(current->var, token->arg + 1) == 0) {
-            insert_node(token, current->value, garbage, pipeline);
+            insert_node(token, current->value, 0, pipeline);
             return 0;
         }
     }
