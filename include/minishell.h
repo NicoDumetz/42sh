@@ -145,7 +145,7 @@ void free_token_list(token_t **token_list);
 int which_functions(char *str, char ***env, garbage_t *garbage, pipeline_t *);
 void free_pipeline(pipeline_t **pipeline);
 int exit_built(char *, char ***, garbage_t *garbage, pipeline_t *pipeline);
-void free_token(token_t *token);
+void free_token(token_t **token);
 int tab_len(char **tab);
 pipeline_t *execute_pipe(garbage_t *garbage, pipeline_t *commands);
 int assemble_hard(token_t **current, token_t **head);

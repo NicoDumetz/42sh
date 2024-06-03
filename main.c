@@ -100,7 +100,6 @@ int main(int, char **, char **env)
         add_history(&str, garbage.history);
         if (garbage.execute == 0)
             process_execution(&garbage, garbage.pipeline);
-        free_pipeline(garbage.pipeline);
     }
     freeing(str, env);
     cleanup(&garbage);
