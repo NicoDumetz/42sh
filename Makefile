@@ -72,12 +72,14 @@ CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
 
 NAME = 42sh
 
+LIB_NAME = lib/libmy.a
+
 all: $(NAME)
 
-required:
+$(LIB_NAME):
 	make -C lib/my
 
-$(NAME): required $(OBJ)
+$(NAME): $(LIB_NAME) $(OBJ)
 	gcc -o $(NAME) $(OBJ) $(CFLAGS)
 
 clean:

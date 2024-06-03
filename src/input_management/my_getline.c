@@ -137,8 +137,14 @@ int my_getline_interact(char **line, history_t **hist)
 
 int my_getline(char **line, size_t *n, history_t **hist, FILE *stream)
 {
+    char *str = NULL;
+    int ret = 0;
+
     if (isatty(0) == 1)
         return my_getline_interact(line, hist);
-    else
-        return (int) getline(line, n, stream);
+    else {
+        ret = (int) getline(&str, n, stream);
+        *line = str;
+        return ret;
+    }
 }

@@ -711,6 +711,15 @@ TESTS=
   echo 'cd ~/Documents'
 [85-END]
 
+[86]
+NAME="floating"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'segfault/divzero'
+[86-END]
+
+
 [100]
 NAME="crer fichier test.txt"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -1329,4 +1338,43 @@ TESTS=
 echo "which cd"
 [239-END]
 
+[240]
+NAME="unalias"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "unalias"
+[240-END]
 
+[241]
+NAME="unset"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "unset"
+[241-END]
+
+[242]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "ls\nls\nls"
+[242-END]
+
+[243]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "\n\n\n\n"
+[243-END]
+
+[244]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "cat < main.c >> coucou | ls"
+echo "rm -f coucou"
+[244-END]

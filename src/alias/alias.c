@@ -117,6 +117,10 @@ int unalias(char *str, char ***, garbage_t *garbage, pipeline_t *)
     char **command = my_str_to_array(str, " ");
     char *name = command[1];
 
+    if (command[0] == NULL || command[1] == NULL) {
+        fprintf(stderr, "unalias: Too few arguments.\n");
+        return 1;
+    }
     for (; current != NULL; current = current->next) {
         if (strcmp(name, current->name) == 0) {
             delete_alias(current, prev, garbage);
