@@ -125,6 +125,10 @@ int unset_var(char *str, char ***, garbage_t *garbage, pipeline_t *)
     char **command = my_str_to_array(str, " ");
     char *name = command[1];
 
+    if (command[0] == NULL || command[1] == NULL) {
+        fprintf(stderr, "unset: Too few arguments.\n");
+        return 1;
+    }
     for (; current != NULL; current = current->next) {
         if (strcmp(name, current->var) == 0) {
             delete_var(current, prev, garbage);

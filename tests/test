@@ -1338,4 +1338,18 @@ TESTS=
 echo "which cd"
 [239-END]
 
+[240]
+NAME="unalias"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "unalias"
+[240-END]
 
+[241]
+NAME="unset"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "unset"
+[241-END]
