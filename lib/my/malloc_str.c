@@ -6,10 +6,11 @@
 */
 
 #include "my.h"
+#include "../../include/minishell.h"
 
 char *malloc_str(int size)
 {
-    char *str = malloc(sizeof(char) * (size + 1));
+    char *str = gmalloc(sizeof(char) * (size + 1));
 
     if (!str)
         return NULL;

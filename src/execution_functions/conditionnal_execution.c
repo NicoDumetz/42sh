@@ -56,10 +56,8 @@ pipeline_t *execute_semicolon(garbage_t *garbage, pipeline_t *pipeline)
         return pipeline;
     command = token_to_str_array(*pipeline->token_list,
     get_token_list_size(*pipeline->token_list));
-    if (check_built(command, garbage, pipeline) == 1) {
-        free_array(command);
+    if (check_built(command, garbage, pipeline) == 1)
         return pipeline;
-    }
     garbage->return_value = new_process(
         pipeline, command, *garbage->env, garbage);
     waitpid(pipeline->pid, &status, 0);

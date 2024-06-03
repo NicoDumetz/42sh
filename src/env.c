@@ -55,10 +55,8 @@ static int check_deletion(char **env, int actual_size, int *new_size,
         my_strcat(name, "=");
         if (my_strncmp(name, env[actual_size],
         my_strlen(name)) == 0) {
-            free(name);
             return 1;
         }
-        free(name);
     }
     if (new_size)
         *new_size += 1;
@@ -71,15 +69,13 @@ static char **new_env(char **env, char **command, int new_size)
     int j = 0;
 
     for (int i = 0; env[i]; i++) {
-        if (check_deletion(env, i, 0, command))
-            free(env[i]);
+        if (check_deletion(env, i, 0, command));
         else {
             new_env[j] = env[i];
             j++;
         }
     }
     new_env[j] = 0;
-    free(env);
     return new_env;
 }
 

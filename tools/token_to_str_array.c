@@ -20,18 +20,18 @@ int get_token_list_size(token_t *token)
 
 char **token_to_str_array(token_t *start, int end)
 {
-    char **arr = malloc(sizeof(char *) * (end - start->index + 1));
+    char **arr = gmalloc(sizeof(char *) * (end - start->index + 1));
     int i = 0;
 
     for (token_t *current = start;
         current && current->index <= end;
         current = current->next) {
         if (current->arg) {
-            arr[i] = strdup(current->arg);
+            arr[i] = my_gstrdup(current->arg);
             i++;
         }
         if (current->sep == '=') {
-            arr[i] = strdup("=");
+            arr[i] = my_gstrdup("=");
             i++;
         }
     }

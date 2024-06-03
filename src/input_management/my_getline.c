@@ -155,6 +155,8 @@ int my_getline(char **line, size_t *n, history_t **hist, FILE *stream)
         return my_getline_interact(line, hist);
     else {
         ret = (int) getline(&str, n, stream);
+        if (ret == -1 || invalid_char(str) == 1)
+            return -1;
         *line = str;
         return ret;
     }

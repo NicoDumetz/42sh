@@ -34,7 +34,6 @@ static char *get_home(char **env)
         }
     }
     if (home != 0 && home[0] == '\0') {
-        free(home);
         return 0;
     }
     return home;
@@ -46,7 +45,7 @@ static char *find_user(char **str)
     char *user = NULL;
 
     for (i = 0; (*str)[i + 1] && (*str)[i + 1] != '/'; i++);
-    user = malloc(sizeof(char) * (i + 1));
+    user = gmalloc(sizeof(char) * (i + 1));
     for (int j = 0; j < i; j++)
         user[j] = (*str)[j + 1];
     user[i] = '\0';
@@ -58,18 +57,15 @@ static char *get_home_user(char **str)
 {
     char *user = find_user(str);
     int length = my_strlen("/home/") + my_strlen(user);
-    char *home = malloc(length + 1);
+    char *home = gmalloc(length + 1);
     struct stat info;
 
     strcpy(home, "/home/");
     my_strcat(home, user);
     if (stat(home, &info) == 0 && S_ISDIR(info.st_mode)) {
-        free(user);
         return home;
     }
     fprintf(stderr, "Unknown user: %s.\n", user);
-    free(user);
-    free(home);
     return NULL;
 }
 
@@ -87,10 +83,9 @@ static char *get_path(char *str, char **env)
             home = get_home_user(&str);
         if (home == 0)
             return 0;
-        path = malloc(my_strlen(home) + my_strlen(str));
+        path = gmalloc(my_strlen(home) + my_strlen(str));
         my_strcpy(path, home);
         my_strcat(path, str + 1);
-        free(home);
     } else {
         path = my_strdup(str);
     }
@@ -105,7 +100,6 @@ static void chdir_errors(char *path)
     write(2, ": ", 2);
     write(2, error_message, my_strlen(error_message));
     write(2, ".\n", 2);
-    free(path);
 }
 
 static char *find_path(char **command, char **env, char *prev_path)
@@ -123,18 +117,14 @@ static int cd_loop(char *path, char **command, char **env)
 
     path = find_path(command, env, prev_path);
     if (path == 0) {
-        freeing(actual_path, command);
         return 1;
     }
     if (chdir(path) == -1) {
         chdir_errors(path);
-        freeing(actual_path, command);
         return 1;
     }
     if (my_strlen(actual_path) < 1024)
         my_strcpy(prev_path, actual_path);
-    free(actual_path);
-    freeing(path, command);
     return 0;
 }
 
@@ -148,16 +138,13 @@ int change_dir(char *str, char ***env, garbage_t *garbage, pipeline_t *)
     command = my_str_to_array(str, " ");
     for (; command[i]; i++);
     if (error_check(i)) {
-        freeing(0, command);
         return 1;
     }
     i = cd_loop(path, command, *env);
     new_pwd = getcwd(0, 0);
-    path = malloc(my_strlen("setenv PWD ") + my_strlen(new_pwd) + 1);
+    path = gmalloc(my_strlen("setenv PWD ") + my_strlen(new_pwd) + 1);
     my_strcpy(path, "setenv PWD ");
     my_strcat(path, new_pwd);
     set_environnement(path, env, garbage, NULL);
-    free(path);
-    free(new_pwd);
     return i;
 }
