@@ -25,11 +25,16 @@ char **token_to_str_array(token_t *start, int end)
 
     for (token_t *current = start;
         current && current->index <= end;
-        current = current->next)
+        current = current->next) {
         if (current->arg) {
             arr[i] = strdup(current->arg);
             i++;
         }
+        if (current->sep == '=') {
+            arr[i] = strdup("=");
+            i++;
+        }
+    }
     arr[i] = NULL;
     return (arr);
 }

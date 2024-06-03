@@ -148,7 +148,7 @@ void free_token_list(token_t **token_list);
 int which_functions(char *str, char ***env, garbage_t *garbage, pipeline_t *);
 void free_pipeline(pipeline_t **pipeline);
 int exit_built(char *, char ***, garbage_t *garbage, pipeline_t *pipeline);
-void free_token(token_t *token);
+void free_token(token_t **token);
 int tab_len(char **tab);
 pipeline_t *execute_pipe(garbage_t *garbage, pipeline_t *commands);
 int assemble_hard(token_t **current, token_t **head);
@@ -178,7 +178,7 @@ int redirection_errors(char *command, char **pipes, int i);
 int command_errors(char *str, char **pipes, int save_in, int save_out);
 void free_alias(garbage_t *garbage);
 garbage_t init_local(garbage_t *garbage);
-token_t *insert_node(token_t *token, char *com, garbage_t *garbage,
+token_t *insert_node(token_t *token, char *com, int var_env,
     pipeline_t *pipeline);
 void clean_space(char *str);
 void print_token_list(token_t **token_list);
@@ -268,4 +268,13 @@ void auto_completion_command(char *word, char **line, getline_t *getmy,
     int len);
 char *get_path_autocompletion(char *word);
 void display_tab(getline_t *getmy);
+
+char *pick_token(pipeline_t *pip, int who);
+token_t *manage_alias(token_t *token, garbage_t *garbage,
+    pipeline_t *pipeline);
+char *pick_token_var(pipeline_t *pip, int who);
+int str_is_alpha(const char *str);
+char *remove_quotes(const char *str);
+int check_spe_var(token_t *token, pipeline_t *pipeline, garbage_t *garbage);
+int char_is_alpha(char c);
 #endif

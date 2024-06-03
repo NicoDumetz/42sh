@@ -48,7 +48,7 @@ static void connect_new_list(
         (*actual)->prev->next = new_list;
     else
         *start = new_list;
-    free_token(*actual);
+    free_token(actual);
     *actual = prev;
 }
 
@@ -81,9 +81,9 @@ static void correct_index(token_t *head, int index)
 
 void supp_token_glob(token_t **token, token_t **start)
 {
-    token_t *to_delete = *token;
-    token_t *next = to_delete->next;
-    token_t *prev = to_delete->prev;
+    token_t **to_delete = token;
+    token_t *next = (*to_delete)->next;
+    token_t *prev = (*to_delete)->prev;
 
     if (prev == NULL) {
         *start = next;

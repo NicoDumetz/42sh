@@ -64,11 +64,12 @@ SRC = main.c \
 	  src/handle_signal.c \
 	  tools/int_to_str.c \
 	  src/execution_functions/redirection/double_left.c \
+	  src/local/check_value.c \
+	  src/var_env/spe_var.c \
 	  src/autocompletion/auto_completion.c \
 	  src/autocompletion/completion_command.c \
 	  src/autocompletion/completion_file.c \
 	  src/autocompletion/display_tab.c \
-
 
 OBJ = $(SRC:.c=.o)
 
@@ -76,12 +77,14 @@ CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
 
 NAME = 42sh
 
+LIB_NAME = lib/libmy.a
+
 all: $(NAME)
 
-required:
+$(LIB_NAME):
 	make -C lib/my
 
-$(NAME): required $(OBJ)
+$(NAME): $(LIB_NAME) $(OBJ)
 	gcc -o $(NAME) $(OBJ) $(CFLAGS)
 
 clean:

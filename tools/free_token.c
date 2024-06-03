@@ -7,8 +7,9 @@
 
 #include "minishell.h"
 
-void free_token(token_t *token)
+void free_token(token_t **token)
 {
-    free(token->arg);
-    free(token);
+    free((*token)->arg);
+    free(*token);
+    *token = NULL;
 }
