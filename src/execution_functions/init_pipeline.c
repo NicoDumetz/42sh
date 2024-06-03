@@ -69,7 +69,7 @@ static char *get_sep(char const *str, int *i, int *index)
         str[*i] == '<' || str[*i] == '>') {
         if (str[*i] == str[*i + 1]) {
             sep[1] = str[*i];
-            // *i += 1;
+            *i += 1;
             *index += 1;
         }
     }
