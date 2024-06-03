@@ -50,10 +50,16 @@ static bool is_pipeline_correct(garbage_t *garbage, pipeline_t *pipeline)
 
 static pipeline_t *process_separator(garbage_t *garbage, pipeline_t *pipeline)
 {
+    static int error = 0;
     int i = 0;
 
+    if (pipeline->sep[0] == ';' || pipeline->sep[0] == '\n' ||
+    pipeline == *garbage->pipeline)
+        error = 0;
+    if (!error)
+        error = inibitors(pipeline, garbage);
     for (i = 0; r_tab[i].sep && strcmp(r_tab[i].sep, pipeline->sep); i++);
-    if (r_tab[i].sep == 0)
+    if (r_tab[i].sep == 0 || error)
         return pipeline;
     pipeline = r_tab[i].redirection(garbage, pipeline);
     return pipeline;

@@ -7,7 +7,7 @@
 
 #ifndef SH_ERROR_MESSAGE
     #define SH_ERROR_MESSAGE
-
+    #define STR_ERROR "Unmatched '\"'.\n"
     #define ERR_NULL_COMMAND "Invalid null command.\n"
     #define ERR_MISSING_NAME_REDIRECT "Missing name for redirect.\n"
 #endif // !SH_ERROR_MESSAGE

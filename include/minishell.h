@@ -112,6 +112,8 @@ int parsing_function(garbage_t *garbage, token_t **token_list);
 
 int globbings(garbage_t *garbage, token_t **token_list);
 
+int inibitors(pipeline_t *pipeline, garbage_t *garbage);
+
 int new_process(
     pipeline_t *pipeline, char **command, char **env, garbage_t *garbage);
 
