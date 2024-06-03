@@ -101,5 +101,8 @@ pipeline_t *execute_or(garbage_t *garbage, pipeline_t *pipeline)
     if (check_built(command, garbage) == 1)
         return pipeline;
     garbage->return_value = new_process(pipeline, command, *garbage->env);
+    if (garbage->return_value == 0) {
+        pipeline = skip_command(pipeline);
+    }
     return pipeline;
 }
