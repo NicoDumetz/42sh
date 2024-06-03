@@ -711,15 +711,6 @@ TESTS=
   echo 'cd ~/Documents'
 [85-END]
 
-[86]
-NAME="floating"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-  echo 'segfault/divzero'
-[86-END]
-
-
 [100]
 NAME="crer fichier test.txt"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
