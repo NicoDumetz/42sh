@@ -15,16 +15,12 @@
 void free_pipeline(pipeline_t **pipeline)
 {
     pipeline_t *tmp = *pipeline;
-    pipeline_t *node = *pipeline;
 
-    while (tmp) {
-        node = tmp;
+    for (; tmp; tmp = tmp->next) {
         if (tmp->token_list)
             free_token_list(tmp->token_list);
         if (tmp->sep)
             free(tmp->sep);
-        tmp = tmp->next;
-        free(node);
     }
     free(pipeline);
     pipeline = NULL;

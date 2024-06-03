@@ -33,6 +33,13 @@ static int return_status(int status)
     if (WIFSIGNALED(status))
         if (WTERMSIG(status) == SIGSEGV)
             return segfault_exit(status);
+    if (status == 136 % 256 && WCOREDUMP(status)) {
+        fprintf(stderr, "Floating exception (core dumped)\n");
+        return 136;
+    } else if (status == 136 % 256) {
+        fprintf(stderr, "Floating exception\n");
+        return 136;
+    }
     return 1;
 }
 
