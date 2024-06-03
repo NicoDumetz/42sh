@@ -30,7 +30,8 @@ char *array_to_str(char **array)
     for (int i = 0; i < num; i++) {
         my_strcat(str, array[i]);
         index += strlen(array[i]);
-        if (i < num - 1) {
+        if (i < num - 1 && array[i + 1] && strcmp(array[i + 1], "=")
+            != 0 && strcmp(array[i], "=") != 0) {
             my_strcat(str, " ");
             index++;
         }
