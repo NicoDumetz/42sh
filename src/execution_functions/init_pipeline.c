@@ -157,7 +157,7 @@ pipeline_t **init_pipeline(char *str)
     if (!pipeline)
         return NULL;
     *pipeline = NULL;
-    for (i = 0; i <= my_strlen(str); i++) {
+    for (i = 0; i <= strlen(str); i++) {
         skip_features(str, &i);
         if (check_sep(str, i, index)) {
             node = build_node(str, &i, &index);

@@ -46,7 +46,7 @@ static void last_redirect(int num_pipe, int pipeline[][2])
     close(pipeline[num_pipe - 2][1]);
 }
 
-void pipe_redirect(int i, int, int pipeline[][2])
+void pipe_redirect(int i, int num_pipe, int pipeline[][2])
 {
     if (i > 0) {
         dup2(pipeline[i - 1][0], STDIN_FILENO);
@@ -66,7 +66,7 @@ static void reset_fd(int save_in, int save_out)
     close(save_out);
 }
 
-int pipe_handling(char *str, char ***, garbage_t *garbage)
+int pipe_handling(char *str, char ***env, garbage_t *garbage)
 {
     char **pipes = my_str_to_array(str, "|");
     int num_pipe = count_pipe(pipes);

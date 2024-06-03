@@ -32,7 +32,7 @@ int check_built(char **command, garbage_t *garbage)
     return 0;
 }
 
-static int execute_builtins_on_fork(char **command, int, char ***env)
+static int execute_builtins_on_fork(char **command, int i, char ***env)
 {
     char *str = array_to_str(command);
 

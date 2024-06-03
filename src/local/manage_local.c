@@ -31,6 +31,8 @@ int var_len(garbage_t *garbage)
 {
     var_t *current = garbage->local;
     int compt = 0;
+    var_t *prev = NULL;
+    var_t *next;
 
     if (garbage == NULL || current == NULL)
         return 0;
@@ -38,12 +40,13 @@ int var_len(garbage_t *garbage)
         compt++;
         if (compt > 1000)
             del_var(current->var, garbage);
+        prev = current;
     }
     return compt;
 }
 
 token_t *insert_node(token_t *token, char *com,
-    garbage_t *, pipeline_t *pipeline)
+    garbage_t *garbage, pipeline_t *pipeline)
 {
     char temp[my_strlen(com) + 2];
     token_t **insert;

@@ -90,7 +90,7 @@ static int manage_input(char **line, history_t **tmp, size_t *n, history_t
 {
     int len = my_strlen(*line);
 
-    if ((size_t)len > *n - 1) {
+    if (len > *n - 1) {
         *n += 120;
         *line = realloc(*line, *n * sizeof(char));
         if (*line == NULL)

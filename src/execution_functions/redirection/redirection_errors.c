@@ -40,11 +40,11 @@ int redirection_errors(char *command, char **pipes, int i)
             continue;
         if (check_name(command, &j))
             return 1;
-        if (command[j] == '<' && (i != 0 ||
-            (command[j] == '<' && in_redirection != 0)))
+        if (command[j] == '<' && i != 0 ||
+        (command[j] == '<' && in_redirection != 0))
             return ambigous_redirection("input");
-        if (command[j] == '>' && (pipes[i + 1] != 0 ||
-        (command[j] == '>' && out_redirection != 0)))
+        if (command[j] == '>' && pipes[i + 1] != 0 ||
+        (command[j] == '>' && out_redirection != 0))
             return ambigous_redirection("output");
         if (command[j] == '<')
             in_redirection += 1;
