@@ -59,3 +59,41 @@ pipeline_t *execute_semicolon(garbage_t *garbage, pipeline_t *pipeline)
     garbage->return_value = return_status(status);
     return pipeline;
 }
+
+pipeline_t *execute_and(garbage_t *garbage, pipeline_t *pipeline)
+{
+    char **command;
+
+    if (!pipeline->token_list) {
+        garbage->return_value = EXIT_SUCCESS;
+        return pipeline;
+    }
+    command = token_to_str_array(*pipeline->token_list,
+    get_token_list_size(*pipeline->token_list));
+    if (check_built(command, garbage) == 1)
+        return pipeline;
+    garbage->return_value = new_process(pipeline, command, *garbage->env);
+    if (garbage->return_value != 0) {
+        pipeline = pipeline->next;
+        for (; pipeline && (strcmp(pipeline->sep, ";") &&
+            strcmp(pipeline->sep, "\n") &&
+            strcmp(pipeline->sep, "||")); pipeline = pipeline->next);
+    }
+    return pipeline;
+}
+
+pipeline_t *execute_or(garbage_t *garbage, pipeline_t *pipeline)
+{
+    char **command;
+
+    if (!pipeline->token_list) {
+        garbage->return_value = EXIT_SUCCESS;
+        return pipeline;
+    }
+    command = token_to_str_array(*pipeline->token_list,
+    get_token_list_size(*pipeline->token_list));
+    if (check_built(command, garbage) == 1)
+        return pipeline;
+    garbage->return_value = new_process(pipeline, command, *garbage->env);
+    return pipeline;
+}
