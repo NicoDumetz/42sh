@@ -23,11 +23,11 @@ char **copy_env(char **env)
     return new_env;
 }
 
-int show_env(char *str, char ***env)
+int show_env(char **env)
 {
-    for (int i = 0; (*env)[i]; i++) {
-        printf("%s\n", (*env)[i]);
-    }
+    for (int i = 0; env[i]; i++)
+        my_printf("%s\n", env[i]);
+    return 0;
 }
 
 static int delete_errors(char **command)
