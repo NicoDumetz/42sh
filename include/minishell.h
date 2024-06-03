@@ -37,6 +37,7 @@ typedef enum lexing_s {
     BACKTICK
 } lexing_t;
 
+
 typedef struct token_s {
     char sep;
     char *arg;
@@ -55,6 +56,11 @@ typedef struct garbage_s {
     int return_value;
     token_t **token_list;
 } garbage_t;
+
+typedef struct feature_tab_s {
+    char sep;
+    void (*feature)(token_t **);
+} feature_tab_t;
 
 token_t **init_token_list(char *str);
 char **token_to_str_array(token_t *start, int end);

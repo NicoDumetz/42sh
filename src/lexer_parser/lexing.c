@@ -29,7 +29,7 @@ static void reverse_list(token_t **token_list)
 
 static bool check_item(char c)
 {
-    char item[] = " ;|()><'\"\\\t\n*[]&!`";
+    char item[] = " ;|()><'\"\\\t\n*[]&!`?";
 
     for (int i = 0; item[i]; i++) {
         if (item[i] == c)
