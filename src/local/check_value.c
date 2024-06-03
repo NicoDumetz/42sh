@@ -43,7 +43,7 @@ char *pick_token_var(pipeline_t *pip, int who)
     else if (who == 1)
         return token->arg;
     for (token = token->next; token->sep == ' '; token = token->next);
-    if (token->arg == NULL || my_strcmp(token->arg, "=") != 0)
+    if (token->sep != '=')
         return NULL;
     for (token = token->next; token->sep == ' '; token = token->next);
     return token->arg;

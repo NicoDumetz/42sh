@@ -106,6 +106,8 @@ int set_local(char *, char ***, garbage_t *garbage, pipeline_t *pip)
     char *value = pick_token_var(pip, 2);
 
     var_len(garbage);
+    if (var == NULL)
+        return print_local(garbage);
     if (char_is_alpha(var[0]) == 0) {
         write(2, VAR_BEG, strlen(VAR_BEG));
         return 1;
@@ -114,8 +116,6 @@ int set_local(char *, char ***, garbage_t *garbage, pipeline_t *pip)
         write(2, VAR, strlen(VAR));
         return 1;
     }
-    if (var == NULL)
-        return print_local(garbage);
     if (already_exist_local(var, value, garbage) == 1)
         return 0;
     add = malloc(sizeof(var_t));
