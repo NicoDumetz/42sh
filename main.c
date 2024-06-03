@@ -70,30 +70,20 @@ static void travel_command(char *str, char ***env, int *return_value,
     freeing(0, command);
 }
 
-static garbage_t init_garbage(char **str, char ***env)
-{
-    garbage_t garbage;
-
-    garbage.env = env;
-    garbage.raw_command = str;
-    garbage.return_value = 0;
-    
-}
-
 int main(int argc, char **argv, char **env)
 {
     char *str = 0;
     size_t len = 0;
+    int return_value = 0;
     garbage_t garbage;
 
     env = copy_env(env);
     ttycheck();
-    garbage = init_garbage(&str, &env);
-    garbage.raw_command = &str;
+    garbage.line = &str;
     garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
         insert_spaces(&str);
-        travel_command(str, &env, &garbage);
+        travel_command(str, &env, &return_value, &garbage);
         ttycheck();
     }
     freeing(str, env);
