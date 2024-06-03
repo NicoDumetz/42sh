@@ -35,7 +35,7 @@ int function(char *str, char ***env)
     return new_process(str, *env);
 }
 
-void ttycheck(void)
+static void ttycheck(void)
 {
     if (isatty(STDIN_FILENO))
         write(1, "$> ", 3);

@@ -7,6 +7,7 @@
 
 #include "minishell.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 #include <string.h>
 
@@ -25,6 +26,7 @@ static void get_time(history_t *node)
         node->time = NULL;
         return;
     }
+    return;
 }
 
 static void add_node_history(char *command, history_t **history)
