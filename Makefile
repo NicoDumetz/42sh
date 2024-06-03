@@ -38,7 +38,6 @@ SRC = main.c \
 	  src/var_env/var_env.c \
 	  src/local/manage_local.c \
 	  src/alias/manage_alias.c \
-	  src/add_separator.c \
 	  src/history/add_history.c \
 	  src/history/display_history.c \
 	  src/history/history_command.c \

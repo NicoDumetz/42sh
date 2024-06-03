@@ -27,7 +27,7 @@ void freeing(char *str, char **env)
 void ttycheck(void)
 {
     if (isatty(STDIN_FILENO))
-        write(1, "$> ", 3);
+        printf("$> ");
 }
 
 static void travel_command(char *str, char ***env, int *return_value,
@@ -84,6 +84,7 @@ static garbage_t init_garbage(char **str, garbage_t *old)
     garbage.save_out = STDOUT_FILENO;
     garbage.save_in = STDIN_FILENO;
     garbage.token_list = NULL;
+    garbage.history = old->history;
     garbage.alias = old->alias;
     garbage.local = old->local;
     garbage.pipeline = init_pipeline(garbage.raw_command);
@@ -104,11 +105,11 @@ int main(int argc, char **argv, char **env)
     garbage.env = &env;
     garbage.alias = NULL;
     garbage.local = NULL;
-    ttycheck();
-    while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
+    while (my_getline(&str, &len, garbage.history) != -1
+        && my_strcmp(str, "exit\n")) {
         garbage = init_garbage(&str, &garbage);
+        add_history(str, garbage.history);
         process_execution(&garbage, garbage.pipeline);
-        ttycheck();
     }
     freeing(str, env);
     return garbage.return_value;

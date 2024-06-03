@@ -71,7 +71,6 @@ typedef struct garbage_s {
     int save_in;
     int save_out;
     int fd[2][2];
-    void *history;
     char *raw_command;
     int return_value;
     token_t **token_list;
@@ -171,7 +170,7 @@ token_t *check_alias(token_t *token, garbage_t *garbage);
 void ttycheck(void);
 
 void add_history(char *command, history_t **history);
-int history_command(char *str, history_t **history);
+int history_command(char *str, char ***env, garbage_t *garbage);
 void clear_history(history_t **history);
 void show_reverse_history(history_t **history, int *status_flags);
 void show_no_param_history(history_t **history, int *status_flags);

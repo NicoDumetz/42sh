@@ -94,7 +94,7 @@ static int history_flags(char **command, history_t **history)
     return 0;
 }
 
-int history_command(char *str, history_t **history)
+int history_command(char *str, char ***env, garbage_t *garbage)
 {
     char **command = my_str_to_array(str, " ");
     int i;
@@ -103,10 +103,10 @@ int history_command(char *str, history_t **history)
     for (i = 0; command[i]; i++);
     if (i == 1) {
         freeing(0, command);
-        show_history(history);
+        show_history(garbage->history);
         return 0;
     } else if (i <= 3) {
-        error = history_flags(command, history);
+        error = history_flags(command, garbage->history);
         freeing(0, command);
         return error;
     } else {
