@@ -1355,9 +1355,17 @@ echo "unset"
 [241-END]
 
 [242]
-NAME="TEST"
+NAME=""
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
 echo "ls\nls\nls"
 [242-END]
+
+[243]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "\n\n\n\n"
+[243-END]
