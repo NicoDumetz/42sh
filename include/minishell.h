@@ -52,7 +52,7 @@ typedef struct garbage_s {
 
 typedef struct redirection_tab_s {
     char sep;
-    int (*redirection)(garbage_t *, token_t **);
+    int (*redirection)(garbage_t *, token_t **, token_t *);
 } redirection_tab_t;
 
 typedef struct lexing_tab_s {

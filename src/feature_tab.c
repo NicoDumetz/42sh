@@ -14,6 +14,7 @@
 
 redirection_tab_t r_tab[] = {
     {'|', pipe_handling},
+    {';', execute_semicolon},
     {0, 0}
 };
 

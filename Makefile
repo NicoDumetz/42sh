@@ -19,7 +19,7 @@ SRC = main.c \
 	  src/execution_functions/pipe/fork.c \
 	  src/execution_functions/redirection/redirection.c \
 	  src/execution_functuons/redirection/redirection_errors.c \
-	  src/execution_functuons/semicolon.c \
+	  src/execution_functuons/conditionnal_execution.c \
 	  src/command_errors.c\
 	  src/add_separator.c\
 	  tools/tab_len.c\
