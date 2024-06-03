@@ -1,0 +1,1011 @@
+[01]
+NAME="Nothing"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo ''
+[01-END]
+
+[02]
+NAME="Exec two command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'ls /etc'
+  echo 'cat /etc/resolv.conf'
+[02-END]
+
+[03]
+NAME="Testing with /usr/bin PATH"
+SETUP="export TERM=xterm ; PATH='/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'pwd'
+[03-END]
+
+[04]
+NAME="Testing with /bin PATH"
+SETUP="export TERM=xterm ; PATH='/bin'"
+CLEAN=""
+TESTS=
+  echo 'pwd'
+[04-END]
+
+[05]
+NAME="run commands"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cat /etc/resolv.conf'
+  sleep 0.5
+  echo 'ls -l /etc'
+  sleep 0.5
+  echo 'pwd'
+[05-END]
+
+[06]
+NAME="setenv and unsetenv"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'setenv var1 val1'
+  echo 'setenv var2 val2'
+[06-END]
+
+[07]
+NAME="builtin cd"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ..'
+  echo 'ls -l'
+  echo 'cd /usr'
+  echo 'ls -l'
+[07-END]
+
+[08]
+NAME="many tab and space"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo -e "\t\t    ls\t     \t-l    \t\t  \t -a /usr   \t\t"
+[08-END]
+
+[09]
+NAME="Launch DivZero program with core dump"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "./my_divzero"
+[09-END]
+
+
+# [10]
+# NAME="return of shell"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo "cd caca"
+# [10-END]
+
+# [11]
+# NAME="return of shell after bad inst"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo "cd caca"
+#     echo "ls -l"
+# [11-END]
+
+# [12]
+# NAME="ls nofile"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo "ls nofile"
+# [12-END]
+
+[13]
+NAME="cd -"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+TESTS=
+  echo 'cd ..'
+  echo 'cd -'
+  echo 'cd -'
+  echo 'cd -'
+  echo 'ls'
+[13-END]
+
+# [14]
+# NAME="segfault"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo "./segfault/a.out"
+# [14-END]
+
+[15]
+NAME="setenv with letter"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo "setenv 4coucou coucou"
+[15-END]
+
+[16]
+NAME="setenv with non alpha"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo "setenv coucou: coucou"
+[16-END]
+
+[17]
+NAME="setenv 1 arg"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+    echo "setenv coucou"
+[17-END]
+
+[18]
+NAME="Test cd back"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd ..'
+    echo 'ls -l'
+    echo 'cd -'
+    echo 'ls -l'
+[18-END]
+
+[19]
+NAME="Test cd vague"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd ~'
+    echo 'ls -l'
+    echo 'cd -'
+    echo 'ls -l'
+[19-END]
+
+[20]
+NAME="Test cd empty"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd'
+    echo 'ls -l'
+    echo 'cd -'
+    echo 'ls -l'
+[20-END]
+
+# [21]
+# NAME="Test create disp and delete files"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo 'touch test'
+#     echo 'cat test'
+#     echo 'rm test'
+# [21-END]
+
+[22]
+NAME="ls bad files"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'ls nofile'
+[22-END]
+
+[23]
+NAME="2 set env same name"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'setenv KL'
+    echo 'setenv KL'
+[23-END]
+
+[24]
+NAME="cd ~ test"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd ~noexist'
+[24-END]
+
+[25]
+NAME="cd on files"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd /bin/ls'
+[25-END]
+
+[26]
+NAME="cd on no such files"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd taleskramptest'
+[26-END]
+
+[27]
+NAME="setenv with no alpha char"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'setenv lpdz4=/okdzé'
+[27-END]
+
+[28]
+NAME="setenv With start number"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'setenv 4klfe'
+[28-END]
+
+[29]
+NAME="cd root"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd /root'
+[29-END]
+
+[30]
+NAME="setenv good . and _"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'setenv _test'
+    echo 'setenv fekl.fekl'
+[30-END]
+
+[31]
+NAME="unsetenv without parametres"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'unsetenv'
+[31-END]
+
+# [32]
+# NAME="no right test"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo 'touch test'
+#     echo 'chmod 000 test'
+#     echo 'rm test'
+# [32-END]
+
+[33]
+NAME="final test ultimate de la mort"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+    echo 'cd /usr/bin'
+    echo 'cd -'
+    echo 'ls'
+    echo 'cd ..'
+    echo 'ls'
+[33-END]
+
+# [34]
+# NAME="segfault/a.out"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo 'segfault/a.out'
+# [34-END]
+
+# [35]
+# NAME=" exec format"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#     echo 'segfault/coucou.out'
+# [35-END]
+
+[36]
+NAME="Test cd vers un répertoire existant"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd /var/log'
+  echo 'ls'
+[36-END]
+
+[37]
+NAME="Test cd vers un répertoire parent"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ..'
+  echo 'ls'
+[37-END]
+
+# [38]
+# NAME="Test cd vers un répertoire enfant"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#   echo 'cd /var/log/apache2'
+#   echo 'ls'
+# [38-END]
+
+[39]
+NAME="Test cd vers le répertoire personnel"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ~'
+  echo 'ls'
+[39-END]
+
+# [40]
+# NAME="Test cd vers un répertoire spécifié par un chemin relatif"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#   echo 'cd ../../usr/bin'
+#   echo 'ls'
+# [40-END]
+
+# [41]
+# NAME="Test cd vers un répertoire inexistant"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#   echo 'cd non_existent_directory'
+#   echo 'ls'
+# [41-END]
+
+[42]
+NAME="Test cd sans argument pour revenir au répertoire précédent"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ..'
+  echo 'cd -'
+  echo 'ls'
+[42-END]
+
+# [43]
+# NAME="Test cd avec plusieurs arguments"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#   echo 'cd /var /usr'
+#   echo 'ls'
+# [43-END]
+
+[46]
+NAME="setenv avec un nom de variable non alphanumérique"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv 4coucou coucou'
+[46-END]
+
+[47]
+NAME="setenv avec un nom de variable commençant par un chiffre"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv 1variable valeur'
+[47-END]
+
+[48]
+NAME="setenv avec un nom de variable contenant des caractères spéciaux"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv variable valeur'
+[48-END]
+
+[49]
+NAME="setenv avec un nom de variable vide"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv "" valeur'
+[49-END]
+
+[50]
+NAME="setenv avec une valeur vide"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv variable ""'
+[50-END]
+
+[51]
+NAME="setenv _"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv _e_ coucou'
+[51-END]
+
+[52]
+NAME="setenv avec un trop grand nombre d'arguments"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv variable valeur trop d arguments'
+[52-END]
+
+[53]
+NAME="setenv avec une variable déjà existante"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv variable1 valeur1'
+  echo 'setenv variable1 valeur2'
+  echo 'ls'
+[53-END]
+
+[54]
+NAME="cd dans un fichier"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd main.c'
+[54-END]
+
+[55]
+NAME="cd avec trop d'arguments"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd my_printf ressources'
+[55-END]
+
+[56]
+NAME="cd avec un argument vide"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ""'
+[56-END]
+
+# [57]
+# NAME="cd vers un répertoire sans permission de lecture"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#   echo 'chmod -rwx segfault'
+#   echo 'cd segfault'
+#   echo 'ls'
+# [57-END]
+
+# [58]
+# NAME="cd vers un fichier sans permission de lecture"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#   echo 'chmod -rwx temp.txt'
+#   echo 'cd temp.txt'
+#   echo 'ls'
+# [58-END]
+
+[59]
+NAME="cd dans un répertoire inexistant"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd prout_inexistant'
+[59-END]
+
+[60]
+NAME="Trying to read a non-existing file"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cat nonexistentfile.txt'
+[60-END]
+
+[61]
+NAME="Invalid option for command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'ls --invalid-option'
+[61-END]
+
+[62]
+NAME="Trying to remove a directory without permission"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'rm -rf /root'
+[62-END]
+
+[63]
+NAME="Invalid syntax for setenv"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv var1=value1 var2'
+[63-END]
+
+[64]
+NAME="Invalid syntax for unsetenv"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'unsetenv var1 var2'
+[64-END]
+
+[65]
+NAME="Invalid syntax for command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'invalid_command --invalid-option'
+[65-END]
+
+[66]
+NAME="Trying to execute a non-executable file"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cat /etc/passwd'
+[66-END]
+
+[67]
+NAME="Invalid number of arguments for command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'ls -l -a -t -r invalid_argument'
+[67-END]
+
+[68]
+NAME="Invalid number of arguments for built-in command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv var1 var2 var3'
+[68-END]
+
+[69]
+NAME="Trying to change directory to a file"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd /etc/passwd'
+[69-END]
+
+[70]
+NAME="Access denied"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'ls'
+[70-END]
+
+[71]
+NAME="Invalid environment variable name"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv 123invalid_var'
+[71-END]
+
+[72]
+NAME="Trying to unset a non-existing environment variable"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'unsetenv NON_EXISTING_VAR'
+[72-END]
+
+[73]
+NAME="Trying to execute a non-existing program"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'non_existing_program'
+[73-END]
+
+[74]
+NAME="Trying to read a directory"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cat /bin'
+[74-END]
+
+[75]
+NAME="Trying to execute a directory"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo '/bin'
+[75-END]
+
+[76]
+NAME="Invalid arguments for built-in command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd dffdghbjk'
+[76-END]
+
+[77]
+NAME="Invalid file or directory for cd"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd /path/to/nonexistent/directory'
+[77-END]
+
+[78]
+NAME="Executing a non-executable file"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cat /etc/passwd'
+[78-END]
+
+[79]
+NAME="Invalid syntax for setenv"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv var1=value1 var2'
+[79-END]
+
+[80]
+NAME="Invalid syntax for unsetenv"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'unsetenv var1 var2'
+[80-END]
+
+[81]
+NAME="Trying to execute a non-existing program"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'non_existing_program'
+[81-END]
+
+[82]
+NAME="Invalid number of arguments for a command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'ls -l -a -t -r invalid_argument'
+[82-END]
+
+[83]
+NAME="Invalid number of arguments for built-in command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv var1 var2 var3'
+[83-END]
+
+[84]
+NAME="Trying to change directory to a file"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd /etc/passwd'
+[84-END]
+
+[85]
+NAME="cd ~/Documents"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ~/Documents'
+[85-END]
+
+[100]
+NAME="crer fichier test.txt"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "|"
+[100-END]
+
+[101]
+NAME="Testing simple pipe"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l /etc | grep sh"
+[101-END]
+
+[102]
+NAME="A pipe with a builtin ?"
+SETUP="export VAR1=VALEUR1 ; OLDPATH=$PATH ; PATH='/random'"
+CLEAN="PATH=$OLDPATH"
+TESTS=
+  echo 'setenv | /bin/grep VAR1'
+  echo '/bin/ls | cd /usr'
+  echo 'ls -l'
+  echo 'exit 45 | cat /etc/resolv.conf'
+[102-END]
+
+[103]
+NAME="Testing simple pipe 2"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "echo nicolas des small bytes | grep y"
+[103-END]
+
+[104]
+NAME="T"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls ; ls -l"
+[104-END]
+
+[105]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l ; ls -a"
+[105-END]
+
+[106]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l | grep a | grep o"
+[106-END]
+
+# [107]
+# NAME=""
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+#   echo "ls -l | grep a | grep o ; ls -a | grep ."
+# [107-END]
+
+[107]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l > coucou"
+  echo "cat coucou"
+[107-END]
+
+[108]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l > coucou"
+  echo "cat coucou"
+  echo "ls -l >> coucou"
+  echo "cat coucou"
+  echo "cat < coucou"
+[108-END]
+
+[109]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "<"
+[109-END]
+
+[110]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls |||||||||"
+[110-END]
+
+[111]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l > coucou"
+  echo "cat < coucou | grep a"
+[111-END]
+
+[112]
+NAME="attention bug <<"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "cat << coucou"
+  echo "lern"
+  echo "lnilkn"
+  echo "coucou"
+[112-END]
+
+[113]
+NAME=" test ta"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "echo '';ls;''"
+[113-END]
+
+[114]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l | grep nicolas | cd ../"
+  echo "ls"
+[114-END]
+
+[115]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "setenv | grep COLORTERM"
+[115-END]
+
+[116]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls ; ls -l"
+  echo "ls -l ; ls"
+[116-END]
+
+[117]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "exit | ls"
+[117-END]
+
+[118]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "env > coucou ; cat < coucou | grep path"
+[118-END]
+
+[119]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "echo bonjour ou hello enculer > coucou"
+  echo "grep hello < coucou"
+  echo "cat < coucou"
+[119-END]
+
+[120]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l > output.txt"
+  echo "echo Hello, world! > coucou"
+  echo "cat coucou"
+[120-END]
+
+[121]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "env > coucou ; cat < coucou | grep path"
+[121-END]
+
+[122]
+NAME="brother"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "echo brother"
+[122-END]
+
+[123]
+NAME="gymbro"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "echo gymbro"
+[123-END]
+
+[124]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "find . -name tests | grep ./"
+[124-END]
+
+[125]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "who | grep tty"
+[125-END]
+
+# [126]
+# NAME=""
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "ps aux --sort=-%mem | head"
+# [126-END]
+
+[127]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "netstat -atun | grep ESTABLISHED"
+[127-END]
+
+[128]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "du -h . | sort -hr | head"
+[128-END]
+
+[129]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "ls /var/log ; ls /etc"
+[129-END]
+
+[130]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "cat <"
+[130-END]
+
+[131]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "< coucou"
+[131-END]
+
+[132]
+NAME="many"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "ls | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep o | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep o | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep a | grep o"
+[132-END]
+
+[133]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "rm -f output.txt"
+echo "rm -f coucou"
+[133-END]
