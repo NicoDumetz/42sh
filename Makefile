@@ -33,7 +33,7 @@ SRC = main.c \
 	  tools/contain_char.c \
 	  src/builtins_tab.c \
 	  tools/array_to_str.c \
-	  src/execution_functions/execute_built.c
+	  src/execution_functions/execute_built.c \
 
 OBJ = $(SRC:.c=.o)
 

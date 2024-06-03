@@ -23,6 +23,8 @@ static int execute_builtins(char **command, int i, garbage_t *garbage)
 
 int check_built(char **command, garbage_t *garbage)
 {
+    if (command == NULL || command[0] == NULL)
+        return 0;
     for (int i = 0; built[i].com; i++) {
         if (strcmp(command[0], built[i].com) == 0)
             return execute_builtins(command, i, garbage);
@@ -42,6 +44,8 @@ static int execute_builtins_on_fork(char **command, int i, char ***env)
 
 int check_built_on_fork(char **command, char ***env)
 {
+    if (command == NULL || command[0] == NULL)
+        return 0;
     for (int i = 0; built[i].com; i++) {
         if (strcmp(command[0], built[i].com) == 0)
             return execute_builtins_on_fork(command, i, env);

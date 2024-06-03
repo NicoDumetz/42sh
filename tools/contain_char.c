@@ -9,6 +9,8 @@
 
 int contain(char *str, char character)
 {
+    if (str == NULL)
+        return 0;
     for (int i = 0; str[i]; i++) {
         if (str[i] == character)
             return 1;
