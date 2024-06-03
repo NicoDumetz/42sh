@@ -13,9 +13,7 @@
 #include <sys/wait.h>
 
 redirection_tab_t r_tab[] = {
-    {';', execute_semicolon},
-    {'<', execute_redirection},
-    {'>', execute_redirection},
+    {';', parsing_function},
     {0, 0}
 };
 

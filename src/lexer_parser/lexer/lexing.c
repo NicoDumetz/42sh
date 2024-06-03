@@ -33,8 +33,6 @@ static bool check_item(char c)
 {
     char item[] = " ;|()><'\"\\\t\n*[]&!`?";
 
-    if (c == '\0')
-        return true;
     for (int i = 0; item[i]; i++) {
         if (item[i] == c)
             return true;
