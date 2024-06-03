@@ -20,16 +20,18 @@ static void reverse_list(token_t **token_list)
 
     while (current) {
         next = current->next;
+        current->prev = next;
         current->next = prev;
         prev = current;
         current = next;
     }
     *token_list = prev;
+    (*token_list)->prev = NULL;
 }
 
 static bool check_item(char c)
 {
-    char item[] = " ;|()><'\"\\\t\n*[]&!`?";
+    char item[] = " ;|()><'\"\\\t\n*[]&!`";
 
     for (int i = 0; item[i]; i++) {
         if (item[i] == c)

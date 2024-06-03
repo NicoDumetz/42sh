@@ -81,6 +81,8 @@ static void print_token_list(token_t **token_list)
         if (token->sep)
             printf("token :%c--%d\n", token->sep, token->sep);
         printf("index: %d\n", token->index);
+        if (token->prev)
+            printf("prev: %d\n", token->prev->index);
     }
 }
 
