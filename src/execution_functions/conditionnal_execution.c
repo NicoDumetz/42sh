@@ -39,7 +39,7 @@ static int return_status(int status)
 pipeline_t *execute_semicolon(garbage_t *garbage, pipeline_t *pipeline)
 {
     char **command;
-    int status;
+    int status = 1;
 
     if (!pipeline->token_list) {
         garbage->return_value = EXIT_SUCCESS;
