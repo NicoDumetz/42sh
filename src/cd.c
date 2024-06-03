@@ -40,8 +40,8 @@ static char *get_home(char **env)
 
 static char *get_path(char *str, char **env)
 {
-    char *path = NULL;
-    char *home = NULL;
+    char *path;
+    char *home;
 
     if (str == 0)
         return get_home(env);
@@ -103,7 +103,7 @@ static int cd_loop(char *path, char **command, char **env)
 int change_dir(char *str, char ***env, garbage_t *garbage)
 {
     char **command;
-    char *path = NULL;
+    char *path;
     int i = 0;
     char *new_pwd;
 

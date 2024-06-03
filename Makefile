@@ -54,11 +54,12 @@ SRC = main.c \
 	  src/globbings/assemble_hard.c \
 	  src/globbings/assemble_simple.c \
 	  src/cleanup.c \
-	  src/which_where.c
+	  tools/int_to_str.c \
+	  src/repeat/repeat.c
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
+CFLAGS += -Llib -lmy -Iinclude -g
 
 NAME = 42sh
 
