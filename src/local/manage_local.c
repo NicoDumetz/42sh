@@ -85,12 +85,6 @@ void format_variable(garbage_t *garbage, pipeline_t **pip)
 
     if (pipeline == NULL)
         return;
-    for (pipeline_t *current = *pip; current; current = current->next) {
-        if (inibitors(current, garbage)) {
-            garbage->execute = 1;
-            return;
-        }
-    }
     for (; pipeline; pipeline = pipeline->next)
         pipeline = format_token(garbage, pipeline);
 }

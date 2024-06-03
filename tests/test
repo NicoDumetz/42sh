@@ -1275,7 +1275,7 @@ SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
 echo "ls | grep c || prout > ici"
-echo "ici"
+echo "rm ici"
 [233-END]
 
 [234]
@@ -1284,7 +1284,7 @@ SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
 echo "ls | grep c && prout > ici"
-echo "ici"
+echo "rm ici"
 [234-END]
 
 [235]

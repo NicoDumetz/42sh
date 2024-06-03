@@ -100,6 +100,8 @@ static void on_fork(
         dup2(node->input, STDIN_FILENO);
     if (node->output != STDOUT_FILENO)
         dup2(node->output, STDOUT_FILENO);
+    if (command[0] == NULL || get_command(command, *garbage->env, &path))
+        exit(1);
     if (check_built_on_fork(command, garbage->env, node, garbage) != 0)
         return;
     else
@@ -118,13 +120,11 @@ static void reset_in_and_out(pipeline_t *node)
 }
 
 int new_process(
-    pipeline_t *node, char **command, char **env, garbage_t *garbage)
+    pipeline_t *node, char **command, char **, garbage_t *garbage)
 {
     int pid;
     char *path = 0;
 
-    if (command[0] == NULL || get_command(command, env, &path))
-        return 1;
     pid = fork();
     if (pid == -1)
         exit(84);
