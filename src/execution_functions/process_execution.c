@@ -40,7 +40,10 @@ static int check_ambigous(pipeline_t *pipeline, garbage_t *garbage)
 {
     if (strcmp(pipeline->sep, ">") != 0 && strcmp(pipeline->sep, ">>") != 0)
         return 0;
-    if (pipeline->next && strcmp(pipeline->next->sep, "|") == 0) {
+    if (pipeline->next &&
+        (strcmp(pipeline->next->sep, "|") == 0 ||
+        strcmp(pipeline->next->sep, ">") == 0 ||
+        strcmp(pipeline->next->sep, ">>") == 0)) {
         fprintf(stderr, "Ambiguous output redirect.\n");
         garbage->return_value = 1;
         return 1;
