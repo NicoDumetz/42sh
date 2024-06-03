@@ -35,6 +35,9 @@ SRC = main.c \
 	  tools/array_to_str.c \
 	  src/execution_functions/execute_built.c \
 	  tools/free_array.c \
+	  src/var_env/var_env.c \
+	  src/local/manage_local.c \
+	  src/alias/manage_alias.c \
 
 OBJ = $(SRC:.c=.o)
 
