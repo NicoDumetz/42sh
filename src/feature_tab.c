@@ -12,8 +12,8 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-feature_tab_t f_tab[] {
+feature_tab_t f_tab[] = {
     {'|', (*pipe_feature)},
     {';', (*semi_col_feature)},
     {0, 0}
-}
+};

@@ -8,6 +8,7 @@
 SRC = main.c \
 	  src/lexer_parser/lexing.c\
 	  src/lexer_parser/parsing.c\
+	  src/feature_tab.c\
 	  src/cd.c \
 	  src/env.c \
 	  src/setenv.c \

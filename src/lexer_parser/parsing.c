@@ -16,10 +16,10 @@ static int process_separator(char sep, garbage_t *garbage, token_t **token_list)
 {
     int i = 0;
 
-    for (i = 0; f_tab[i] && sep != f_tab[i].sep; i++);
+    for (i = 0; f_tab[i].sep != 0 && sep != f_tab[i].sep; i++);
     if (f_tab[i].sep == 0)
         return EXIT_FAILURE;
-    f_tab[i].(*feature)(garbage, token_list);
+    f_tab[i].feature(garbage, token_list);
     return EXIT_SUCCESS;
 }
 
