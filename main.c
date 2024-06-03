@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <signal.h>
 
 void freeing(char *str, char **env)
 {
@@ -109,8 +108,6 @@ static garbage_t init_garbage(char **str, char ***env)
     garbage.raw_command = *str;
     garbage.return_value = 0;
     garbage.token_list = NULL;
-    garbage.alias = NULL;
-    garbage.local = NULL;
     garbage.token_list = init_token_list(garbage.raw_command);
     if (garbage.token_list)
         print_token_list(garbage.token_list);
@@ -129,9 +126,6 @@ int main(int argc, char **argv, char **env)
     // garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
         garbage = init_garbage(&str, &env);
-        lexing_features(&garbage, garbage.token_list);
-        if (garbage.return_value < 0)
-            continue;
         free_token_list(garbage.token_list);
         // insert_spaces(&str);
         // travel_command(str, &env, &garbage);

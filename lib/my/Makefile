@@ -63,8 +63,6 @@ SRC 	= 	my_compute_power_rec.c \
 		my_strupcase.c \
 		my_swap.c \
 		my_strdup.c \
-		my_memcat.c\
-		malloc_str.c\
 		$(MY_PRINTF_SRC)
 
 OBJ	=	$(SRC:.c=.o)
