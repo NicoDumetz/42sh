@@ -7,21 +7,16 @@
 
 #include <termios.h>
 #include <unistd.h>
-#include <stdlib.h>
 
 void set_non_canonical_mode(void)
 {
     struct termios term;
 
-    if (tcgetattr(STDIN_FILENO, &term) == -1) {
-        return;
-    }
+    tcgetattr(STDIN_FILENO, &term);
     term.c_lflag &= ~(ICANON | ECHO);
     term.c_cc[VMIN] = 1;
     term.c_cc[VTIME] = 0;
-    if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1) {
-        return;
-    }
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void set_canonical_mode(void)

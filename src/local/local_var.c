@@ -106,6 +106,10 @@ int set_local(char *, char ***, garbage_t *garbage, pipeline_t *pip)
     char *value = pick_token_var(pip, 2);
 
     var_len(garbage);
+    if (char_is_alpha(var[0]) == 0) {
+        write(2, VAR_BEG, strlen(VAR_BEG));
+        return 1;
+    }
     if (str_is_alpha(var) == 0) {
         write(2, VAR, strlen(VAR));
         return 1;
@@ -125,10 +129,6 @@ int unset_var(char *str, char ***, garbage_t *garbage, pipeline_t *)
     char **command = my_str_to_array(str, " ");
     char *name = command[1];
 
-    if (command[0] == NULL || command[1] == NULL) {
-        fprintf(stderr, "unset: Too few arguments.\n");
-        return 1;
-    }
     for (; current != NULL; current = current->next) {
         if (strcmp(name, current->var) == 0) {
             delete_var(current, prev, garbage);

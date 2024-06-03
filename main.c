@@ -76,8 +76,7 @@ static garbage_t init_garbage(char **str, garbage_t *old)
 static void init_main(garbage_t *garbage, history_t **history, char **str,
     char ***env)
 {
-    if (isatty(0) == 1)
-        set_non_canonical_mode();
+    set_non_canonical_mode();
     garbage->history = history;
     garbage->line = str;
     garbage->env = env;
