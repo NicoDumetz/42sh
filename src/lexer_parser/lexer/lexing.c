@@ -113,17 +113,12 @@ token_t **init_token_list(char *str)
     token_t **token_list = malloc(sizeof(token_t *));
 
     *token_list = NULL;
-    for (i = 0; str[i]; i++) {
+    for (i = 0; i <= strlen(str); i++) {
         if (check_item(str[i])) {
             build_token_arg(token_list, str, i, index);
             index = i + 1;
             build_token_item(token_list, str, i);
         }
-    }
-    if (*token_list == NULL && str[i] == '\0') {
-        build_token_arg(token_list, str, i, index);
-        index = i + 1;
-        build_token_item(token_list, str, i);
     }
     reverse_list(token_list);
     return token_list;
