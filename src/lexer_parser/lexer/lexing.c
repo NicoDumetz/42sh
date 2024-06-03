@@ -12,6 +12,21 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
+void free_token_list(token_t **token_list)
+{
+    token_t *head = *token_list;
+    token_t *tmp;
+
+    for (int i = 0; head; i++) {
+        tmp = head;
+        head = head->next;
+        free(tmp->arg);
+        free(tmp);
+    }
+    free(token_list);
+    token_list = NULL;
+}
+
 static void reverse_list(token_t **token_list)
 {
     token_t *prev = NULL;
@@ -33,6 +48,8 @@ static bool check_item(char c)
 {
     char item[] = " ;|()><'\"\\\t\n*[]&!`?";
 
+    if (c == '\0')
+        return true;
     for (int i = 0; item[i]; i++) {
         if (item[i] == c)
             return true;

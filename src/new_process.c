@@ -119,12 +119,11 @@ static int return_status(int status)
     return 1;
 }
 
-int new_process(char *str, char **env)
+int new_process(char **command, char **env)
 {
     int pid;
     int status;
     char *path = 0;
-    char **command = my_str_to_array(str, " ");
 
     if (get_command(command, env, &path))
         return 1;
