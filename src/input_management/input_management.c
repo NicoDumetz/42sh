@@ -8,24 +8,33 @@
 #include "stdio.h"
 #include "minishell.h"
 
-int is_end(char **line, int len, history_t *tmp, int *cursor_mv)
+static int end_tmp(char **line, history_t *tmp, int cursor_mv, int *clear)
 {
-    int len_tmp;
+    int len = my_strlen(tmp->command);
+
+    tmp->command = realloc(tmp->command, (len + 2) * sizeof(char));
+    if (tmp->command == NULL)
+        return -1;
+    tmp->command[len] = '\n';
+    tmp->command[len + 1] = '\0';
+    display_command(*line, tmp, cursor_mv, clear);
+    *clear = 1;
+    return len + 1;
+}
+
+int is_end(char **line, history_t *tmp, int *cursor_mv, int *line_to_clear)
+{
+    int len;
 
     *cursor_mv = 0;
     if (tmp != NULL) {
-        len_tmp = my_strlen(tmp->command);
-        tmp->command = realloc(tmp->command, (len_tmp + 2) * sizeof(char));
-        if (tmp->command == NULL)
-            return -1;
-        tmp->command[len_tmp] = '\n';
-        tmp->command[len_tmp + 1] = '\0';
-        display_command(*line, tmp, *cursor_mv);
-        return len_tmp + 1;
+        return end_tmp(line, tmp, *cursor_mv, line_to_clear);
     } else {
+        len = my_strlen(*line);
         (*line)[len] = '\n';
         (*line)[len + 1] = '\0';
-        display_command(*line, tmp, *cursor_mv);
+        display_command(*line, tmp, *cursor_mv, line_to_clear);
+        *line_to_clear = 1;
         return len + 1;
     }
 }

@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 static int analyse_input(int key, char **line, history_t **tmp,
     history_t **hist)
@@ -70,18 +71,19 @@ static int use_input(char **line, history_t **tmp, int len, history_t **hist)
     int ch = getchar();
     int sp_key = get_id_key(ch);
     static int cursor_mv = 0;
+    static int line_to_clear = 1;
 
     if (ch == 4) {
         cursor_mv = 0;
         return -1;
     }
     if (ch == '\n')
-        return is_end(line, len, *tmp, &cursor_mv);
+        return is_end(line, *tmp, &cursor_mv, &line_to_clear);
     if (sp_key == 0)
         update_command(ch, line, *tmp, cursor_mv);
     else
         cursor_mv = analyse_input(sp_key, line, tmp, hist);
-    display_command(*line, *tmp, cursor_mv);
+    display_command(*line, *tmp, cursor_mv, &line_to_clear);
     return 0;
 }
 
@@ -90,7 +92,7 @@ static int manage_input(char **line, history_t **tmp, size_t *n, history_t
 {
     int len = my_strlen(*line);
 
-    if ((size_t)len > *n - 1) {
+    if (len > *n - 2) {
         *n += 120;
         *line = realloc(*line, *n * sizeof(char));
         if (*line == NULL)
@@ -99,21 +101,30 @@ static int manage_input(char **line, history_t **tmp, size_t *n, history_t
     return use_input(line, tmp, len, hist);
 }
 
-int my_getline(char **line, size_t *n, history_t **hist)
+int my_getline_interact(char **line, size_t *n, history_t **hist)
 {
     int exit;
     history_t *tmp = NULL;
+    int clear = 1;
 
     *n = 120;
     *line = malloc(*n * sizeof(char));
     if (*line == NULL)
         return -1;
     *line[0] = '\0';
-    display_command(*line, tmp, 0);
+    display_command(*line, tmp, 0, &clear);
     while (1) {
         exit = manage_input(line, &tmp, n, hist);
         if (exit != 0)
             break;
     }
     return choose_command(line, &tmp, exit);
+}
+
+int my_getline(char **line, size_t *n, history_t **hist, FILE *stream)
+{
+    if (isatty(0) == 1)
+        return my_getline_interact(line, n, hist);
+    else
+        return (int) getline(line, n, stream);
 }

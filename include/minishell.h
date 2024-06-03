@@ -13,7 +13,6 @@
     #include <stdbool.h>
     #include <glob.h>
     #include <stdio.h>
-    #include <dirent.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
     #define KEY_UP 1
@@ -118,9 +117,9 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline);
 pipeline_t **init_pipeline(char *str);
 
 void process_execution(garbage_t *garbage, pipeline_t **pipeline);
-int where_functions(char *str, char ***env, garbage_t *garbage);
+
 void free_token_list(token_t **token_list);
-int which_functions(char *str, char ***env, garbage_t *garbage);
+
 void free_pipeline(pipeline_t **pipeline);
 int exit_built(char *, char ***, garbage_t *garbage);
 void free_token(token_t *token);
@@ -195,23 +194,23 @@ int my_c_redi_g(char c);
 void add_redi_r(char **tab, int **index, char const *str, int *h);
 void add_redi_g(char **tab, int **index, char const *str, int *h);
 
-void display_command(char *line, history_t *tmp, int cursor_mv);
+void display_command(char *line, history_t *tmp, int cursor_mv, int *clear);
 int choose_command(char **line, history_t **tmp, int exit);
 void update_command(int ch, char **line, history_t *tmp, int cursor);
 void delete_char(char *line, int len, int index);
 void insert_char(char *line, int ch, int len, int index);
-int my_getline(char **line, size_t *n, history_t **hist);
+int my_getline(char **line, size_t *n, history_t **hist, FILE *stream);
 void set_non_canonical_mode(void);
-int is_end(char **line, int len, history_t *tmp, int *cursor_mv);
+int is_end(char **line, history_t *tmp, int *cursor_mv, int *line_to_clear);
 int is_del(char **line, history_t *tmp, int *cursor, int sp_key);
 int arrow_right(int *cursor);
 int arrow_left(history_t *tmp, char *line, int *cursor);
+
 token_t *check_alias(token_t *token, garbage_t *garbage, pipeline_t *pipeline);
 void reset_index(pipeline_t *pip);
 void format_variable(garbage_t *garbage, pipeline_t **pip);
 void cleanup(garbage_t *g);
 int check_alias_onpip(pipeline_t *pipeline);
-int my_intlen(long nb);
-char *int_to_str(int nb);
-int repeat(char *str, char ***env, garbage_t *garbage);
+
+void sigint_handler(int signum);
 #endif

@@ -23,7 +23,5 @@ builtins_t built[] = {
     {"set", set_local},
     {"unset", unset_var},
     {"history", history_command},
-    {"which", which_functions},
-    {"where", where_functions},
     {0, 0}
 };

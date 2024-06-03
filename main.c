@@ -30,6 +30,21 @@ void ttycheck(void)
         printf("$> ");
 }
 
+static void travel_command(char *str, char ***env, int *return_value,
+    garbage_t *garbage)
+{
+    char **command = my_str_to_array(str, ";");
+
+    garbage->command = command;
+    for (int i = 0; command[i]; i++) {
+        format_str(command[i]);
+        if (my_strlen(command[i]) == 0)
+            continue;
+        *return_value = pipe_handling(command[i], env, garbage);
+    }
+    freeing(0, command);
+}
+
 void print_token_list(token_t **token_list)
 {
     token_t *token = NULL;
@@ -88,7 +103,7 @@ static void init_main(garbage_t *garbage, history_t **history, char **str,
     garbage->local = NULL;
 }
 
-int main(int, char **, char **env)
+int main(int argc, char **argv, char **env)
 {
     char *str = 0;
     size_t len = 0;
@@ -96,8 +111,9 @@ int main(int, char **, char **env)
     history_t *history = NULL;
 
     env = copy_env(env);
+    signal(SIGINT, sigint_handler);
     init_main(&garbage, &history, &str, &env);
-    while (my_getline(&str, &len, garbage.history) != -1) {
+    while (my_getline(&str, &len, garbage.history, stdin) != -1) {
         garbage = init_garbage(&str, &garbage);
         add_history(str, garbage.history);
         if (garbage.return_value == 0)
