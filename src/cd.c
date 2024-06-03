@@ -11,6 +11,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 static int error_check(int i)
 {
@@ -38,6 +40,39 @@ static char *get_home(char **env)
     return home;
 }
 
+static char *find_user(char **str)
+{
+    int i = 0;
+    char *user = NULL;
+
+    for (i = 0; (*str)[i + 1] && (*str)[i + 1] != '/'; i++);
+    user = malloc(sizeof(char) * (i + 1));
+    for (int j = 0; j < i; j++)
+        user[j] = (*str)[j + 1];
+    user[i] = '\0';
+    *str += i;
+    return user;
+}
+
+static char *get_home_user(char **str)
+{
+    char *user = find_user(str);
+    int length = my_strlen("/home/") + my_strlen(user);
+    char *home = malloc(length + 1);
+    struct stat info;
+
+    strcpy(home, "/home/");
+    my_strcat(home, user);
+    if (stat(home, &info) == 0 && S_ISDIR(info.st_mode)) {
+        free(user);
+        return home;
+    }
+    fprintf(stderr, "Unknown user: %s.\n", user);
+    free(user);
+    free(home);
+    return NULL;
+}
+
 static char *get_path(char *str, char **env)
 {
     char *path = NULL;
@@ -46,7 +81,10 @@ static char *get_path(char *str, char **env)
     if (str == 0)
         return get_home(env);
     if (str[0] == '~') {
-        home = get_home(env);
+        if (str[1] == '\0' || str[1] == '/')
+            home = get_home(env);
+        else
+            home = get_home_user(&str);
         if (home == 0)
             return 0;
         path = malloc(my_strlen(home) + my_strlen(str));
@@ -100,7 +138,7 @@ static int cd_loop(char *path, char **command, char **env)
     return 0;
 }
 
-int change_dir(char *str, char ***env, garbage_t *garbage)
+int change_dir(char *str, char ***env, garbage_t *garbage, pipeline_t *)
 {
     char **command;
     char *path = NULL;
@@ -118,7 +156,7 @@ int change_dir(char *str, char ***env, garbage_t *garbage)
     path = malloc(my_strlen("setenv PWD ") + my_strlen(new_pwd) + 1);
     my_strcpy(path, "setenv PWD ");
     my_strcat(path, new_pwd);
-    set_environnement(path, env, garbage);
+    set_environnement(path, env, garbage, NULL);
     free(path);
     free(new_pwd);
     return i;

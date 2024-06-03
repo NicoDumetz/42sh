@@ -86,7 +86,7 @@ static char **add_env(char **command, char **env)
     return new_env;
 }
 
-int set_environnement(char *str, char ***env, garbage_t *garbage)
+int set_environnement(char *str, char ***env, garbage_t *garbage, pipeline_t *)
 {
     char **command;
     int i;
@@ -95,7 +95,7 @@ int set_environnement(char *str, char ***env, garbage_t *garbage)
     for (i = 0; command[i]; i++);
     if (i == 1) {
         freeing(0, command);
-        return show_env(str, env, garbage);
+        return show_env(str, env, garbage, NULL);
     }
     if (setenv_error(command, i))
         return 1;
