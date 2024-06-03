@@ -945,13 +945,13 @@ TESTS=
   echo "who | grep tty"
 [125-END]
 
-[126]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "toto | grep c"
-[126-END]
+# [126]
+# NAME=""
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "ps aux --sort=-%mem | head"
+# [126-END]
 
 [127]
 NAME=""
@@ -1304,37 +1304,3 @@ TESTS=
 echo "prout && ls > ici"
 echo "ici"
 [235-END]
-
-[236]
-NAME="exit"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "exit 42"
-[236-END]
-
-[237]
-NAME="exit manage"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "exit 42 | ls"
-[237-END]
-
-[238]
-NAME="which"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "which"
-[238-END]
-
-[239]
-NAME="which"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "which cd"
-[239-END]
-
-

@@ -97,14 +97,13 @@ pipeline_t *execute_pipe(garbage_t *garbage, pipeline_t *commands)
         node->next->input = fd[i][0];
         garbage->return_value = new_process(node,
         token_to_str_array(*node->token_list,
-        get_token_list_size(*node->token_list)), *garbage->env, garbage);
+        get_token_list_size(*node->token_list)), *garbage->env);
         i = !i ? 1 : 0;
     }
     pipe(fd[i]);
     node->output = fd[i][1];
     node->next->input = fd[i][0];
     garbage->return_value = new_process(node, token_to_str_array(
-    *node->token_list, get_token_list_size(
-            *node->token_list)), *garbage->env, garbage);
+    *node->token_list, get_token_list_size(*node->token_list)), *garbage->env);
     return node;
 }
