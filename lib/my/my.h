@@ -48,4 +48,5 @@ char *my_strdup(const char *src);
 char *my_memcat(char *dest, char const *src);
 char *malloc_str(int size);
 char *my_str_append(char *dest, char const *src);
+char *my_str_append_char(char *dest, char const c);
 #endif

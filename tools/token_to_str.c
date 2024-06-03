@@ -15,10 +15,11 @@ char *token_to_str(token_t *start, int end)
     for (token_t *current = start;
         current && current->index <= end;
         current = current->next) {
-        if (current->sep)
-            i++;
+        if (current->sep) {
+            str = my_str_append_char(str, current->sep);
+        }
         if (current->arg)
-            i += strlen(current->arg);
+            str = my_str_append(str, current->arg);
     }
     return str;
 }
