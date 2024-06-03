@@ -62,7 +62,7 @@ static void reverse_list(token_t **token_list)
 
 static bool check_item(char c)
 {
-    char item[] = " ;|()><'\"\\\t\n*[]&!`?";
+    char item[] = " ;|()><'\"\\\t\n*[]&`?";
 
     if (c == '\0')
         return true;
