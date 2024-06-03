@@ -5,9 +5,6 @@
 ** all my_function in lib
 */
 
-#include <stddef.h>
-#include <stdlib.h>
-
 #ifndef LIBMY_HEADER
     #define LIBMY_HEADER
 void my_putchar(char c);
@@ -45,6 +42,4 @@ char **my_str_to_array(char const *str, char const *separator);
 int my_show_word_array(char const **tab);
 int my_printf(const char *format, ...);
 char *my_strdup(const char *src);
-char *my_memcat(char *dest, char const *src);
-char *malloc_str(int size);
 #endif
