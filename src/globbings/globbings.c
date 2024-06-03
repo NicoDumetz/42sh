@@ -7,7 +7,7 @@
 
 #include "minishell.h"
 
-/*char **make_globbings(char *str)
+char **make_globbings(char *str)
 {
     glob_t glob_result;
     int error = glob(str, GLOB_NOCHECK, NULL, &glob_result);
@@ -45,33 +45,23 @@ arg_t *create_new_arg(arg_t *head, char **new_arg, arg_t **actual)
     *actual = current;
     free(head);
     return new_list;
-}*/
-
-int rebuild_token(token_t *current, token_t **start)
-{
-    while (current) {
-        if (current->sep == '*' || current->sep == '?')
-            assemble_simple(current, start);
-        current = current->next;
-    }
-    return 0;
 }
 
-void correct_index(token_t *head, int index)
+int globbings(arg_t **arg)
 {
-    for (token_t *act = head; act; act = act->next) {
-        act->index = index;
-        index++;
+    arg_t *head = *arg;
+    arg_t *prev = NULL;
+    arg_t *current = NULL;
+    char **new_arg = make_globbings(head->str);
+
+    if (new_arg) {
+        *arg = create_new_arg(head, new_arg, &current);
+        free(new_arg);
     }
-}
-
-int globbings(token_t **start, token_t **end)
-{
-    token_t *current = *start;
-    int save_index = (*start)->index;
-    int error = 0;
-
-    error = rebuild_token(current, start);
-    correct_index(*start, save_index);
+    while (current && current->next) {
+        new_arg = make_globbings(current->next->str);
+        current->next = create_new_arg(current->next, new_arg, &current);
+        free(new_arg);
+    }
     return 0;
 }

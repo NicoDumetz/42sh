@@ -11,7 +11,6 @@
     #include <stdlib.h>
     #include <string.h>
     #include <stdbool.h>
-    #include <glob.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
 
@@ -61,11 +60,11 @@ typedef struct garbage_s {
 
 typedef struct feature_tab_s {
     char sep;
-    void (*feature)(token_t **);
+    void (*feature)(garbage_t *, token_t **);
 } feature_tab_t;
-int assemble_simple(token_t *current, token_t **head);
-int globbings(token_t **start, token_t **end);
-void free_token(token_t *token);
+
+extern feature_tab_t f_tab[];
+
 token_t **init_token_list(char *str);
 char **token_to_str_array(token_t *start, int end);
 void insert_spaces(char **input);
