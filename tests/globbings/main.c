@@ -4,14 +4,12 @@
 ** File description:
 ** main.c
 */
-
 #include "my.h"
 #include "minishell.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <signal.h>
 
 void freeing(char *str, char **env)
 {
@@ -34,8 +32,7 @@ int function(char *str, char ***env)
         return delete_env(str, env);
     if (my_strncmp(str, "env", 3) == 0)
         return show_env(*env);
-    return 0;
-    // return new_process(&str, *env);
+    return new_process(str, *env);
 }
 
 static void ttycheck(void)
@@ -73,74 +70,48 @@ static void travel_command(char *str, char ***env, int *return_value,
     freeing(0, command);
 }
 
-static void print_token_list(token_t **token_list)
-{
-    token_t *token = NULL;
-
-    if (!token_list) {
-        printf("empty token list\n");
-        return;
-    }
-    token = *token_list;
-    for (; token; token = token->next) {
-        if (token->arg)
-            printf("\ttoken:%s\n", token->arg);
-        if (token->sep)
-            printf("\ttoken :%c\n", token->sep);
-    }
-}
-
-static void print_pipeline(pipeline_t **pipeline)
-{
-    pipeline_t *node = *pipeline;
-
-    for (; node; node = node->next) {
-        printf("\n\tSTART PIPE\n");
-        print_token_list(node->token_list);
-        printf("\tSEPARATOR:\t%s%d\n", node->sep, node->sep[0]);
-        printf("\n\tEND PIPE\n");
-    }
-}
-
-static garbage_t init_garbage(char **str, char ***env)
-{
-    garbage_t garbage;
-
-    garbage.env = env;
-    garbage.raw_command = *str;
-    garbage.return_value = 0;
-    garbage.save_out = STDOUT_FILENO;
-    garbage.save_in = STDIN_FILENO;
-    garbage.token_list = NULL;
-    garbage.alias = NULL;
-    garbage.local = NULL;
-    garbage.pipeline = init_pipeline(garbage.raw_command);
-    print_pipeline(garbage.pipeline);
-    // garbage.token_list = init_token_list(garbage.raw_command);
-    // print_token_list(garbage.token_list);
-    return garbage;
-}
-
-int main(int argc, char **argv, char **env)
+/*int main(int argc, char **argv, char **env)
 {
     char *str = 0;
     size_t len = 0;
+    int return_value = 0;
     garbage_t garbage;
 
     env = copy_env(env);
     ttycheck();
+    garbage.line = &str;
+    garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
-        garbage = init_garbage(&str, &env);
-        process_execution(&garbage, garbage.pipeline);
-        // lexing_features(&garbage, garbage.token_list);
-        // parsing_function(&garbage, garbage.token_list);
-        // free_token_list(garbage.token_list);
-        // insert_spaces(&str);
-        // travel_command(str, &env, &garbage);
+        insert_spaces(&str);
+        travel_command(str, &env, &return_value, &garbage);
         ttycheck();
     }
     freeing(str, env);
-    // freeing(str, env);
-    // return return_value;
-    return 0;
+    return return_value;
+}*/
+
+int main(void)
+{
+    arg_t *arg_un = malloc(sizeof(arg_t));
+    arg_t *arg_deux = malloc(sizeof(arg_t));
+    arg_t *arg_trois = malloc(sizeof(arg_t));
+
+    arg_un->str = "lib/my/my*.c";
+    arg_deux->str = "test[a-j]";
+    arg_trois->str = "le monde";
+    arg_un->next = arg_deux;
+    arg_deux->next = arg_trois;
+    arg_trois->next = NULL;
+    globbings(&arg_un);
+    for (arg_t *head = arg_un; head; head = head->next) {
+        my_putstr(head->str);
+        my_putstr("\n");
+    }
+    arg_t *next;
+    for (arg_t *head = arg_un; head;) {
+        next = head->next;
+        free(head->str);
+        free(head);
+        head = next;
+    }
 }

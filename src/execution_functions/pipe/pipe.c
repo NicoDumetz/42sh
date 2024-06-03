@@ -66,8 +66,33 @@ int pipe_handling(char *str, char ***env, garbage_t *garbage)
         return 1;
     fork_pipes(pipes, pipeline, num_pipe, garbage);
     last_redirect(num_pipe, pipeline);
-    result = redirection(pipes[num_pipe - 1], env, garbage->save_out);
+    // garbage->return_value = redirection(pipes[num_pipe - 1], env, garbage->save_out);
     reset_fd(garbage->save_in, garbage->save_out);
     freeing(0, pipes);
     return result;
+}
+
+pipeline_t *execute_pipe(garbage_t *garbage, pipeline_t *commands)
+{
+    pipeline_t *node = commands;
+    int fd[2][2];
+    int i = 0;
+
+    for (; node->next && !strcmp(node->next->sep, "|"); node = node->next) {
+        pipe(fd[i]);
+        node->output = fd[i][1];
+        node->next->input = fd[i][0];
+        garbage->return_value = new_process(node, token_to_str_array(*node->token_list,
+        get_token_list_size(*node->token_list)), *garbage->env);
+        if (!i)
+            i = 1;
+        else
+            i = 0;
+    }
+    pipe(fd[i]);
+    node->output = fd[i][1];
+    node->next->input = fd[i][0];
+    garbage->return_value = new_process(node, token_to_str_array(*node->token_list,
+    get_token_list_size(*node->token_list)), *garbage->env);
+    return node;
 }
