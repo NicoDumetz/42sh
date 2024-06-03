@@ -7,11 +7,8 @@
 
 #include "minishell.h"
 
-int tab_len(char **tab)
+void free_token(token_t *token)
 {
-    int count = 0;
-
-    if (tab != NULL)
-        for (; tab[count]; count++);
-    return (count);
+    free(token->arg);
+    free(token);
 }
