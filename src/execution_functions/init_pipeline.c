@@ -5,6 +5,7 @@
 ** init_pipeline.c
 */
 
+#include "my.h"
 #include "minishell.h"
 #include <stdio.h>
 #include <unistd.h>

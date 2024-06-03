@@ -125,6 +125,7 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
     int result;
     char *str = NULL;
 
+    globbings(garbage, pipeline->token_list);
     str = token_to_str(*pipeline->next->token_list);
     clean_space(str);
     if (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, "<<")) {

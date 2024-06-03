@@ -12,17 +12,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-// garbage_t init_local(garbage_t *garbage)
-// {
-//     char *cwd = getcwd(NULL, 0);
-
-//     set_local("term", getenv("TERM"), garbage);
-//     if (cwd != NULL) {
-//         set_local("cwd", cwd, garbage);
-//     } else
-//         set_local("cwd", "", garbage);
-// }
-
 static int del_var(char *name, garbage_t *garbage)
 {
     var_t *current = garbage->local;
@@ -56,7 +45,8 @@ int var_len(garbage_t *garbage)
     return compt;
 }
 
-token_t *insert_node(token_t *token, char *com, garbage_t *garbage)
+token_t *insert_node(token_t *token, char *com,
+    garbage_t *garbage, pipeline_t *pipeline)
 {
     char temp[my_strlen(com) + 2];
     token_t **insert;
@@ -69,12 +59,35 @@ token_t *insert_node(token_t *token, char *com, garbage_t *garbage)
     if (token->prev != NULL)
         token->prev->next = *insert;
     else
-        garbage->token_list = insert;
+        pipeline->token_list = insert;
     current = *insert;
     for (; current->next->next; current = current->next);
     current->next = token->next;
     token->next->prev = current;
     token = *insert;
-    reset_index(garbage);
+    reset_index(pipeline);
     return token;
+}
+
+static pipeline_t *format_token(garbage_t *garbage, pipeline_t *pipeline)
+{
+    if (pipeline->token_list == NULL)
+        return pipeline;
+    for (token_t *current = *pipeline->token_list;
+        current && current->index <=
+            get_token_list_size(*pipeline->token_list);
+            current = current->next) {
+            manage_variable(current, garbage, pipeline);
+    }
+    return pipeline;
+}
+
+void format_variable(garbage_t *garbage, pipeline_t **pip)
+{
+    pipeline_t *pipeline = *pip;
+
+    if (pipeline == NULL)
+        return;
+    for (; pipeline; pipeline = pipeline->next)
+        pipeline = format_token(garbage, pipeline);
 }

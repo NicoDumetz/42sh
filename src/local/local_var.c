@@ -24,18 +24,19 @@ static int print_local(garbage_t *garbage)
     }
 }
 
-token_t *check_local(token_t *token, garbage_t *garbage)
+int check_local(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
 {
     var_t *current = garbage->local;
 
     if (token == NULL || token->arg == NULL || token->arg[0] != '$')
-        return token;
+        return 0;
     for (; current; current = current->next) {
         if (my_strcmp(current->var, token->arg + 1) == 0) {
-            return insert_node(token, current->value, garbage);
+            insert_node(token, current->value, garbage, pipeline);
+            return 0;
         }
     }
-    return token;
+    return 1;
 }
 
 void free_var(garbage_t *garbage)
@@ -69,8 +70,8 @@ void delete_var(var_t *current, var_t *prev, garbage_t *garbage)
 static int add_local(char *var, char *value,
     garbage_t *garbage, var_t *add)
 {
-    add->var = my_strdup(var);
-    add->value = my_strdup(value);
+    add->var = var;
+    add->value = value;
     add->next = garbage->local;
     garbage->local = add;
     return 0;
@@ -97,7 +98,7 @@ int set_local(char *str, char ***env, garbage_t *garbage)
 {
     var_t *add;
     char **command = my_str_to_array(str, " ");
-    char *var = command[1];
+    char *var = my_strdup(command[1]);
     char *value;
     int len = var_len(garbage);
 
@@ -108,12 +109,11 @@ int set_local(char *str, char ***env, garbage_t *garbage)
     if (command[2] == NULL || command[3] == NULL)
         value = NULL;
     else
-        value = command[3];
-    if (already_exist_local(var, value, garbage) == 1) {
-        free_array(command);
-        return 0;
-    }
+        value = my_strdup(command[3]);
+    if (already_exist_local(var, value, garbage) == 1)
+        return free_array(command);
     add = malloc(sizeof(var_t));
+    free_array(command);
     return add_local(var, value, garbage, add);
 }
 

@@ -11,6 +11,7 @@ SRC = main.c \
 	  src/feature_tab.c\
 	  src/globbings/globbings.c\
 	  src/cd.c \
+	  src/exit_built.c\
 	  src/env.c \
 	  src/setenv.c \
 	  src/new_process.c \
@@ -35,20 +36,14 @@ SRC = main.c \
 	  tools/array_to_str.c \
 	  src/execution_functions/execute_built.c \
 	  tools/free_array.c \
+	  tools/free_token.c \
 	  src/var_env/var_env.c \
 	  src/local/manage_local.c \
 	  src/alias/manage_alias.c \
-	  src/history/add_history.c \
-	  src/history/display_history.c \
-	  src/history/history_command.c \
-	  src/history/history_arrows.c \
-	  src/history/my_str_to_minishell_array.c \
-	  src/history/my_str_to_minishell_array2.c \
-	  src/history/my_str_to_minishell_array3.c \
-	  src/input_management/input_management.c \
-	  src/input_management/my_getline.c \
-	  src/input_management/non_canonical_mode.c \
-	  src/input_management/command_management.c \
+	  src/globbings/assemble_hard.c \
+	  src/globbings/assemble_simple.c \
+	  src/cleanup.c \
+
 
 OBJ = $(SRC:.c=.o)
 
