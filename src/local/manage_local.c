@@ -42,6 +42,13 @@ int var_len(garbage_t *garbage)
     return compt;
 }
 
+static int condition_to_insert(int var_env, char *com)
+{
+    if (var_env == 0 || (my_strlen(com) == 0 && var_env == 1))
+        return 1;
+    return 0;
+}
+
 token_t *insert_node(token_t *token, char *com,
     int var_env, pipeline_t *pipeline)
 {
@@ -50,7 +57,7 @@ token_t *insert_node(token_t *token, char *com,
     token_t *current;
 
     my_strcpy(temp, com);
-    temp[my_strlen(com)] = var_env == 0 ? '\n' : '\0';
+    temp[my_strlen(com)] = condition_to_insert(var_env, com) ? '\n' : '\0';
     temp[my_strlen(com) + 1] = '\0';
     insert = init_token_list(temp);
     if (token->prev != NULL)

@@ -86,6 +86,8 @@ int check_varenv(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
 
     if (token == NULL || token->arg == NULL || token->arg[0] != '$')
         return 0;
+    if (check_spe_var(token, pipeline, garbage) == 1)
+        return 0;
     for (int i = 0; garbage->env[0][i]; i++) {
         value = check_var(garbage->env[0][i], token);
         if (value != NULL) {
@@ -123,6 +125,7 @@ token_t *manage_variable(token_t *token, garbage_t *garbage,
         if (ret == 1 && env == 1) {
             fprintf(stderr, "%s: Undefined variable.\n", token->arg + 1);
             garbage->execute = 1;
+            garbage->return_value = 1;
         }
     }
     return token;
