@@ -103,13 +103,18 @@ int repeat_built(
     char *, char ***, garbage_t *garbage, pipeline_t *pipeline)
 {
     int r = find_repeat(pipeline, garbage);
+    int save_fd = 0;
 
     reset_index(pipeline);
     if (r < 0) {
         garbage->return_value = 1;
         return (1);
     }
-    for (int i = 0; i < r; i++)
+    for (int i = 0; i < r; i++) {
+        save_fd = dup(pipeline->input);
         execute_semicolon(garbage, pipeline);
+        pipeline->input = save_fd;
+    }
+    close(pipeline->input);
     return (0);
 }
