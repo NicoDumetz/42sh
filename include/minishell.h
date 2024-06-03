@@ -215,4 +215,7 @@ void cleanup(garbage_t *g);
 int check_alias_onpip(pipeline_t *pipeline);
 
 void sigint_handler(void);
+int my_intlen(long nb);
+char *int_to_str(int nb);
+int repeat(char *str, char ***env, garbage_t *garbage);
 #endif
