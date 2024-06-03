@@ -13,6 +13,19 @@
 #include <sys/wait.h>
 
 redirection_tab_t r_tab[] = {
-    {';', (int (*)(garbage_t *, token_t **))parsing_function},
+    {';', parsing_function},
+    {0, 0}
+};
+
+lexing_tab_t l_tab[] = {
+    {'`', &backtick_function},
+    {'(', &backtick_function},
+    {')', &backtick_function},
+    {'*', &globbings_function},
+    {'?', &globbings_function},
+    {'[', &globbings_function},
+    {']', &globbings_function},
+    {'\\', &inhibitors_function},
+    {'"', &inhibitors_function},
     {0, 0}
 };

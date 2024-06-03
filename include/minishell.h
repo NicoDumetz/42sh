@@ -63,7 +63,14 @@ typedef struct redirection_tab_s {
     void (*redirection)(garbage_t *, token_t **);
 } redirection_tab_t;
 
+typedef struct lexing_tab_s {
+    char sep;
+    void (*lexing)(garbage_t *, token_t **);
+} lexing_tab_t;
+
 extern redirection_tab_t r_tab[];
+
+extern lexing_tab_t l_tab[];
 
 token_t **init_token_list(char *str);
 

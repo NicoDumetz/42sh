@@ -12,13 +12,24 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-void lexing_features(garbage_t *garbage, token_t **token_list)
+static bool process_lexing_sep(garbage_t *garbage, token_t **token_list)
 {
+    token_t *token = *token_list;
     int i = 0;
 
-    for (i = 0; l_tab[i].sep != 0 && sep != l_tab[i].sep; i++);
+    for (i = 0; l_tab[i].sep != 0 && l_tab[i].sep != token->sep; i++);
     if (l_tab[i].sep == 0)
-        return EXIT_FAILURE;
-    l_tab[i].feature(garbage, token_list);
-    return EXIT_SUCCESS;
+        return false;
+    l_tab[i].lexing(garbage, token_list);
+    return true;
+}
+
+void lexing_features(garbage_t *garbage, token_t **token_list)
+{
+    token_t *token = *token_list;
+
+    for (; token; token = token->next) {
+        if (process_lexing_sep(garbage, token))
+            return;
+    }
 }
