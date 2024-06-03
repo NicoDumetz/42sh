@@ -50,5 +50,6 @@ void insert_spaces(char **input)
     }
     new_str[index] = '\0';
     tmp = my_strdup(new_str);
+    free(*input);
     *input = tmp;
 }

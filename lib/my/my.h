@@ -5,18 +5,12 @@
 ** all my_function in lib
 */
 
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+
 #ifndef LIBMY_HEADER
     #define LIBMY_HEADER
-
-    #include <stddef.h>
-    #include <stdlib.h>
-    #include <string.h>
-
-typedef struct collector_s {
-    void *data;
-    struct collector_s *next;
-} collector_t;
-
 void my_putchar(char c);
 int my_isneg(int nb);
 int my_put_nbr(int nb);
@@ -56,7 +50,4 @@ char *my_memcat(char *dest, char const *src);
 char *malloc_str(int size);
 char *my_str_append(char *dest, char const *src);
 char *my_str_append_char(char *dest, char const c);
-char *my_gstrdup(const char *src);
-char *my_gstrndup(const char *src, int index);
-void *gmalloc(size_t size);
 #endif

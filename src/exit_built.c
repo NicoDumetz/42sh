@@ -77,5 +77,6 @@ int exit_built(char *str, char ***, garbage_t *garbage, pipeline_t *)
     } else
         value = garbage->return_value;
     cleanup(garbage);
+    free_pipeline(garbage->pipeline);
     exit(value);
 }

@@ -10,6 +10,7 @@
 
 static int null_command(char **pipes, int save_in, int save_out)
 {
+    freeing(0, pipes);
     close(save_in);
     close(save_out);
     write(2, "Invalid null command.\n", 22);
@@ -46,6 +47,7 @@ int command_errors(char *str, char **pipes, int save_in, int save_out)
         if (redirection_errors(pipes[i], pipes, i)) {
             close(save_in);
             close(save_out);
+            freeing(0, pipes);
             return 1;
         }
     if (check_null_command(str))

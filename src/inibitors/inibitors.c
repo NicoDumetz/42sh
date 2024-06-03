@@ -20,9 +20,12 @@ static void delete_node_string(token_t **head)
 
     for (; current->sep != '\"'; current = next) {
         if (current->arg)
+            free(current->arg);
         next = current->next;
+        free(current);
     }
     (*head)->next = current->next;
+    free(current);
     if ((*head)->next != NULL)
         (*head)->next->prev = *head;
 }
@@ -54,7 +57,8 @@ static int string(token_t **head)
     current = current->next)
         len += (current->sep == 0) ? strlen(current->arg) : 1;
     (*head)->sep = 0;
-    (*head)->arg = gmalloc(len + 1);
+    free((*head)->arg);
+    (*head)->arg = malloc(len + 1);
     (*head)->arg[0] = '\0';
     fill_string(head);
     delete_node_string(head);
@@ -75,6 +79,13 @@ static void concat_arg(token_t *current)
         my_strcat(current->arg, current->next->next->arg);
 }
 
+static void free_node(token_t *token)
+{
+    if (token->arg)
+        free(token->arg);
+    free(token);
+}
+
 static void delete_head(pipeline_t *pipeline, token_t *current)
 {
     token_t *prev = current->prev;
@@ -86,6 +97,7 @@ static void delete_head(pipeline_t *pipeline, token_t *current)
         current->prev->next = current;
     else
         *pipeline->token_list = current;
+    free_node(prev);
 }
 
 static void delete_node_backslash(pipeline_t *pipeline, token_t *current)
@@ -97,12 +109,14 @@ static void delete_node_backslash(pipeline_t *pipeline, token_t *current)
     current->next = save->next;
     if (current->next)
         current->next->prev = current;
+    free_node(save);
     if (current->next == NULL || current->next->sep)
         return;
     save = current->next;
     current->next = save->next;
     if (current->next)
         current->next->prev = current;
+    free_node(save);
 }
 
 static void reset_inib_index(pipeline_t *pipeline)
@@ -131,7 +145,7 @@ static int backslash(pipeline_t *pipeline, token_t **head)
     if (current->next->sep && current->next->next && current->next->next->arg)
         new_len += my_strlen(current->next->next->arg);
     current->sep = 0;
-    current->arg = malloc_str(new_len + 1);
+    current->arg = malloc(new_len + 1);
     current->arg[0] = '\0';
     concat_arg(current);
     delete_node_backslash(pipeline, current);

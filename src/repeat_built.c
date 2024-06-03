@@ -33,6 +33,7 @@ token_t *del_head(token_t **token_list)
     next = (*token_list)->next;
     if (next)
         next->prev = NULL;
+    free_token(token_list);
     *token_list = next;
     return next;
 }

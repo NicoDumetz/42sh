@@ -31,12 +31,14 @@ void supp_garbage(token_t *token, char *true_arg, token_t **head)
             token->prev->next = token;
         else
             *head = token;
+        free_token(&tmp);
     }
     if (token->next && token->next->arg) {
         tmp = token->next;
         token->next = tmp->next;
         if (token->next)
             token->next->prev = token;
+        free_token(&tmp);
     }
 }
 
@@ -46,7 +48,7 @@ void assemble_simple(token_t *current, token_t **head)
     int len = find_len_new_arg_simple(current);
     int i = 0;
 
-    true_arg = gmalloc(sizeof(char) * (len + 1));
+    true_arg = malloc(sizeof(char) * (len + 1));
     if (current->prev && current->prev->arg)
         for (i = 0; current->prev->arg[i]; i++)
             true_arg[i] = current->prev->arg[i];

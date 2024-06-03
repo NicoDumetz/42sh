@@ -12,6 +12,22 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
+void free_token_list(token_t **token_list)
+{
+    token_t *head = *token_list;
+    token_t *tmp;
+
+    for (int i = 0; head; i++) {
+        tmp = head;
+        head = head->next;
+        if (tmp->arg)
+            free(tmp->arg);
+        free(tmp);
+    }
+    free(token_list);
+    token_list = NULL;
+}
+
 static int len_nodes(token_t **token_list)
 {
     token_t *current = *token_list;
@@ -59,7 +75,7 @@ static bool check_item(char c)
 
 static void build_token_item(token_t **token_list, char *str, int i)
 {
-    token_t *token = gmalloc(sizeof(token_t));
+    token_t *token = malloc(sizeof(token_t));
 
     token->sep = str[i];
     token->arg = NULL;
@@ -79,10 +95,10 @@ static void build_token_arg(token_t **token_list, char *str, int i, int index)
 
     if (!i || check_item(str[i - 1]))
         return;
-    token = gmalloc(sizeof(token_t));
+    token = malloc(sizeof(token_t));
     token->sep = 0;
     for (j = 0; tmp[j] && !check_item(tmp[j]); j++);
-    token->arg = my_gstrndup(tmp, j);
+    token->arg = strndup(tmp, j);
     if (*token_list == NULL)
         token->index = 0;
     else
@@ -95,7 +111,7 @@ token_t **init_token_list(char *str)
 {
     int index = 0;
     int i;
-    token_t **token_list = gmalloc(sizeof(token_t *));
+    token_t **token_list = malloc(sizeof(token_t *));
 
     *token_list = NULL;
     for (i = 0; i <= my_strlen(str); i++) {
