@@ -7,6 +7,17 @@
 
 #include "minishell.h"
 
+int get_token_list_size(token_t *token)
+{
+    int i = 0;
+
+    if (!token)
+        return i;
+    for (; token; token = token->next)
+        i++;
+    return i;
+}
+
 char **token_to_str_array(token_t *start, int end)
 {
     char **arr = malloc(sizeof(char *) * (end - start->index + 1));
