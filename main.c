@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <signal.h>
 
 void freeing(char *str, char **env)
 {
@@ -81,6 +80,9 @@ static void print_token_list(token_t **token_list)
             printf("token:%s--\n", token->arg);
         if (token->sep)
             printf("token :%c--%d\n", token->sep, token->sep);
+        printf("index: %d\n", token->index);
+        if (token->prev)
+            printf("prev: %d\n", token->prev->index);
     }
 }
 
@@ -106,13 +108,9 @@ static garbage_t init_garbage(char **str, char ***env)
     garbage.raw_command = *str;
     garbage.return_value = 0;
     garbage.token_list = NULL;
-    garbage.alias = NULL;
-    garbage.local = NULL;
     garbage.token_list = init_token_list(garbage.raw_command);
-    printf("----START FIRST TOKEN LIST----\n\n");
     if (garbage.token_list)
         print_token_list(garbage.token_list);
-    printf("----END FIRST TOKEN LIST----\n\n");
     return garbage;
 }
 
@@ -128,13 +126,6 @@ int main(int argc, char **argv, char **env)
     // garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
         garbage = init_garbage(&str, &env);
-        lexing_features(&garbage, garbage.token_list);
-        printf("----START LAST TOKEN LIST----\n\n");
-        if (garbage.token_list)
-            print_token_list(garbage.token_list);
-        printf("----END LAST TOKEN LIST----\n\n");
-        if (garbage.return_value < 0)
-            continue;
         free_token_list(garbage.token_list);
         // insert_spaces(&str);
         // travel_command(str, &env, &garbage);
