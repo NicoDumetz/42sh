@@ -18,14 +18,12 @@ static void write_error(char *name)
     char *error = strerror(errno);
 
     if (error == 0) {
-        free(name);
         return;
     }
     write(2, name, my_strlen(name));
     write(2, ": ", 2);
     write(2, error, my_strlen(error));
     write(2, ".\n", 2);
-    free(name);
 }
 
 static char *get_name(char *str, int j, int i)
@@ -52,25 +50,21 @@ static void close_fd(int fd_in, int fd_out)
         close(fd_out);
 }
 
-static void set_fd_out(char *str, int *i, int *fd_out)
+static void set_fd_out(char *str, pipeline_t *node)
 {
-    int mode = (str[*i + 1] != '>') ? (O_CREAT | O_WRONLY | O_TRUNC) :
-    (O_CREAT | O_WRONLY | O_APPEND);
-    int j = (str[*i + 1] == '>') ? *i + 2 : *i + 1;
-    char *name;
+    int mode = (O_CREAT | O_WRONLY | O_TRUNC);
+    int mode_2 = (O_CREAT | O_WRONLY | O_APPEND);
 
-    name = get_name(str, j, *i);
-    if (name == 0) {
-        *fd_out = -1;
+    if (str == 0) {
+        node->output = -1;
         return;
     }
-    *fd_out = open(name, mode, 0644);
-    *i -= 1;
-    if (*fd_out == -1)
-        return write_error(name);
-    dup2(*fd_out, STDOUT_FILENO);
-    close(*fd_out);
-    free(name);
+    if (!strcmp(node->sep, ">"))
+        node->output = open(str, mode, 0644);
+    if (!strcmp(node->sep, ">>"))
+        node->output = open(str, mode_2, 0644);
+    if (node->output == -1)
+        return write_error(str);
 }
 
 static void prompt(int save_out)
@@ -109,43 +103,42 @@ static void set_input(char *str, int *i, int save_out)
     *i += 1;
 }
 
-static void set_fd_in(char *str, int *i, int *fd_in, int save_out)
+static void set_fd_in(char *str, pipeline_t *pipeline)
 {
-    char *name;
-
-    if (str[*i + 1] == '<')
-        return set_input(str, i, save_out);
-    name = get_name(str, *i + 1, *i);
-    if (name == 0) {
-        *fd_in = -1;
-        return;
-    }
-    *fd_in = open(name, O_RDONLY);
-    if (*fd_in == -1)
-        return write_error(name);
-    dup2(*fd_in, STDIN_FILENO);
-    close(*fd_in);
-    free(name);
+    pipeline->next->input = open(str, O_RDONLY);
+    if (pipeline->next->input == -1)
+        return write_error(str);
+    pipeline->next->token_list = pipeline->token_list;
 }
 
-int redirection(char *str, char ***env, int save_out, garbage_t *garbage)
+static int find_next_sep(token_t *token)
+{
+    for (; token; token = token->next) {
+        if (token->sep && token->sep != ' ')
+            return token->index;
+    }
+    return -1;
+}
+
+pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
 {
     int result;
-    int fd_in = -2;
-    int fd_out = -2;
+    char *str = NULL;
 
-    for (int i = 0; str[i]; i++) {
-        if (str[i] == '<') {
-            set_fd_in(str, &i, &fd_in, save_out);
-            continue;
-        }
-        if (str[i] == '>')
-            set_fd_out(str, &i, &fd_out);
+    globbings(garbage, pipeline->token_list);
+    str = token_to_str(*pipeline->next->token_list);
+    clean_space(str);
+    if (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, "<<")) {
+        set_fd_in(str, pipeline);
+        free(str);
+        return pipeline;
     }
-    if (fd_out == -1 || fd_in == -1)
-        return 1;
-    format_str(str);
-    result = function(str, env, garbage);
-    close_fd(fd_in, fd_out);
-    return result;
+    if (!strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, ">>")) {
+        set_fd_out(str, pipeline);
+        garbage->return_value = new_process(pipeline,
+            token_to_str_array(*pipeline->token_list,
+            get_token_list_size(*pipeline->token_list)), *garbage->env);
+            free(str);
+            return pipeline->next;
+    }
 }

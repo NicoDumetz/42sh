@@ -23,11 +23,11 @@ char **copy_env(char **env)
     return new_env;
 }
 
-int show_env(char **env)
+int show_env(char *str, char ***env, garbage_t *garbage)
 {
-    for (int i = 0; env[i]; i++)
-        my_printf("%s\n", env[i]);
-    return 0;
+    for (int i = 0; (*env)[i]; i++) {
+        printf("%s\n", (*env)[i]);
+    }
 }
 
 static int delete_errors(char **command)
@@ -82,7 +82,7 @@ static char **new_env(char **env, char **command, int new_size)
     return new_env;
 }
 
-int delete_env(char *str, char ***env)
+int delete_env(char *str, char ***env, garbage_t *garbage)
 {
     char **command;
     int new_size = 0;

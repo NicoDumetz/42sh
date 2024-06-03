@@ -94,7 +94,7 @@ static int cd_loop(char *path, char **command, char **env)
     return 0;
 }
 
-int change_dir(char *str, char ***env)
+int change_dir(char *str, char ***env, garbage_t *garbage)
 {
     char **command;
     char *path;
@@ -112,7 +112,7 @@ int change_dir(char *str, char ***env)
     path = malloc(my_strlen("setenv PWD ") + my_strlen(new_pwd) + 1);
     my_strcpy(path, "setenv PWD ");
     my_strcat(path, new_pwd);
-    set_environnement(path, env);
+    set_environnement(path, env, garbage);
     free(path);
     free(new_pwd);
     return i;
