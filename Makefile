@@ -6,8 +6,12 @@
 ##
 
 SRC = main.c \
-	  src/lexer_parser/lexing.c\
-	  src/lexer_parser/parsing.c\
+	  src/lexer_parser/lexer/lexing.c\
+	  src/lexer_parser/lexer/lexing_features.c\
+	  src/lexer_parser/parser/parsing.c\
+	  src/feature_tab.c\
+	  src/execute_command.c\
+	  src/globbings/globbings.c\
 	  src/cd.c \
 	  src/env.c \
 	  src/setenv.c \
@@ -20,6 +24,8 @@ SRC = main.c \
 	  src/add_separator.c\
 	  tools/tab_len.c\
 	  tools/token_to_str_array.c\
+	  src/alias/alias.c \
+	  src/local/local_var.c
 
 OBJ = $(SRC:.c=.o)
 
