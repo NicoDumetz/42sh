@@ -254,4 +254,6 @@ int get_prompt_size(void);
 char *pick_token(pipeline_t *pip, int who);
 token_t *manage_alias(token_t *token, garbage_t *garbage,
     pipeline_t *pipeline);
+char *pick_token_var(pipeline_t *pip, int who);
+int str_is_alpha(const char *str);
 #endif

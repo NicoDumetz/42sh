@@ -100,7 +100,8 @@ char *pick_token(pipeline_t *pip, int who)
 {
     token_t *token = *pip->token_list;
 
-    for (; strcmp(token->arg, "alias") != 0; token = token->next);
+    for (; token->sep == ' ' && (token->arg == NULL ||
+    strcmp(token->arg, "alias") != 0); token = token->next);
     for (token = token->next; token->sep == ' '; token = token->next);
     if (token->arg == NULL)
         return NULL;

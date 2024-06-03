@@ -73,12 +73,12 @@ static pipeline_t *format_token(garbage_t *garbage, pipeline_t *pipeline,
         return pipeline;
     for (token_t *current = *pipeline->token_list;
         current && current->index <=
-            get_token_list_size(*pipeline->token_list);
-            current = current->next) {
-            if (who == 1)
-                manage_alias(current, garbage, pipeline);
-            if (who == 2)
-                manage_variable(current, garbage, pipeline);
+        get_token_list_size(*pipeline->token_list);
+        current = current->next) {
+        if (who == 1)
+            manage_alias(current, garbage, pipeline);
+        if (who == 2)
+            manage_variable(current, garbage, pipeline);
     }
     return pipeline;
 }
