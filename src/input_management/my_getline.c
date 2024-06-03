@@ -117,6 +117,12 @@ static getline_t *init_getline(getline_t *getmy)
     return getmy;
 }
 
+static void free_getmy(getline_t *getmy)
+{
+    free(getmy->word);
+    free(getmy);
+}
+
 int my_getline_interact(char **line, history_t **hist)
 {
     int exit;
@@ -136,7 +142,7 @@ int my_getline_interact(char **line, history_t **hist)
         if (exit != 0)
             break;
     }
-    free(getmy);
+    free_getmy(getmy);
     return choose_command(line, &tmp, exit);
 }
 
