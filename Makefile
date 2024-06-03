@@ -10,7 +10,6 @@ SRC = main.c \
 	  src/lexer_parser/lexer/lexing_features.c\
 	  src/lexer_parser/parser/parsing.c\
 	  src/feature_tab.c\
-	  src/execute_command.c\
 	  src/globbings/globbings.c\
 	  src/cd.c \
 	  src/env.c \

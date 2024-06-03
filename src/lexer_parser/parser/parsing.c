@@ -32,11 +32,13 @@ int parsing_function(garbage_t *garbage, token_t **token_list)
         return -1;
     for (; token; token = token->next) {
         if (token->sep && token->sep != ' ') {
-            execute_command(garbage, token_list, index);
+            garbage->return_value = new_process(token_to_str_array(*token_list, index),
+                *(garbage->env));
             return process_separator(token->sep, garbage, &(token->next));
         }
         index = token->index;
     }
-    execute_command(garbage, token_list, index);
+    garbage->return_value = new_process(token_to_str_array(*token_list, index),
+                *(garbage->env));
     return EXIT_SUCCESS;
 }

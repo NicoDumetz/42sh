@@ -34,7 +34,7 @@ int function(char *str, char ***env)
         return delete_env(str, env);
     if (my_strncmp(str, "env", 3) == 0)
         return show_env(*env);
-    return new_process(str, *env);
+    return new_process(&str, *env);
 }
 
 static void ttycheck(void)
@@ -124,17 +124,14 @@ int main(int argc, char **argv, char **env)
 
     env = copy_env(env);
     ttycheck();
-    // garbage.raw_command = &str;
-    // garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
         garbage = init_garbage(&str, &env);
-        lexing_features(&garbage, garbage.token_list);
-        printf("----START LAST TOKEN LIST----\n\n");
-        if (garbage.token_list)
-            print_token_list(garbage.token_list);
-        printf("----END LAST TOKEN LIST----\n\n");
-        if (garbage.return_value < 0)
-            continue;
+        // lexing_features(&garbage, garbage.token_list);
+        // printf("----START LAST TOKEN LIST----\n\n");
+        // if (garbage.token_list)
+        //     print_token_list(garbage.token_list);
+        // printf("----END LAST TOKEN LIST----\n\n");
+        parsing_function(&garbage, garbage.token_list);
         free_token_list(garbage.token_list);
         // insert_spaces(&str);
         // travel_command(str, &env, &garbage);

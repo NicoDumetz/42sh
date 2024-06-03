@@ -56,7 +56,7 @@ int globbings_function(garbage_t *garbage, token_t **token_list)
     token_t *head = *token_list;
     token_t *prev = NULL;
     token_t *current = NULL;
-    char **new_arg = NULL.
+    char **new_arg = NULL;
 
     lexing_features(garbage, token_list);
     if (garbage->return_value < 0)
