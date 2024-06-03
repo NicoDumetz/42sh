@@ -3,3 +3,4 @@ mysh
 *.o
 *.log
 *.a
+.vscode
