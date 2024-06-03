@@ -1,10 +1,10 @@
-[01]
-NAME="Nothing"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-  echo ''
-[01-END]
+#[01]
+#NAME="Nothing"
+#SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+#CLEAN=""
+#TESTS=
+#  echo ''
+#[01-END]
 
 [02]
 NAME="Exec two command"

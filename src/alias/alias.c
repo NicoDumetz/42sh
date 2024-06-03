@@ -103,6 +103,10 @@ int set_alias(char *str, char ***, garbage_t *garbage)
         free_array(command);
         return print_alias(garbage);
     }
+    if (command[2] == NULL) {
+        free_array(command);
+        return 0;
+    }
     if (already_exist_alias(name, command[2], garbage) == 1) {
         free_array(command);
         return 0;

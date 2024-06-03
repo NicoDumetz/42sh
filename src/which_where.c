@@ -10,29 +10,9 @@
 #include "my.h"
 #include "minishell.h"
 
-char *check_var(char *line, char *var, garbage_t *garbage)
-{
-    char name[my_strlen(line)];
-    char *value = malloc(sizeof(char) * my_strlen(line));
-    int i;
-    int k;
-
-    if (value == NULL)
-        return NULL;
-    for (i = 0; line[i] && line[i] != '='; i++)
-        name[i] = line[i];
-    name[i] = '\0';
-    i++;
-    for (k = 0; line[i]; i++) {
-        value[k] = line[i];
-        k++;
-    }
-    value[k] = '\0';
-    if (strcmp(var, name) == 0)
-        return value;
-    free(value);
-    return NULL;
-}
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static int is_exec(char *file)
 {
@@ -136,22 +116,10 @@ int which_functions(char *str, char ***, garbage_t *)
     return check;
 }
 
-char *my_getenv(char *name, garbage_t *garbage, char **env)
-{
-    char *value = NULL;
-
-    for (int i = 0; env[i]; i++) {
-        value = check_var(env[i], name, garbage);
-        if (value != NULL)
-            return value;
-    }
-    return NULL;
-}
-
-int where_functions(char *str, char ***env, garbage_t *garbage)
+int where_functions(char *str, char ***, garbage_t *)
 {
     char **command = my_str_to_array(str, " ");
-    char *path_value = my_getenv("PATH", garbage, *env);
+    char *path_value = getenv("PATH");
     char **all_path = my_str_to_array(path_value, ":");
     int check = 0;
 
