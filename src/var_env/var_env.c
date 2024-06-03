@@ -70,7 +70,7 @@ token_t *manage_variable(token_t *token, garbage_t *garbage,
             }
             if (ret == 1 && env == 1) {
                 fprintf(stderr, "%s: Undefined variable.\n", token->arg + 1);
-                garbage->return_value = 1;
+                garbage->execute = 1;
             }
     }
     return token;
