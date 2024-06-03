@@ -22,5 +22,6 @@ builtins_t built[] = {
     {"unalias", unalias},
     {"set", set_local},
     {"unset", unset_var},
+    {"history", history_command},
     {0, 0}
 };
