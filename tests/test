@@ -1369,3 +1369,12 @@ CLEAN=""
 TESTS=
 echo "\n\n\n\n"
 [243-END]
+
+[244]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "cat < main.c >> coucou | ls"
+echo "rm -f coucou"
+[244-END]
