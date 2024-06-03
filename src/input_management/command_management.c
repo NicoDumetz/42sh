@@ -44,7 +44,6 @@ int choose_command(char **line, history_t **tmp, int exit)
     if (exit == -1)
         return -1;
     if (*tmp != NULL) {
-        free(*line);
         *line = my_strdup((*tmp)->command);
         free((*tmp)->command);
         tmp = NULL;
