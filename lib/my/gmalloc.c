@@ -12,7 +12,7 @@ static collector_t *free_collector(collector_t *collector)
     collector_t *tmp = NULL;
 
     if (!collector)
-        return collector;
+        return NULL;
     while (collector) {
         tmp = collector;
         collector = collector->next;
@@ -29,9 +29,9 @@ static collector_t *create_new_node(size_t size)
     collector_t *new_node = NULL;
     void *data = malloc(size);
 
-    data = memset(data, 0, size);
     if (!data)
         return NULL;
+    data = memset(data, 0, size);
     new_node = malloc(sizeof(collector_t));
     if (!new_node) {
         free(data);
