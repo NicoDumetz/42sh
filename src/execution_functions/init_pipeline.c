@@ -112,6 +112,20 @@ static void skip_parenthesis(char const *str, int *i)
     }
 }
 
+static void skip_quotes(char *str, int *i)
+{
+    int nb = 0;
+
+    if (str[*i] == '"') {
+        nb++;
+        *i += 1;
+    }
+    for (; str[*i] && nb; *i += 1) {
+        if (str[*i] == '"')
+            nb--;
+    }
+}
+
 pipeline_t **init_pipeline(char *str)
 {
     pipeline_t **pipeline = malloc(sizeof(pipeline_t *));
@@ -124,6 +138,7 @@ pipeline_t **init_pipeline(char *str)
     *pipeline = NULL;
     for (i = 0; i <= strlen(str); i++) {
         skip_parenthesis(str, &i);
+        skip_quotes(str, &i);
         if (check_sep(str, i, index)) {
             node = build_node(str, &i, index);
             node->next = *pipeline;
