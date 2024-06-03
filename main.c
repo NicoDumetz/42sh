@@ -27,7 +27,7 @@ void freeing(char *str, char **env)
 void ttycheck(void)
 {
     if (isatty(STDIN_FILENO))
-        printf("$> ");
+        my_printf("$> ");
 }
 
 void print_token_list(token_t **token_list)
