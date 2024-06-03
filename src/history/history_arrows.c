@@ -17,11 +17,11 @@ static void history_up_end(history_t **tmp)
     (*tmp)->command = my_strdup((*tmp)->prev->next->command);
 }
 
-void history_up(history_t **tmp, history_t **history, getline_t *getmy)
+int history_up(history_t **tmp, history_t **history, int *cursor)
 {
     if (*tmp == NULL && *history == NULL)
-        return;
-    getmy->cursor = 0;
+        return *cursor;
+    *cursor = 0;
     if (*tmp == NULL) {
         *tmp = malloc(sizeof(history_t));
         memcpy(*tmp, *history, sizeof(history_t));
@@ -31,12 +31,13 @@ void history_up(history_t **tmp, history_t **history, getline_t *getmy)
         (*tmp)->command = my_strdup((*tmp)->command);
     } else
         history_up_end(tmp);
+    return *cursor;
 }
 
-void history_down(history_t **tmp, getline_t *getmy)
+int history_down(history_t **tmp, int *cursor)
 {
     if (*tmp == NULL)
-        return;
+        return *cursor;
     else if (*tmp != NULL && (*tmp)->prev != NULL) {
         memcpy(*tmp, (*tmp)->prev, sizeof(history_t));
         (*tmp)->command = my_strdup((*tmp)->command);
@@ -44,5 +45,6 @@ void history_down(history_t **tmp, getline_t *getmy)
         free((*tmp)->command);
         *tmp = NULL;
     }
-    getmy->cursor = 0;
+    *cursor = 0;
+    return *cursor;
 }
