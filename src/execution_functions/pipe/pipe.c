@@ -32,7 +32,7 @@ static void last_redirect(int num_pipe, int pipeline[][2])
     close(pipeline[num_pipe - 2][1]);
 }
 
-void pipe_redirect(int i, int pipeline[][2])
+void pipe_redirect(int i, int num_pipe, int pipeline[][2])
 {
     if (i > 0) {
         dup2(pipeline[i - 1][0], STDIN_FILENO);

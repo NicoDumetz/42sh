@@ -97,7 +97,7 @@ static int cd_loop(char *path, char **command, char **env)
 int change_dir(char *str, char ***env)
 {
     char **command;
-    char *path = NULL;
+    char *path;
     int i = 0;
     char *new_pwd;
 
