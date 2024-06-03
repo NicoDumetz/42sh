@@ -52,7 +52,7 @@ static void close_fd(int fd_in, int fd_out)
         close(fd_out);
 }
 
-static void set_fd_out(char *str, int *i, int *fd_out)
+static void set_fd_out(char *str, int *i, pipeline_t *node)
 {
     int mode = (str[*i + 1] != '>') ? (O_CREAT | O_WRONLY | O_TRUNC) :
     (O_CREAT | O_WRONLY | O_APPEND);
@@ -61,15 +61,15 @@ static void set_fd_out(char *str, int *i, int *fd_out)
 
     name = get_name(str, j, *i);
     if (name == 0) {
-        *fd_out = -1;
+        node->output = -1;
         return;
     }
-    *fd_out = open(name, mode, 0644);
+    node->output = open(name, mode, 0644);
     *i -= 1;
-    if (*fd_out == -1)
+    if (node->output == -1)
         return write_error(name);
-    dup2(*fd_out, STDOUT_FILENO);
-    close(*fd_out);
+    dup2(node->output, STDOUT_FILENO);
+    close(node->output);
     free(name);
 }
 
@@ -137,29 +137,29 @@ static int find_next_sep(token_t *token)
     return -1;
 }
 
-int execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
+pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
 {
     int result;
     int fd_in = -2;
     int fd_out = -2;
     char *str = NULL;
 
-    str = token_to_str(*pipeline->token_list);
+    str = token_to_str(*pipeline->next->token_list);
     for (int i = 0; str[i]; i++) {
         if (str[i] == '<') {
-            set_fd_in(str, &i, &fd_in, garbage->save_out);
+            set_fd_in(str, &i, &fd_in, pipeline->input);
             continue;
         }
         if (str[i] == '>')
-            set_fd_out(str, &i, &fd_out);
+            set_fd_out(str, &i, pipeline);
     }
     free(str);
     if (fd_out == -1 || fd_in == -1)
-        return 1;
+        return pipeline->next;
     // format_str(str);
-    // new_process(token_to_str_array(*pipeline->token_list,
-        // get_token_list_size(*pipeline->token_list)), *garbage->env);
+    garbage->return_value = new_process(pipeline, token_to_str_array(*pipeline->token_list,
+        get_token_list_size(*pipeline->token_list)), *garbage->env);
     // result = function(str, env);
     close_fd(fd_in, fd_out);
-    return result;
+    return pipeline->next;
 }

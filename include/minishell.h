@@ -89,7 +89,7 @@ int new_process(pipeline_t *pipeline, char **command, char **env);
 
 pipeline_t *execute_semicolon(garbage_t *garbage,  pipeline_t *pipeline);
 
-int execute_redirection(garbage_t *garbage,  pipeline_t *pipeline);
+pipeline_t *execute_redirection(garbage_t *garbage,  pipeline_t *pipeline);
 
 pipeline_t **init_pipeline(char *str);
 

@@ -40,21 +40,21 @@ static bool is_pipeline_correct(garbage_t *garbage, pipeline_t *pipeline)
     return true;
 }
 
-static int process_separator(garbage_t *garbage, pipeline_t *pipeline)
+static pipeline_t *process_separator(garbage_t *garbage, pipeline_t *pipeline)
 {
     int i = 0;
 
     for (i = 0; r_tab[i].sep && strcmp(r_tab[i].sep, pipeline->sep); i++);
     if (r_tab[i].sep == 0)
-        return EXIT_FAILURE;
+        return pipeline;
     pipeline = r_tab[i].redirection(garbage, pipeline);
-    return EXIT_SUCCESS;
+    return pipeline;
 }
 
 static void execute_pipeline(garbage_t *garbage, pipeline_t *pipeline)
 {
     for (;pipeline ;pipeline = pipeline->next)
-        process_separator(garbage, pipeline);
+        pipeline = process_separator(garbage, pipeline);
 }
 
 void process_execution(garbage_t *garbage, pipeline_t **pipeline)
