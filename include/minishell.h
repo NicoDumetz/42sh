@@ -12,6 +12,12 @@
     #include <stdio.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
+    #define KEY_UP 1
+    #define KEY_DOWN 2
+    #define KEY_RIGHT 3
+    #define KEY_LEFT 4
+    #define KEY_TAB 5
+    #define KEY_BACKSPACE 6
 typedef struct garbage_s {
     char ***env;
     char **line;
@@ -43,6 +49,7 @@ void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
 int redirection(char *str, char ***env, int save_out);
 int redirection_errors(char *command, char **pipes, int i);
 int command_errors(char *str, char **pipes, int save_in, int save_out);
+void ttycheck(void);
 
 void add_history(char *command, history_t **history);
 int history_command(char *str, history_t **history);
@@ -51,6 +58,9 @@ void show_reverse_history(history_t **history, int *status_flags);
 void show_no_param_history(history_t **history, int *status_flags);
 void show_history(history_t **history);
 void show_history_num(int num, history_t **history);
+void history_up(history_t **tmp, history_t **history);
+void history_down(history_t **tmp);
+
 char **my_str_to_minishell_array(char const *str, char *separateur);
 int my_c_redi_pipe(char c);
 int my_c_pipe(char c);
@@ -59,5 +69,11 @@ int my_c_redi_r(char c);
 int my_c_redi_g(char c);
 void add_redi_r(char **tab, int **index, char const *str, int *h);
 void add_redi_g(char **tab, int **index, char const *str, int *h);
+
+int my_getline(char **line, size_t *n, history_t **hist);
+void set_non_canonical_mode(void);
+int is_end(char **line, int len);
+void is_del(char **line, int len);
+
 
 #endif
