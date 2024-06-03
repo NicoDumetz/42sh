@@ -9,8 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <termios.h>
-#include <unistd.h>
 
 static int choose_command(char **line, history_t **tmp, int exit)
 {
@@ -149,15 +147,4 @@ int my_getline(char **line, size_t *n, history_t **hist)
             break;
     }
     return choose_command(line, &tmp, exit);
-}
-
-void set_non_canonical_mode()
-{
-    struct termios term;
-
-    tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag &= ~(ICANON | ECHO);
-    term.c_cc[VMIN] = 1;
-    term.c_cc[VTIME] = 0;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
