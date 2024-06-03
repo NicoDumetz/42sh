@@ -82,7 +82,6 @@ int main(int argc, char **argv, char **env)
     garbage.line = &str;
     garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
-        insert_spaces(&str);
         travel_command(str, &env, &return_value, &garbage);
         ttycheck();
     }

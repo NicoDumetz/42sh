@@ -28,7 +28,7 @@ OBJ = $(SRC:.c=.o)
 
 CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
 
-NAME = mysh
+NAME = 42sh
 
 
 all: $(NAME)

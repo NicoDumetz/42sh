@@ -82,7 +82,7 @@ int set_environnement(char *str, char ***env);
 int delete_env(char *str, char ***env);
 int new_process(char *str, char **env);
 int pipe_handling(char *str, char ***env, garbage_t *garbage);
-void pipe_redirect(int i, int num_pipe, int pipeline[][2]);
+void pipe_redirect(int i, int pipeline[][2]);
 void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
     garbage_t *garbage);
 int redirection(char *str, char ***env, int save_out);
