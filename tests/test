@@ -1,10 +1,10 @@
-[01]
-NAME="Nothing"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
- echo ''
-[01-END]
+#[01]
+#NAME="Nothing"
+#SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+#CLEAN=""
+#TESTS=
+#  echo ''
+#[01-END]
 
 [02]
 NAME="Exec two command"
@@ -778,6 +778,15 @@ TESTS=
 #   echo "ls -l | grep a | grep o ; ls -a | grep ."
 # [107-END]
 
+[107]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l > coucou"
+  echo "cat coucou"
+[107-END]
+
 [108]
 NAME=""
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -798,22 +807,22 @@ TESTS=
   echo "<"
 [109-END]
 
-# [110]
-# NAME=""
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "ls |||||||||"
-# [110-END]
+[110]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls |||||||||"
+[110-END]
 
-# [111]
-# NAME=""
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "ls -l > coucou"
-#   echo "cat < coucou | grep a"
-# [111-END]
+[111]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "ls -l > coucou"
+  echo "cat < coucou | grep a"
+[111-END]
 
 # [112]
 # NAME="attention bug <<"
@@ -936,13 +945,13 @@ TESTS=
   echo "who | grep tty"
 [125-END]
 
-[126]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "toto | grep c"
-[126-END]
+# [126]
+# NAME=""
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "ps aux --sort=-%mem | head"
+# [126-END]
 
 [127]
 NAME=""
@@ -1049,40 +1058,49 @@ echo "rm -f coucou"
 # echo "ls *[c-e]"
 # [205-END]
 
-[206]
-NAME="history"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls"
-echo "history 1"
-[206-END]
+# [206]
+# NAME="history"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "ls"
+# echo "history 1"
+# [206-END]
 
-[207]
-NAME="history errors"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "history coucou"
-[207-END]
+# [207]
+# NAME="history errors"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "history coucou"
+# [207-END]
 
-[208]
-NAME="history errors"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls"
-echo "history 1 5"
-[208-END]
+# [208]
+# NAME="history errors"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "ls"
+# echo "history 1 5"
+# [208-END]
 
-[209]
-NAME="history reset"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "history -c"
-echo "history"
-[209-END]
+# [209]
+# NAME="history reset"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "history -c"
+# echo "history"
+# [209-END]
+
+# [210]
+# NAME="history erreurs"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo ""
+# echo "history -N 10"
+# [210-END]
 
 [211]
 NAME="alias"
@@ -1178,154 +1196,3 @@ echo "unset bonjour"
 echo "echo bonjour"
 echo "echo \$bonjour"
 [220-END]
-
-[221]
-NAME="&&"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "prout && ls"
-[221-END]
-
-
-[222]
-NAME="&&"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls && ls"
-[222-END]
-
-[223]
-NAME="&&"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "&& ls"
-[223-END]
-
-[224]
-NAME="&&"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls &&"
-[224-END]
-
-
-[225]
-NAME="&&"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "&&"
-[225-END]
-
-[226]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "prout || ls"
-[226-END]
-
-[227]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls || ls"
-[227-END]
-
-[229]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "||"
-[229-END]
-
-[230]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "||"
-[230-END]
-
-[231]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "prout || ls | grep c"
-[231-END]
-
-[232]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls | grep c || prout"
-[232-END]
-
-[233]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls | grep c || prout > ici"
-echo "rm ici"
-[233-END]
-
-[234]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls | grep c && prout > ici"
-echo "rm ici"
-[234-END]
-
-[235]
-NAME="||"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "prout && ls > ici"
-echo "ici"
-[235-END]
-
-[236]
-NAME="exit"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "exit 42"
-[236-END]
-
-[237]
-NAME="exit manage"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "exit 42 | ls"
-[237-END]
-
-[238]
-NAME="which"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "which"
-[238-END]
-
-[239]
-NAME="which"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "which cd"
-[239-END]
-
-

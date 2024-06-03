@@ -29,7 +29,6 @@ SRC = main.c \
 	  tools/token_to_str.c\
 	  src/alias/alias.c \
 	  src/local/local_var.c \
-	  src/inibitors/inibitors.c \
 	  tools/clean_str.c \
 	  src/globs_tab.c \
 	  tools/contain_char.c \
@@ -55,11 +54,9 @@ SRC = main.c \
 	  src/globbings/assemble_hard.c \
 	  src/globbings/assemble_simple.c \
 	  src/cleanup.c \
-	  src/which_where.c \
-	  src/repeat_built.c \
 	  src/handle_signal.c \
+	  src/which_where.c \
 	  tools/int_to_str.c \
-	  src/execution_functions/redirection/double_left.c \
 
 OBJ = $(SRC:.c=.o)
 

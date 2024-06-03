@@ -94,7 +94,7 @@ static int history_flags(char **command, history_t **history)
     return 0;
 }
 
-int history_command(char *str, char ***, garbage_t *garbage, pipeline_t *)
+int history_command(char *str, char ***, garbage_t *garbage)
 {
     char **command = my_str_to_array(str, " ");
     int i;
