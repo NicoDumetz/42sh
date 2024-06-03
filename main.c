@@ -92,6 +92,17 @@ static garbage_t init_garbage(char **str, garbage_t *old)
     return garbage;
 }
 
+static void init_main(garbage_t *garbage, history_t **history, char **str,
+    char ***env)
+{
+    set_non_canonical_mode();
+    garbage->history = history;
+    garbage->line = str;
+    garbage->env = env;
+    garbage->alias = NULL;
+    garbage->local = NULL;
+}
+
 int main(int argc, char **argv, char **env)
 {
     char *str = 0;
@@ -99,19 +110,13 @@ int main(int argc, char **argv, char **env)
     garbage_t garbage;
     history_t *history = NULL;
 
-    set_non_canonical_mode();
     env = copy_env(env);
-    garbage.history = &history;
-    garbage.line = &str;
-    garbage.env = &env;
-    garbage.alias = NULL;
-    garbage.local = NULL;
+    init_main(&garbage, &history, &str, &env);
     while (my_getline(&str, &len, garbage.history) != -1) {
         garbage = init_garbage(&str, &garbage);
         add_history(str, garbage.history);
         if (garbage.return_value == 0)
             process_execution(&garbage, garbage.pipeline);
-        process_execution(&garbage, garbage.pipeline);
     }
     freeing(str, env);
     cleanup(&garbage);
