@@ -26,6 +26,8 @@ static void analyse_input(getline_t *getmy, char **line, history_t **tmp,
         case KEY_BACKSPACE:
         case KEY_SUPPR:
             return is_del(line, *tmp, getmy);
+        case KEY_TAB:
+            return is_tab(line, *tmp, getmy);
         default:
             break;
     }
@@ -109,7 +111,16 @@ static getline_t *init_getline(getline_t *getmy)
     getmy->cursor = 0;
     getmy->cursor_up = 0;
     getmy->clear = 1;
+    getmy->previous_clear = 1;
+    getmy->tab = -1;
+    getmy->word = NULL;
     return getmy;
+}
+
+static void free_getmy(getline_t *getmy)
+{
+    free(getmy->word);
+    free(getmy);
 }
 
 int my_getline_interact(char **line, history_t **hist)
@@ -131,7 +142,7 @@ int my_getline_interact(char **line, history_t **hist)
         if (exit != 0)
             break;
     }
-    free(getmy);
+    free_getmy(getmy);
     return choose_command(line, &tmp, exit);
 }
 

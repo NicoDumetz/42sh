@@ -108,6 +108,9 @@ typedef struct getline_s {
     int cursor_up;
     int rest;
     int clear;
+    int previous_clear;
+    int tab;
+    char *word;
 } getline_t;
 
 extern redirection_tab_t r_tab[];
@@ -216,6 +219,7 @@ void history_up(history_t **tmp, history_t **history, getline_t *getmy);
 void history_down(history_t **tmp, getline_t *getmy);
 
 char **my_str_to_minishell_array(char const *str, char *separateur);
+char **my_str_to_word_array_char(char const *str, char *separateur);
 int my_c_redi_pipe(char c);
 int my_c_pipe(char c);
 int my_c_esp(char c);
@@ -237,6 +241,7 @@ int is_end(char **line, history_t *tmp, getline_t *getmy);
 void is_del(char **line, history_t *tmp, getline_t *getmy);
 void arrow_right(getline_t *getmy);
 void arrow_left(history_t *tmp, char *line, getline_t *getmy);
+void is_tab(char **line, history_t *tmp, getline_t *getmy);
 
 token_t *check_alias(token_t *token, garbage_t *garbage, pipeline_t *pipeline);
 void reset_index(pipeline_t *pip);
@@ -251,6 +256,19 @@ int repeat(char *str, char ***env, garbage_t *garbage);
 
 void free_history(history_t **history);
 int get_prompt_size(void);
+
+void tab_command(char **line, int len, getline_t *getmy);
+void complete_command(char **line, char *completed, int len,
+    getline_t *getmy);
+void completion_file(char **tab_word, char **line, int count_word,
+    getline_t *getmy);
+void auto_completion_file(char *word, char **line, getline_t *getmy);
+void exec_or_command(char *word, char **line, getline_t *getmy, int len);
+void auto_completion_command(char *word, char **line, getline_t *getmy,
+    int len);
+char *get_path_autocompletion(char *word);
+void display_tab(getline_t *getmy);
+
 char *pick_token(pipeline_t *pip, int who);
 token_t *manage_alias(token_t *token, garbage_t *garbage,
     pipeline_t *pipeline);
