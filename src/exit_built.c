@@ -61,7 +61,7 @@ int find_value(char *str)
 
 int exit_built(char *str, char ***, garbage_t *garbage, pipeline_t *)
 {
-    char **arg = my_str_to_array(str, " ");
+    char **arg = my_str_to_garray(str, " ");
     int value = 0;
 
     if (tab_len(arg) > 2) {

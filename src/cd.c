@@ -135,7 +135,7 @@ int change_dir(char *str, char ***env, garbage_t *garbage, pipeline_t *)
     int i = 0;
     char *new_pwd;
 
-    command = my_str_to_array(str, " ");
+    command = my_str_to_garray(str, " ");
     for (; command[i]; i++);
     if (error_check(i)) {
         return 1;

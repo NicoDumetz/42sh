@@ -58,5 +58,6 @@ char *my_str_append(char *dest, char const *src);
 char *my_str_append_char(char *dest, char const c);
 char *my_gstrdup(const char *src);
 char *my_gstrndup(const char *src, int index);
+char **my_str_to_garray(char const *str, char const *separator);
 void *gmalloc(size_t size);
 #endif

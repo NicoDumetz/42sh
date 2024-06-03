@@ -68,7 +68,7 @@ static void reset_fd(int save_in, int save_out)
 
 int pipe_handling(char *str, char ***, garbage_t *garbage)
 {
-    char **pipes = my_str_to_array(str, "|");
+    char **pipes = my_str_to_garray(str, "|");
     int num_pipe = count_pipe(pipes);
     int pipeline[num_pipe - 1][2];
     int result = 0;

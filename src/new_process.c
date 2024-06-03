@@ -40,8 +40,8 @@ static char **get_path(char **env)
 
     for (; env[i] && my_strncmp(env[i], "PATH=", 5) != 0; i++);
     if (!env[i])
-        return my_str_to_array("", ":");
-    return my_str_to_array(env[i] + 5, ":");
+        return my_str_to_garray("", ":");
+    return my_str_to_garray(env[i] + 5, ":");
 }
 
 static void error_write(char *command, char *message)
