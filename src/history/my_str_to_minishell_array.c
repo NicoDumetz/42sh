@@ -26,11 +26,12 @@ static void close_open_word(char **tab, int **index, char const *str, int *h)
         (*index[0])++;
     *index[1] = 0;
     add_pipe(tab, index, str, h);
+    add_esp(tab, index, str, h);
     add_redi_r(tab, index, str, h);
     add_redi_g(tab, index, str, h);
 }
 
-static void check_redi(char const *str, int *h, int *i)
+static void check_pipe(char const *str, int *h, int *i)
 {
     int counter;
 
@@ -39,6 +40,17 @@ static void check_redi(char const *str, int *h, int *i)
         (*h)++;
     if (counter != 0)
         (*i)++;
+    for (counter = 0; str[*h] != '\0' && counter < 2
+        && my_c_esp(str[*h]) == 1; counter++)
+        (*h)++;
+    if (counter != 0)
+        (*i)++;
+}
+
+static void check_redi(char const *str, int *h, int *i)
+{
+    int counter;
+
     for (counter = 0; str[*h] != '\0' && counter < 2
         && my_c_redi_r(str[*h]) == 1; counter++)
         (*h)++;
@@ -49,6 +61,7 @@ static void check_redi(char const *str, int *h, int *i)
         (*h)++;
     if (counter != 0)
         (*i)++;
+    check_pipe(str, h, i);
 }
 
 static void pass_sep(char const *str, int *h, char *separateur)
@@ -68,6 +81,9 @@ static int len_word(char const *str, char *separateur)
     if (i != 0)
         return i;
     for (i = 0; str[i] != '\0' && i < 2 && my_c_pipe(str[i]) == 1; i++);
+    if (i != 0)
+        return i;
+    for (i = 0; str[i] != '\0' && i < 2 && my_c_esp(str[i]) == 1; i++);
     if (i != 0)
         return i;
     for (i = 0; str[i] != '\0' && i < 2 && my_c_redi_r(str[i]) == 1; i++);
