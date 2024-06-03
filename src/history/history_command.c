@@ -19,7 +19,7 @@ static int is_history_flags(char *arg)
         return 1;
     for (int i = 1; arg[i] != '\0'; i++) {
         if (arg[i] != 'c' && arg[i] != 'h' && arg[i] != 'r') {
-            write(2, "Usage: history [-chr] [# number of events].\n", 44);
+            write(2, "Usage: history [-chrSLMT] [# number of events].\n", 48);
             return 0;
         }
     }
