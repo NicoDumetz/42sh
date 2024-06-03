@@ -8,6 +8,14 @@
 #include "stdio.h"
 #include "minishell.h"
 
+void is_tab(char **line, history_t *tmp, getline_t *getmy)
+{
+    if (tmp != NULL)
+        tab_command(&(tmp->command), getmy->len_tmp, getmy);
+    if (tmp == NULL)
+        tab_command(line, getmy->len_line, getmy);
+}
+
 static int end_tmp(char **line, history_t *tmp, getline_t *getmy)
 {
     tmp->command = realloc(tmp->command, (getmy->len_tmp + 2) * sizeof(char));

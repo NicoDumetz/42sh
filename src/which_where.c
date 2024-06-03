@@ -86,14 +86,10 @@ int do_where(char *command, char **all_path)
 {
     int check = 0;
 
-    if (strcmp(command, "echo") == 0) {
-        printf("%s is a shell built-in command.\n", command);
-        check += 1;
-    }
     for (int i = 0; built[i].com; i++)
         if (my_strcmp(built[i].com, command) == 0) {
             printf("%s is a shell built-in command.\n", command);
-            check += 1;
+            return (0);
     }
     for (int i = 0; all_path[i]; i++)
         check += is_here(command, all_path[i]);
@@ -104,10 +100,6 @@ int do_where(char *command, char **all_path)
 
 int do_which(char *command, char **all_path)
 {
-    if (strcmp(command, "echo") == 0) {
-        printf("%s is a shell built-in command.\n", command);
-        return (0);
-    }
     for (int i = 0; built[i].com; i++)
         if (my_strcmp(built[i].com, command) == 0) {
             printf("%s: shell built-in command.\n", command);

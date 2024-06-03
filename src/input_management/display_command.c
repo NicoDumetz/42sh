@@ -25,23 +25,41 @@ static void down_cursor(getline_t *getmy, int actual_clear, char *command)
 {
     for (int i = 0; i < (getmy->clear - actual_clear) + getmy->cursor_up; i++)
         my_printf("\033[1B");
-    my_printf("\033[2K\r");
-    for (int i = 1; i < getmy->clear; i++)
-        my_printf("\033[1A\033[2K\r");
+    if (getmy->tab != -1)
+        display_tab(getmy);
+    else {
+        my_printf("\033[2K\r");
+        for (int i = 1; i < getmy->clear; i++)
+            my_printf("\033[1A\033[2K\r");
+    }
     ttycheck();
     my_printf("%s", command);
 }
 
 static void count_line_to_clear(getline_t *getmy, int rest, int *actual_clear)
 {
-    if (rest == 1 && getmy->rest == 0)
-        my_printf("\n");
-    if (rest == 0 && getmy->rest == 1)
-        my_printf("\033[1A");
     if (rest > 0)
         (*actual_clear)++;
+    if (*actual_clear < getmy->previous_clear)
+        my_printf("\033[%dA", getmy->previous_clear - *actual_clear);
+    if (*actual_clear > getmy->previous_clear) {
+        for (int i = 0; i < *actual_clear - getmy->previous_clear; i++)
+            my_printf("\n");
+    }
     if (*actual_clear > getmy->clear)
         getmy->clear = *actual_clear;
+    getmy->previous_clear = *actual_clear;
+}
+
+static void set_cursor_up(int *actual_cursor, int rest, int *cursor_up,
+    struct winsize *w)
+{
+    if (*actual_cursor > rest && rest != 0) {
+        (*cursor_up)++;
+        *actual_cursor -= rest + 1;
+    }
+    for (; *actual_cursor > w->ws_col; *actual_cursor -= w->ws_col)
+        (*cursor_up)++;
 }
 
 static void display_command2(struct winsize *w, char *command, getline_t
@@ -55,12 +73,7 @@ static void display_command2(struct winsize *w, char *command, getline_t
     int actual_cursor = getmy->cursor;
 
     count_line_to_clear(getmy, rest, &actual_clear);
-    if (actual_cursor > rest && rest != 0) {
-        cursor_up++;
-        actual_cursor -= rest + 1;
-    }
-    for (; actual_cursor > w->ws_col; actual_cursor -= w->ws_col)
-        cursor_up++;
+    set_cursor_up(&actual_cursor, rest, &cursor_up, w);
     getmy->rest = rest;
     down_cursor(getmy, actual_clear, command);
     move_cursor(cursor_up, w, actual_cursor);

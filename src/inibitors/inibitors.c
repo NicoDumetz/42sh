@@ -86,51 +86,42 @@ static void free_node(token_t *token)
     free(token);
 }
 
-static void delete_head(pipeline_t *pipeline, token_t *current)
-{
-    token_t *prev = current->prev;
-
-    if (!(current->prev && current->prev->arg))
-        return;
-    current->prev = prev->prev;
-    if (current->prev)
-        current->prev->next = current;
-    else
-        *pipeline->token_list = current;
-    free_node(prev);
-}
-
-static void delete_node_backslash(pipeline_t *pipeline, token_t *current)
+static void delete_node_backslash(token_t **head, token_t *current)
 {
     token_t *save;
 
-    delete_head(pipeline, current);
-    save = current->next;
-    current->next = save->next;
-    if (current->next)
-        current->next->prev = current;
-    free_node(save);
-    if (current->next == NULL || current->next->sep)
-        return;
-    save = current->next;
-    current->next = save->next;
-    if (current->next)
-        current->next->prev = current;
-    free_node(save);
+    if (current->prev && current->prev->arg) {
+        save = current->prev->prev;
+        free_node(current->prev);
+        if (save)
+            save->next = current;
+        current->prev = save;
+    }
+    save = current->next->next;
+    if (current->next->sep && save && save->arg) {
+        save = save->next;
+        free_node(current->next->next);
+    }
+    free_node(current->next);
+    current->next = save;
+    if (save)
+        save->prev = current;
+    if (current->prev == 0)
+        *head = current;
 }
 
-static void reset_inib_index(pipeline_t *pipeline)
+static void reset_inib_index(token_t *current)
 {
     int index = 0;
-    token_t *current = *pipeline->token_list;
 
-    for (; current; current = current->next) {
-        current->index = index;
-        index++;
-    }
+    if (current->prev)
+        index = current->prev->index + 1;
+    current->index = index;
+    for (current = current->next; current; current = current->next)
+        current->index = current->prev->index + 1;
 }
 
-static int backslash(pipeline_t *pipeline, token_t **head)
+static int backslash(token_t **head)
 {
     token_t *current = *head;
     int new_len = 0;
@@ -148,8 +139,8 @@ static int backslash(pipeline_t *pipeline, token_t **head)
     current->arg = malloc(new_len + 1);
     current->arg[0] = '\0';
     concat_arg(current);
-    delete_node_backslash(pipeline, current);
-    reset_inib_index(pipeline);
+    delete_node_backslash(head, current);
+    reset_inib_index(current);
     return 0;
 }
 
@@ -163,7 +154,7 @@ int inibitors(pipeline_t *pipeline, garbage_t *garbage)
     current = *pipeline->token_list;
     for (; current; current = current->next) {
         if (current->sep == '\\')
-            return_value = backslash(pipeline, &current);
+            return_value = backslash(&current);
         if (current->sep == '\"')
             return_value = string(&current);
         if (return_value) {

@@ -26,6 +26,8 @@ static void analyse_input(getline_t *getmy, char **line, history_t **tmp,
         case KEY_BACKSPACE:
         case KEY_SUPPR:
             return is_del(line, *tmp, getmy);
+        case KEY_TAB:
+            return is_tab(line, *tmp, getmy);
         default:
             break;
     }
@@ -109,6 +111,9 @@ static getline_t *init_getline(getline_t *getmy)
     getmy->cursor = 0;
     getmy->cursor_up = 0;
     getmy->clear = 1;
+    getmy->previous_clear = 1;
+    getmy->tab = -1;
+    getmy->word = NULL;
     return getmy;
 }
 
@@ -137,14 +142,8 @@ int my_getline_interact(char **line, history_t **hist)
 
 int my_getline(char **line, size_t *n, history_t **hist, FILE *stream)
 {
-    char *str = NULL;
-    int ret = 0;
-
     if (isatty(0) == 1)
         return my_getline_interact(line, hist);
-    else {
-        ret = (int) getline(&str, n, stream);
-        *line = str;
-        return ret;
-    }
+    else
+        return (int) getline(line, n, stream);
 }

@@ -32,7 +32,7 @@ token_t *check_alias(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
         return token;
     for (; current; current = current->next) {
         if (my_strcmp(current->name, token->arg) == 0) {
-            return insert_node(token, current->com, 0, pipeline);
+            return insert_node(token, current->com, garbage, pipeline);
         }
     }
     return token;
@@ -70,7 +70,7 @@ static void add_alias(char *name, char *value,
     garbage_t *garbage, alias_t *add)
 {
     add->name = my_strdup(name);
-    add->com = value;
+    add->com = my_strdup(value);
     add->next = garbage->alias;
     garbage->alias = add;
     garbage->return_value = 0;
@@ -86,27 +86,34 @@ static int already_exist_alias(char *var, char *value,
             free(current->name);
             free(current->com);
             current->name = my_strdup(var);
-            current->com = value;
+            current->com = my_strdup(value);
             return 1;
         }
     }
     return 0;
 }
 
-int set_alias(char *, char ***, garbage_t *garbage, pipeline_t *pip)
+int set_alias(char *str, char ***, garbage_t *garbage, pipeline_t *)
 {
     alias_t *add;
-    char *name = pick_token(pip, 1);
-    char *value = pick_token(pip, 2);
+    char **command = my_str_to_array(str, " ");
+    char *name = command[1];
 
-    if (name == NULL)
+    if (name == NULL) {
+        free_array(command);
         return print_alias(garbage);
-    if (value == NULL)
+    }
+    if (command[2] == NULL) {
+        free_array(command);
         return 0;
-    if (already_exist_alias(name, value, garbage) == 1)
+    }
+    if (already_exist_alias(name, command[2], garbage) == 1) {
+        free_array(command);
         return 0;
+    }
     add = malloc(sizeof(alias_t));
-    add_alias(name, value, garbage, add);
+    add_alias(name, command[2], garbage, add);
+    free_array(command);
     return 0;
 }
 
@@ -117,10 +124,6 @@ int unalias(char *str, char ***, garbage_t *garbage, pipeline_t *)
     char **command = my_str_to_array(str, " ");
     char *name = command[1];
 
-    if (command[0] == NULL || command[1] == NULL) {
-        fprintf(stderr, "unalias: Too few arguments.\n");
-        return 1;
-    }
     for (; current != NULL; current = current->next) {
         if (strcmp(name, current->name) == 0) {
             delete_alias(current, prev, garbage);

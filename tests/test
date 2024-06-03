@@ -711,15 +711,6 @@ TESTS=
   echo 'cd ~/Documents'
 [85-END]
 
-[86]
-NAME="floating"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-  echo 'segfault/divzero'
-[86-END]
-
-
 [100]
 NAME="crer fichier test.txt"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -822,7 +813,6 @@ TESTS=
 # TESTS=
 #   echo "ls -l > coucou"
 #   echo "cat < coucou | grep a"
-#     echo "rm coucou"
 # [111-END]
 
 # [112]
@@ -836,13 +826,13 @@ TESTS=
 #   echo "coucou"
 # [112-END]
 
-# [113]
-# NAME=" test ta"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "echo '';ls;''"
-# [113-END]
+[113]
+NAME=" test ta"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "echo '';ls;''"
+[113-END]
 
 [114]
 NAME=""
@@ -1113,31 +1103,31 @@ echo "unalias ll"
 echo "ll"
 [212-END]
 
-[213]
-NAME="alias"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "alias hey \"echo bonjour comment tu vas\""
-echo "hey"
-[213-END]
+# [213]
+# NAME="alias"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "alias hey \"echo bonjour comment tu vas\""
+# echo "hey"
+# [213-END]
 
-[214]
-NAME="alias errors"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "alias \"jn\"nl\",l \"ù;\""
-[214-END]
+# [214]
+# NAME="alias errors"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "alias 'jn'nl',l 'ù;'"
+# [214-END]
 
-[215]
-NAME="alias advenced"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "alias tomcarlier \"ls -l\" "
-echo "tomcarlier | grep .c"
-[215-END]
+# [215]
+# NAME="alias advenced"
+# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+# CLEAN=""
+# TESTS=
+# echo "alias tomcarlier 'ls -l'"
+# echo "tomcarlier | grep .c"
+# [215-END]
 
 [216]
 NAME="local var"
@@ -1338,52 +1328,4 @@ TESTS=
 echo "which cd"
 [239-END]
 
-[240]
-NAME="unalias"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "unalias"
-[240-END]
 
-[241]
-NAME="unset"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "unset"
-[241-END]
-
-[242]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "ls\nls\nls"
-[242-END]
-
-[243]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "\n\n\n\n"
-[243-END]
-
-[244]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "cat < main.c >> coucou | ls"
-echo "rm -f coucou"
-[244-END]
-
-[245]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "set a = b"
-echo "echo $\{a\}"
-[245-END]

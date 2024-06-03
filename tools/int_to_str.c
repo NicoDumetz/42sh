@@ -40,19 +40,21 @@ int my_intlen(long nb)
 
 char *int_to_str(int nb)
 {
-    char *buffer;
+    char *buffer = malloc(my_intlen(nb) + 1);
     int i = 0;
 
-    buffer = malloc(my_intlen(nb) + 1);
-    if (buffer == NULL)
-        return NULL;
     if (nb == 0) {
         buffer[i] = '0';
-        i++;
+        buffer[i + 1] = '0';
+        i += 2;
     } else {
-        for (; nb > 0 && i < 100; i++) {
+        for (; nb != 0 && i < 100; i++) {
             buffer[i] = '0' + nb % 10;
             nb /= 10;
+        }
+        if (i == 1) {
+            buffer[i] = '0';
+            i++;
         }
     }
     buffer[i] = '\0';
