@@ -44,6 +44,7 @@ SRC = main.c \
 	  src/history/display_history.c \
 	  src/history/history_command.c \
 	  src/history/history_arrows.c \
+	  src/history/free_history.c \
 	  src/history/my_str_to_minishell_array.c \
 	  src/history/my_str_to_minishell_array2.c \
 	  src/history/my_str_to_minishell_array3.c \
@@ -51,6 +52,7 @@ SRC = main.c \
 	  src/input_management/my_getline.c \
 	  src/input_management/non_canonical_mode.c \
 	  src/input_management/command_management.c \
+	  src/input_management/display_command.c \
 	  src/globbings/assemble_hard.c \
 	  src/globbings/assemble_simple.c \
 	  src/cleanup.c \

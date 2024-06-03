@@ -100,7 +100,7 @@ int main(int, char **, char **env)
     init_main(&garbage, &history, &str, &env);
     while (my_getline(&str, &len, garbage.history, stdin) != -1) {
         garbage = init_garbage(&str, &garbage);
-        add_history(str, garbage.history);
+        add_history(&str, garbage.history);
         if (garbage.return_value == 0)
             process_execution(&garbage, garbage.pipeline);
     }

@@ -96,6 +96,18 @@ typedef struct lexing_tab_s {
     int (*lexing)(garbage_t *, token_t **);
 } lexing_tab_t;
 
+typedef struct getline_s {
+    size_t n;
+    int ch;
+    int key;
+    int len_line;
+    int len_tmp;
+    int cursor;
+    int cursor_up;
+    int rest;
+    int clear;
+} getline_t;
+
 extern redirection_tab_t r_tab[];
 
 extern lexing_tab_t l_tab[];
@@ -177,36 +189,38 @@ int var_len(garbage_t *garbage);
 
 void ttycheck(void);
 
-void add_history(char *command, history_t **history);
+void add_history(char **command, history_t **history);
 int history_command(char *str, char ***env, garbage_t *garbage);
 void clear_history(history_t **history);
 void show_reverse_history(history_t **history, int *status_flags);
 void show_no_param_history(history_t **history, int *status_flags);
 void show_history(history_t **history);
 void show_history_num(int num, history_t **history);
-int history_up(history_t **tmp, history_t **history, int *cursor);
-int history_down(history_t **tmp, int *cursor);
+void history_up(history_t **tmp, history_t **history, getline_t *getmy);
+void history_down(history_t **tmp, getline_t *getmy);
 
 char **my_str_to_minishell_array(char const *str, char *separateur);
 int my_c_redi_pipe(char c);
 int my_c_pipe(char c);
+int my_c_esp(char c);
 void add_pipe(char **tab, int **index, char const *str, int *h);
+void add_esp(char **tab, int **index, char const *str, int *h);
 int my_c_redi_r(char c);
 int my_c_redi_g(char c);
 void add_redi_r(char **tab, int **index, char const *str, int *h);
 void add_redi_g(char **tab, int **index, char const *str, int *h);
 
-void display_command(char *line, history_t *tmp, int cursor_mv, int *clear);
+void display_command(char *line, history_t *tmp, getline_t *getmy);
 int choose_command(char **line, history_t **tmp, int exit);
-void update_command(int ch, char **line, history_t *tmp, int cursor);
+void update_command(int ch, char **line, history_t *tmp, getline_t *getmy);
 void delete_char(char *line, int len, int index);
 void insert_char(char *line, int ch, int len, int index);
 int my_getline(char **line, size_t *n, history_t **hist, FILE *stream);
 void set_non_canonical_mode(void);
-int is_end(char **line, history_t *tmp, int *cursor_mv, int *line_to_clear);
-int is_del(char **line, history_t *tmp, int *cursor, int sp_key);
-int arrow_right(int *cursor);
-int arrow_left(history_t *tmp, char *line, int *cursor);
+int is_end(char **line, history_t *tmp, getline_t *getmy);
+void is_del(char **line, history_t *tmp, getline_t *getmy);
+void arrow_right(getline_t *getmy);
+void arrow_left(history_t *tmp, char *line, getline_t *getmy);
 
 token_t *check_alias(token_t *token, garbage_t *garbage, pipeline_t *pipeline);
 void reset_index(pipeline_t *pip);
@@ -218,4 +232,6 @@ void sigint_handler(void);
 int my_intlen(long nb);
 char *int_to_str(int nb);
 int repeat(char *str, char ***env, garbage_t *garbage);
+
+void free_history(history_t **history);
 #endif
