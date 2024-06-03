@@ -111,6 +111,7 @@ int main(int argc, char **argv, char **env)
     history_t *history = NULL;
 
     env = copy_env(env);
+    signal(SIGINT, sigint_handler);
     init_main(&garbage, &history, &str, &env);
     while (my_getline(&str, &len, garbage.history) != -1) {
         garbage = init_garbage(&str, &garbage);

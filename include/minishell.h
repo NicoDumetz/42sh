@@ -205,9 +205,12 @@ int is_end(char **line, int len, history_t *tmp, int *cursor_mv);
 int is_del(char **line, history_t *tmp, int *cursor, int sp_key);
 int arrow_right(int *cursor);
 int arrow_left(history_t *tmp, char *line, int *cursor);
+
 token_t *check_alias(token_t *token, garbage_t *garbage, pipeline_t *pipeline);
 void reset_index(pipeline_t *pip);
 void format_variable(garbage_t *garbage, pipeline_t **pip);
 void cleanup(garbage_t *g);
 int check_alias_onpip(pipeline_t *pipeline);
+
+void sigint_handler(int signum);
 #endif
