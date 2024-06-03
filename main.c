@@ -126,6 +126,9 @@ int main(int argc, char **argv, char **env)
     // garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
         garbage = init_garbage(&str, &env);
+        lexing_features(&garbage, garbage.token_list);
+        if (garbage.return_value < 0)
+            continue;
         free_token_list(garbage.token_list);
         // insert_spaces(&str);
         // travel_command(str, &env, &garbage);
