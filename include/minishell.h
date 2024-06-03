@@ -251,4 +251,5 @@ int repeat(char *str, char ***env, garbage_t *garbage);
 
 void free_history(history_t **history);
 int get_prompt_size(void);
+char *pick_token(pipeline_t *pip, int who);
 #endif

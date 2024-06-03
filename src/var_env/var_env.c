@@ -60,18 +60,18 @@ token_t *manage_variable(token_t *token, garbage_t *garbage,
     int env;
 
     if (token->arg) {
-            ret = 0;
-            env = 0;
-            if (check_alias_onpip(pipeline) == 0)
-                token = check_alias(token, garbage, pipeline);
-            if (token->arg[0] == '$') {
-                ret = check_local(token, garbage, pipeline);
-                env = check_varenv(token, garbage, pipeline);
-            }
-            if (ret == 1 && env == 1) {
-                fprintf(stderr, "%s: Undefined variable.\n", token->arg + 1);
-                garbage->execute = 1;
-            }
+        ret = 0;
+        env = 0;
+        if (check_alias_onpip(pipeline) == 0)
+            token = check_alias(token, garbage, pipeline);
+        if (token->arg[0] == '$') {
+            ret = check_local(token, garbage, pipeline);
+            env = check_varenv(token, garbage, pipeline);
+        }
+        if (ret == 1 && env == 1) {
+            fprintf(stderr, "%s: Undefined variable.\n", token->arg + 1);
+            garbage->execute = 1;
+        }
     }
     return token;
 }
