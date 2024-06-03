@@ -12,8 +12,20 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-feature_tab_t f_tab[] {
-    {'|', (*pipe_feature)},
-    {';', (*semi_col_feature)},
+redirection_tab_t r_tab[] = {
+    {';', parsing_function},
     {0, 0}
-}
+};
+
+lexing_tab_t l_tab[] = {
+    // {'`', lexing = &backtick_function},
+    // {'(', lexing = &backtick_function},
+    // {')', lexing = &backtick_function},
+    {'*', globbings_function},
+    {'?', globbings_function},
+    {'[', globbings_function},
+    {']', globbings_function},
+    // {'\\', lexing = &inhibitors_function},
+    // {'"', lexing = &inhibitors_function},
+    {0, 0}
+};

@@ -9,7 +9,7 @@
 
 void manage_double(char *str, char *new_str, int *index, int *i)
 {
-    if (str[*i] != ';' && str[*i] != ')' && str[*i] != '(' &&
+    if (str[*i] != ';' && str[*i] != ")" && str[*i] != "(" &&
         str[*i + 1] != '\0' && (str[*i] == str[*i + 1])) {
         (*index)++;
         new_str[*index] = str[*i + 1];
