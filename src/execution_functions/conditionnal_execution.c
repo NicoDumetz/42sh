@@ -72,6 +72,7 @@ static pipeline_t *skip_command(pipeline_t *pipeline)
 pipeline_t *execute_and(garbage_t *garbage, pipeline_t *pipeline)
 {
     char **command;
+    int status = 1;
 
     if (!pipeline->token_list) {
         garbage->return_value = EXIT_SUCCESS;
@@ -79,9 +80,12 @@ pipeline_t *execute_and(garbage_t *garbage, pipeline_t *pipeline)
     }
     command = token_to_str_array(*pipeline->token_list,
     get_token_list_size(*pipeline->token_list));
-    if (check_built(command, garbage) == 1)
+    if (check_built(command, garbage, pipeline) == 1)
         return pipeline;
-    garbage->return_value = new_process(pipeline, command, *garbage->env);
+    garbage->return_value = new_process(pipeline, command,
+        *garbage->env, garbage);
+    waitpid(pipeline->pid, &status, 0);
+    garbage->return_value = return_status(status);
     if (garbage->return_value != 0) {
         pipeline = skip_command(pipeline);
     }
@@ -91,6 +95,7 @@ pipeline_t *execute_and(garbage_t *garbage, pipeline_t *pipeline)
 pipeline_t *execute_or(garbage_t *garbage, pipeline_t *pipeline)
 {
     char **command;
+    int status = 1;
 
     if (!pipeline->token_list) {
         garbage->return_value = EXIT_SUCCESS;
@@ -98,9 +103,12 @@ pipeline_t *execute_or(garbage_t *garbage, pipeline_t *pipeline)
     }
     command = token_to_str_array(*pipeline->token_list,
     get_token_list_size(*pipeline->token_list));
-    if (check_built(command, garbage) == 1)
+    if (check_built(command, garbage, pipeline) == 1)
         return pipeline;
-    garbage->return_value = new_process(pipeline, command, *garbage->env);
+    garbage->return_value = new_process(pipeline, command,
+        *garbage->env, garbage);
+    waitpid(pipeline->pid, &status, 0);
+    garbage->return_value = return_status(status);
     if (garbage->return_value == 0) {
         pipeline = skip_command(pipeline);
     }
