@@ -13,7 +13,7 @@
 static char *check_var(char *line, char *var, garbage_t *)
 {
     char name[my_strlen(line)];
-    char *value = malloc(sizeof(char) * my_strlen(line));
+    char *value = gmalloc(sizeof(char) * my_strlen(line));
     int i;
     int k;
 
@@ -30,7 +30,6 @@ static char *check_var(char *line, char *var, garbage_t *)
     value[k] = '\0';
     if (strcmp(var, name) == 0)
         return value;
-    free(value);
     return NULL;
 }
 

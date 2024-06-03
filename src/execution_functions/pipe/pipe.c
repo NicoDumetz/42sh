@@ -81,7 +81,6 @@ int pipe_handling(char *str, char ***, garbage_t *garbage)
     fork_pipes(pipes, pipeline, num_pipe, garbage);
     last_redirect(num_pipe, pipeline);
     reset_fd(garbage->save_in, garbage->save_out);
-    freeing(0, pipes);
     return result;
 }
 

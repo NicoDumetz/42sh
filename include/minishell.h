@@ -25,11 +25,6 @@
     #define KEY_BACKSPACE 6
     #define KEY_SUPPR 7
 
-typedef struct collector_s {
-    void *data;
-    struct collector_s *next;
-} collector_t;
-
 typedef struct history_s {
     int id;
     char *time;
@@ -163,7 +158,6 @@ int get_token_list_size(token_t *token);
 char **token_to_str_array(token_t *start, int end);
 void insert_spaces(char **input);
 void freeing(char *str, char **board);
-void *gmalloc(size_t size);
 void format_str(char *str);
 int function(char *str, char ***env);
 int change_dir(char *str, char ***env,

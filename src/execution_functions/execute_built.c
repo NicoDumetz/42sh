@@ -19,7 +19,6 @@ static int execute_builtins(
 
     garbage->return_value =
         built[i].built(str, garbage->env, garbage, pipeline);
-    free(str);
     return 1;
 }
 
@@ -41,7 +40,6 @@ static int execute_builtins_on_fork(
 
     if (strcmp("repeat", command[0]) == 0) {
         repeat_built(str, env, garbage, pipeline);
-        free(str);
         exit(0);
     }
     if (strcmp(command[0], "env") == 0 ||
@@ -49,10 +47,8 @@ static int execute_builtins_on_fork(
         for (int i = 0; (*env)[i]; i++) {
             printf("%s\n", (*env)[i]);
         }
-        free(str);
         exit(0);
     }
-    free(str);
     exit(1);
     return 1;
 }
