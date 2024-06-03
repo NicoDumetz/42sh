@@ -42,14 +42,14 @@ static void reverse_pipeline(pipeline_t **commands)
     *commands = prev;
 }
 
-static bool check_sep(char c)
+static bool check_sep(char *str, int i, int index)
 {
-    char item[] = ";|><&";
+    char item[] = ";|><&\n";
 
-    if (c == '\0')
-        return true;
-    for (int i = 0; item[i]; i++) {
-        if (item[i] == c)
+    if (i == index)
+        return false;
+    for (int j = 0; item[j]; j++) {
+        if (item[j] == str[i])
             return true;
     }
     return false;
@@ -122,9 +122,9 @@ pipeline_t **init_pipeline(char *str)
     if (!pipeline)
         return NULL;
     *pipeline = NULL;
-    for (i = 0; i <= strlen(str) && str[i] != '\n'; i++) {
+    for (i = 0; i <= strlen(str); i++) {
         skip_parenthesis(str, &i);
-        if (check_sep(str[i])) {
+        if (check_sep(str, i, index)) {
             node = build_node(str, &i, index);
             node->next = *pipeline;
             *pipeline = node;
