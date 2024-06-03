@@ -20,7 +20,5 @@ redirection_tab_t r_tab[] = {
     {"<", execute_redirection},
     {"<<", execute_redirection},
     {">>", execute_redirection},
-    {"&&", execute_and},
-    {"||", execute_or},
     {0, 0}
 };
