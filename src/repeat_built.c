@@ -100,7 +100,7 @@ int find_repeat(pipeline_t *pipeline, garbage_t *garbage)
 }
 
 int repeat_built(
-    char *str, char ***, garbage_t *garbage, pipeline_t *pipeline)
+    char *, char ***, garbage_t *garbage, pipeline_t *pipeline)
 {
     int r = find_repeat(pipeline, garbage);
 
