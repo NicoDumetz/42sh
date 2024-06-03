@@ -55,10 +55,11 @@ SRC = main.c \
 	  src/globbings/assemble_simple.c \
 	  src/cleanup.c \
 	  src/handle_signal.c \
+	  src/which_where.c \
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -Llib -lmy -Iinclude -g
+CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
 
 NAME = 42sh
 

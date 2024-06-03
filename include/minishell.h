@@ -13,6 +13,8 @@
     #include <stdbool.h>
     #include <glob.h>
     #include <stdio.h>
+    #include <dirent.h>
+    #include <sys/stat.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
     #define KEY_UP 1
@@ -117,9 +119,9 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline);
 pipeline_t **init_pipeline(char *str);
 
 void process_execution(garbage_t *garbage, pipeline_t **pipeline);
-
+int where_functions(char *str, char ***env, garbage_t *garbage);
 void free_token_list(token_t **token_list);
-
+int which_functions(char *str, char ***env, garbage_t *garbage);
 void free_pipeline(pipeline_t **pipeline);
 int exit_built(char *, char ***, garbage_t *garbage);
 void free_token(token_t *token);
@@ -212,5 +214,5 @@ void format_variable(garbage_t *garbage, pipeline_t **pip);
 void cleanup(garbage_t *g);
 int check_alias_onpip(pipeline_t *pipeline);
 
-void sigint_handler(int signum);
+void sigint_handler(void);
 #endif

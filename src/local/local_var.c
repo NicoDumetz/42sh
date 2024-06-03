@@ -22,6 +22,7 @@ static int print_local(garbage_t *garbage)
     for (; current; current = current->next) {
         printf("%s\t%s\n", current->var, current->value);
     }
+    return 0;
 }
 
 int check_local(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
@@ -94,14 +95,14 @@ static int already_exist_local(char *var, char *value,
     return 0;
 }
 
-int set_local(char *str, char ***env, garbage_t *garbage)
+int set_local(char *str, char ***, garbage_t *garbage)
 {
     var_t *add;
     char **command = my_str_to_array(str, " ");
     char *var = my_strdup(command[1]);
     char *value;
-    int len = var_len(garbage);
 
+    var_len(garbage);
     if (var == NULL) {
         free_array(command);
         return print_local(garbage);
@@ -117,7 +118,7 @@ int set_local(char *str, char ***env, garbage_t *garbage)
     return add_local(var, value, garbage, add);
 }
 
-int unset_var(char *str, char ***env, garbage_t *garbage)
+int unset_var(char *str, char ***, garbage_t *garbage)
 {
     var_t *current = garbage->local;
     var_t *prev = NULL;

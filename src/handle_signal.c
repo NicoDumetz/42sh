@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include "../include/minishell.h"
 
-void sigint_handler(int signum)
+void sigint_handler(void)
 {
     if (isatty(STDIN_FILENO))
         write(1, "\n$> ", 4);

@@ -10,7 +10,6 @@
 char *token_to_str(token_t *start)
 {
     char *str = malloc_str(0);
-    int i = 0;
 
     for (; start; start = start->next) {
         if (start->sep) {

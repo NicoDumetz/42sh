@@ -66,7 +66,7 @@ static int get_id_key(int c)
     return 0;
 }
 
-static int use_input(char **line, history_t **tmp, int len, history_t **hist)
+static int use_input(char **line, history_t **tmp, history_t **hist)
 {
     int ch = getchar();
     int sp_key = get_id_key(ch);
@@ -92,13 +92,13 @@ static int manage_input(char **line, history_t **tmp, size_t *n, history_t
 {
     int len = my_strlen(*line);
 
-    if (len > *n - 2) {
+    if (len > (int) *n - 2) {
         *n += 120;
         *line = realloc(*line, *n * sizeof(char));
         if (*line == NULL)
             return -1;
     }
-    return use_input(line, tmp, len, hist);
+    return use_input(line, tmp, hist);
 }
 
 int my_getline_interact(char **line, size_t *n, history_t **hist)

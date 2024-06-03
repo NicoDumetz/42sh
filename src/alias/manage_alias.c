@@ -31,8 +31,6 @@ int len_alias(garbage_t *garbage)
 {
     alias_t *current = garbage->alias;
     int compt = 0;
-    alias_t *prev = NULL;
-    alias_t *next;
 
     if (current == NULL)
         return 0;
@@ -40,7 +38,6 @@ int len_alias(garbage_t *garbage)
         compt++;
         if (compt > 1000)
             del_alias(current->name, garbage);
-        prev = current;
     }
     return compt;
 }
@@ -49,7 +46,7 @@ int check_alias_onpip(pipeline_t *pipeline)
 {
     token_t *current = *pipeline->token_list;
 
-    for (int i = 0; current; current = current->next) {
+    for (; current; current = current->next) {
         if (current->arg && (strcmp(current->arg, "alias") == 0 ||
             strcmp(current->arg, "unalias") == 0))
             return 1;
