@@ -10,6 +10,6 @@
 
 void sigint_handler(void)
 {
-    my_printf("\n");
-    ttycheck();
+    if (isatty(STDIN_FILENO))
+        write(1, "\n$> ", 4);
 }

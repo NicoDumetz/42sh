@@ -8,59 +8,70 @@
 #include "stdio.h"
 #include "minishell.h"
 
-static int end_tmp(char **line, history_t *tmp, getline_t *getmy)
+static int end_tmp(char **line, history_t *tmp, int cursor_mv, int *clear)
 {
-    tmp->command = realloc(tmp->command, (getmy->len_tmp + 2) * sizeof(char));
+    int len = my_strlen(tmp->command);
+
+    tmp->command = realloc(tmp->command, (len + 2) * sizeof(char));
     if (tmp->command == NULL)
         return -1;
-    tmp->command[getmy->len_tmp] = '\n';
-    tmp->command[getmy->len_tmp + 1] = '\0';
-    display_command(*line, tmp, getmy);
-    return getmy->len_tmp + 1;
+    tmp->command[len] = '\n';
+    tmp->command[len + 1] = '\0';
+    display_command(*line, tmp, cursor_mv, clear);
+    *clear = 1;
+    return len + 1;
 }
 
-int is_end(char **line, history_t *tmp, getline_t *getmy)
+int is_end(char **line, history_t *tmp, int *cursor_mv, int *line_to_clear)
 {
+    int len;
+
+    *cursor_mv = 0;
     if (tmp != NULL) {
-        return end_tmp(line, tmp, getmy);
+        return end_tmp(line, tmp, *cursor_mv, line_to_clear);
     } else {
-        (*line)[getmy->len_line] = '\n';
-        (*line)[getmy->len_line + 1] = '\0';
-        display_command(*line, tmp, getmy);
-        return getmy->len_line + 1;
+        len = my_strlen(*line);
+        (*line)[len] = '\n';
+        (*line)[len + 1] = '\0';
+        display_command(*line, tmp, *cursor_mv, line_to_clear);
+        *line_to_clear = 1;
+        return len + 1;
     }
 }
 
-static void choose_del(char *str, getline_t *getmy)
+static void choose_del(char *str, int sp_key, int *cursor)
 {
     int len = my_strlen(str);
 
-    if (getmy->key == KEY_SUPPR && getmy->cursor != 0) {
-        delete_char(str, len, len - getmy->cursor);
-        getmy->cursor--;
-    } else if (getmy->key == KEY_BACKSPACE)
-        delete_char(str, len, len - getmy->cursor - 1);
+    if (sp_key == KEY_SUPPR && *cursor != 0) {
+        delete_char(str, len, len - *cursor);
+        (*cursor)--;
+    } else if (sp_key == KEY_BACKSPACE)
+        delete_char(str, len, len - *cursor - 1);
 }
 
-void is_del(char **line, history_t *tmp, getline_t *getmy)
+int is_del(char **line, history_t *tmp, int *cursor, int sp_key)
 {
     if (tmp != NULL)
-        choose_del(tmp->command, getmy);
+        choose_del(tmp->command, sp_key, cursor);
     if (tmp == NULL)
-        choose_del(*line, getmy);
+        choose_del(*line, sp_key, cursor);
+    return *cursor;
 }
 
-void arrow_right(getline_t *getmy)
+int arrow_right(int *cursor)
 {
-    if (getmy->cursor > 0)
-        getmy->cursor--;
+    if (*cursor > 0)
+        (*cursor)--;
+    return *cursor;
 }
 
-void arrow_left(history_t *tmp, char *line, getline_t *getmy)
+int arrow_left(history_t *tmp, char *line, int *cursor)
 {
     if (tmp != NULL) {
-        if (getmy->cursor < getmy->len_tmp)
-            getmy->cursor++;
-    } else if (getmy->cursor < my_strlen(line))
-        getmy->cursor++;
+        if (*cursor < my_strlen(tmp->command))
+            (*cursor)++;
+    } else if (*cursor < my_strlen(line))
+        (*cursor)++;
+    return *cursor;
 }

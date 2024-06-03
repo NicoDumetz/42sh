@@ -119,15 +119,14 @@ static void format_command(char *command, char **pretty_command)
     free(command_tab);
 }
 
-void add_history(char **command, history_t **history)
+void add_history(char *command, history_t **history)
 {
     char *pretty_command = NULL;
 
-    format_command(*command, &pretty_command);
+    format_command(command, &pretty_command);
     if (pretty_command == NULL || my_strlen(pretty_command) == 0)
         return;
     search_same_command(pretty_command, history);
     free_excess_node(history);
     add_node_history(pretty_command, history);
-    *command = my_strdup(pretty_command);
 }

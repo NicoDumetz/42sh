@@ -13,5 +13,4 @@ void cleanup(garbage_t *g)
 {
     free_alias(g);
     free_var(g);
-    free_history(g->history);
 }

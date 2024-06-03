@@ -11,24 +11,27 @@
 #include <string.h>
 #include <unistd.h>
 
-static void analyse_input(getline_t *getmy, char **line, history_t **tmp,
+static int analyse_input(int key, char **line, history_t **tmp,
     history_t **hist)
 {
-    switch (getmy->key) {
+    static int cursor = 0;
+
+    switch (key) {
         case KEY_UP:
-            return history_up(tmp, hist, getmy);
+            return history_up(tmp, hist, &cursor);
         case KEY_DOWN:
-            return history_down(tmp, getmy);
+            return history_down(tmp, &cursor);
         case KEY_RIGHT:
-            return arrow_right(getmy);
+            return arrow_right(&cursor);
         case KEY_LEFT:
-            return arrow_left(*tmp, *line, getmy);
+            return arrow_left(*tmp, *line, &cursor);
         case KEY_BACKSPACE:
         case KEY_SUPPR:
-            return is_del(line, *tmp, getmy);
+            return is_del(line, *tmp, &cursor, key);
         default:
             break;
     }
+    return cursor;
 }
 
 static int is_arrow(void)
@@ -63,82 +66,65 @@ static int get_id_key(int c)
     return 0;
 }
 
-static int ctrl_d(void)
+static int use_input(char **line, history_t **tmp, history_t **hist)
 {
-    my_printf("exit\n");
-    return -1;
-}
+    int ch = getchar();
+    int sp_key = get_id_key(ch);
+    static int cursor_mv = 0;
+    static int line_to_clear = 1;
 
-static int use_input(char **line, history_t **tmp, history_t **hist,
-    getline_t *getmy)
-{
-    getmy->ch = getchar();
-    getmy->key = get_id_key(getmy->ch);
-    if (getmy->ch == 4)
-        return ctrl_d();
-    if (getmy->ch == '\n')
-        return is_end(line, *tmp, getmy);
-    if (getmy->key == 0)
-        update_command(getmy->ch, line, *tmp, getmy);
+    if (ch == 4) {
+        cursor_mv = 0;
+        return -1;
+    }
+    if (ch == '\n')
+        return is_end(line, *tmp, &cursor_mv, &line_to_clear);
+    if (sp_key == 0)
+        update_command(ch, line, *tmp, cursor_mv);
     else
-        analyse_input(getmy, line, tmp, hist);
-    display_command(*line, *tmp, getmy);
+        cursor_mv = analyse_input(sp_key, line, tmp, hist);
+    display_command(*line, *tmp, cursor_mv, &line_to_clear);
     return 0;
 }
 
-static int manage_input(char **line, history_t **tmp, getline_t *getmy,
-    history_t **hist)
+static int manage_input(char **line, history_t **tmp, size_t *n, history_t
+    **hist)
 {
-    getmy->len_line = my_strlen(*line);
-    if (*tmp != NULL)
-        getmy->len_tmp = my_strlen((*tmp)->command);
-    if (getmy->len_line > (int) getmy->n - 2) {
-        getmy->n += 120;
-        *line = realloc(*line, getmy->n * sizeof(char));
+    int len = my_strlen(*line);
+
+    if (len > (int) *n - 2) {
+        *n += 120;
+        *line = realloc(*line, *n * sizeof(char));
         if (*line == NULL)
             return -1;
     }
-    return use_input(line, tmp, hist, getmy);
+    return use_input(line, tmp, hist);
 }
 
-static getline_t *init_getline(getline_t *getmy)
-{
-    getmy->n = 120;
-    getmy->len_line = 0;
-    getmy->len_tmp = 0;
-    getmy->cursor = 0;
-    getmy->cursor_up = 0;
-    getmy->clear = 1;
-    return getmy;
-}
-
-int my_getline_interact(char **line, history_t **hist)
+int my_getline_interact(char **line, size_t *n, history_t **hist)
 {
     int exit;
     history_t *tmp = NULL;
-    getline_t *getmy = malloc(sizeof(getline_t));
+    int clear = 1;
 
-    if (getmy == NULL)
-        return -1;
-    init_getline(getmy);
-    *line = malloc(getmy->n * sizeof(char));
+    *n = 120;
+    *line = malloc(*n * sizeof(char));
     if (*line == NULL)
         return -1;
     *line[0] = '\0';
-    display_command(*line, tmp, getmy);
+    display_command(*line, tmp, 0, &clear);
     while (1) {
-        exit = manage_input(line, &tmp, getmy, hist);
+        exit = manage_input(line, &tmp, n, hist);
         if (exit != 0)
             break;
     }
-    free(getmy);
     return choose_command(line, &tmp, exit);
 }
 
 int my_getline(char **line, size_t *n, history_t **hist, FILE *stream)
 {
     if (isatty(0) == 1)
-        return my_getline_interact(line, hist);
+        return my_getline_interact(line, n, hist);
     else
         return (int) getline(line, n, stream);
 }
