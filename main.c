@@ -77,13 +77,12 @@ int main(int argc, char **argv, char **env)
     int return_value = 0;
     garbage_t garbage;
 
-    (void)argc;
-    (void)argv;
     env = copy_env(env);
     ttycheck();
     garbage.line = &str;
     garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
+        insert_spaces(&str);
         travel_command(str, &env, &return_value, &garbage);
         ttycheck();
     }

@@ -6,7 +6,6 @@
 ##
 
 SRC = main.c \
-	  src/lexer_parser/lexing.c\
 	  src/cd.c \
 	  src/env.c \
 	  src/setenv.c \
@@ -16,19 +15,13 @@ SRC = main.c \
 	  src/redirection/redirection.c \
 	  src/redirection/redirection_errors.c \
 	  src/command_errors.c\
-	  src/add_separator.c\
-	  src/globbings/globbings.c\
-	  src/globbings/assemble_simple.c\
-	  src/globbings/assemble_hard.c\
-	  tools/tab_len.c\
-	  tools/token_to_str_array.c\
-	  tools/free_token.c
+	  src/add_separator.c
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
+CFLAGS += -Llib -lmy -Iinclude -g
 
-NAME = 42sh
+NAME = mysh
 
 
 all: $(NAME)

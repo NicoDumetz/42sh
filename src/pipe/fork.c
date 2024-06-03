@@ -36,7 +36,7 @@ void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
             exit(EXIT_FAILURE);
         }
         if (pid == 0) {
-            pipe_redirect(i, pipeline);
+            pipe_redirect(i, num_pipe, pipeline);
             exit(fork_execution(pipes[i], garbage->env, pipes, garbage));
         }
         if (i > 0) {

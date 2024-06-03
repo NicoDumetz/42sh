@@ -16,10 +16,10 @@
     #include <stdint.h>
     #include <stddef.h>
     #include <wchar.h>
-typedef int(*fonc_t)();
+typedef int(*fonc)();
 typedef struct disp {
     char c;
-    fonc_t f;
+    fonc f;
 } disp_t;
 long my_print_nbr(long nb);
 int my_intlen(long nb);
