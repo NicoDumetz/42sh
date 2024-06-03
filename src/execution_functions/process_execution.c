@@ -39,7 +39,8 @@ static bool is_node_correct(garbage_t *garbage, pipeline_t *pipeline)
 static bool is_pipeline_correct(garbage_t *garbage, pipeline_t *pipeline)
 {
     for (; pipeline; pipeline = pipeline->next) {
-        if (!strcmp(pipeline->sep, "&") || !strcmp(pipeline->sep, ";") ||
+        if (!strcmp(pipeline->sep, "&") || !strcmp(pipeline->sep, "&&") ||
+            !strcmp(pipeline->sep, ";") ||
             !strcmp(pipeline->sep, "\n") || !pipeline->sep[0])
             continue;
         if (!is_node_correct(garbage, pipeline))
