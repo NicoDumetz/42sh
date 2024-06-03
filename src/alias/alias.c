@@ -21,18 +21,18 @@ static int print_alias(garbage_t *garbage)
     for (; current; current = current->next) {
         printf("%s\t%s\n", current->name, current->com);
     }
+    return 0;
 }
 
-char *check_alias(char *token, garbage_t *garbage)
+token_t *check_alias(token_t *token, garbage_t *garbage)
 {
     alias_t *current = garbage->alias;
 
-    if (token == NULL)
+    if (token == NULL || token->arg == NULL || garbage->alias == NULL)
         return token;
     for (; current; current = current->next) {
-        if (my_strcmp(current->name, token) == 0) {
-            free(token);
-            return my_strdup(current->com);
+        if (my_strcmp(current->name, token->arg) == 0) {
+            return insert_node(token, current->com, garbage);
         }
     }
     return token;
@@ -53,7 +53,7 @@ void free_alias(garbage_t *garbage)
     }
 }
 
-static void delete_alias(alias_t *current, alias_t *prev, garbage_t *garbage)
+void delete_alias(alias_t *current, alias_t *prev, garbage_t *garbage)
 {
     if (prev == NULL) {
         garbage->alias = current->next;
@@ -76,21 +76,39 @@ static void add_alias(char *name, char *value,
     garbage->return_value = 0;
 }
 
+static int already_exist_alias(char *var, char *value,
+    garbage_t *garbage)
+{
+    alias_t *current = garbage->alias;
+
+    for (; current != NULL; current = current->next) {
+        if (strcmp(var, current->name) == 0) {
+            free(current->name);
+            free(current->com);
+            current->name = my_strdup(var);
+            current->com = my_strdup(value);
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int set_alias(char *str, char ***env, garbage_t *garbage)
 {
-    alias_t *add = malloc(sizeof(alias_t));
+    alias_t *add;
     char **command = my_str_to_array(str, " ");
     char *name = my_strdup(command[1]);
     char *value;
 
-    if (add == NULL) {
-        free_array(command);
-        return 1;
-    }
     if (name == NULL) {
         free_array(command);
         return print_alias(garbage);
     }
+    if (already_exist_alias(name, command[2], garbage) == 1) {
+        free_array(command);
+        return 0;
+    }
+    add = malloc(sizeof(alias_t));
     add_alias(name, command[2], garbage, add);
     free_array(command);
     return 0;
