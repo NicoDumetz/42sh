@@ -31,14 +31,14 @@ void supp_garbage(token_t *token, char *true_arg, token_t **head)
             token->prev->next = token;
         else
             *head = token;
-        free_token(&tmp);
+        free_token(tmp);
     }
     if (token->next && token->next->arg) {
         tmp = token->next;
         token->next = tmp->next;
         if (token->next)
             token->next->prev = token;
-        free_token(&tmp);
+        free_token(tmp);
     }
 }
 

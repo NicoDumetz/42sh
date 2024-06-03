@@ -22,7 +22,7 @@ int check_spe_var(token_t *token, pipeline_t *pipeline, garbage_t *garbage)
         token->next->prev = token;
         next = token->next;
         token->next = next->next;
-        free_token(&next);
+        free_token(next);
         insert_node(token, int_to_str(garbage->return_value), 1, pipeline);
         return 1;
     }

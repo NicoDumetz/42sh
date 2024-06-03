@@ -101,14 +101,14 @@ static void on_fork(
     if (node->output != STDOUT_FILENO)
         dup2(node->output, STDOUT_FILENO);
     if (command[0] == NULL || get_command(command, *garbage->env, &path))
-        exit(1);
+        exit(EXIT_FAILURE);
     if (check_built_on_fork(command, garbage->env, node, garbage) != 0)
         return;
     else
         execve(path, command, *garbage->env);
     if (errno == ENOEXEC)
         error_write(path, ": Exec format error. Wrong Architecture.\n");
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 static void reset_in_and_out(pipeline_t *node)
