@@ -128,7 +128,7 @@ static void set_fd_in(char *str, int *i, int *fd_in, int save_out)
     free(name);
 }
 
-int redirection(char *str, char ***env, int save_out)
+int redirection(char *str, char ***env, int save_out, garbage_t *garbage)
 {
     int result;
     int fd_in = -2;
@@ -145,7 +145,7 @@ int redirection(char *str, char ***env, int save_out)
     if (fd_out == -1 || fd_in == -1)
         return 1;
     format_str(str);
-    result = function(str, env);
+    result = function(str, env, garbage);
     close_fd(fd_in, fd_out);
     return result;
 }

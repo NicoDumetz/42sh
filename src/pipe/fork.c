@@ -13,7 +13,7 @@
 static int fork_execution(char *str, char ***env, char **pipes,
     garbage_t *garbage)
 {
-    int return_value = redirection(str, env, garbage->save_out);
+    int return_value = redirection(str, env, garbage->save_out, garbage);
 
     freeing(*garbage->line, garbage->command);
     freeing(0, *garbage->env);

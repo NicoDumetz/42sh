@@ -22,7 +22,7 @@ void freeing(char *str, char **env)
     free(env);
 }
 
-int function(char *str, char ***env)
+int function(char *str, char ***env, garbage_t *garbage)
 {
     if (my_strncmp(str, "cd", 2) == 0)
         return change_dir(str, env);
@@ -32,13 +32,15 @@ int function(char *str, char ***env)
         return delete_env(str, env);
     if (my_strncmp(str, "env", 3) == 0)
         return show_env(*env);
+    if (my_strncmp(str, "history", 7) == 0)
+        return history_command(str, garbage->history);
     return new_process(str, *env);
 }
 
 void ttycheck(void)
 {
     if (isatty(STDIN_FILENO))
-        write(1, "$> ", 3);
+        printf("$> ");
 }
 
 void format_str(char *str)
@@ -76,15 +78,17 @@ int main(int argc, char **argv, char **env)
     size_t len = 0;
     int return_value = 0;
     garbage_t garbage;
+    history_t *history = NULL;
 
+    set_non_canonical_mode();
     env = copy_env(env);
-    ttycheck();
+    garbage.history = &history;
     garbage.line = &str;
     garbage.env = &env;
-    while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
-        insert_spaces(&str);
+    while (my_getline(&str, &len, garbage.history)
+        != -1 && my_strcmp(str, "exit\n")) {
+        add_history(str, garbage.history);
         travel_command(str, &env, &return_value, &garbage);
-        ttycheck();
     }
     freeing(str, env);
     return return_value;
