@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
-    garbage_t *garbage)
+void fork_pipes(char **, int pipeline[][2], int num_pipe,
+    garbage_t *)
 {
     pid_t pid;
 

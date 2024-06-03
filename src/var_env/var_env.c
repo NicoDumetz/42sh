@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-static char *check_var(char *line, token_t *token, garbage_t *garbage)
+static char *check_var(char *line, token_t *token, garbage_t *)
 {
     char name[my_strlen(line)];
     char *value = malloc(sizeof(char) * my_strlen(line));
@@ -39,14 +39,13 @@ static char *check_var(char *line, token_t *token, garbage_t *garbage)
 int check_varenv(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
 {
     char *value;
-    token_t *new;
 
     if (token == NULL || token->arg == NULL || token->arg[0] != '$')
         return 0;
     for (int i = 0; garbage->env[0][i]; i++) {
         value = check_var(garbage->env[0][i], token, garbage);
         if (value != NULL) {
-            new = insert_node(token, value, garbage, pipeline);
+            insert_node(token, value, garbage, pipeline);
             free(value);
             return 0;
         }
