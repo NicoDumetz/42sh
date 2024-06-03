@@ -76,7 +76,7 @@ static void print_token_list(token_t **token_list)
 {
     token_t *token = NULL;
 
-    if (!token) {
+    if (!token_list) {
         printf("empty token list\n");
         return;
     }
@@ -94,9 +94,9 @@ static void print_pipeline(pipeline_t **pipeline)
     pipeline_t *node = *pipeline;
 
     for (; node; node = node->next) {
-        printf("\tSTART PIPE\n");
+        printf("\n\tSTART PIPE\n");
         print_token_list(node->token_list);
-        printf("\tSEPARATOR:\t%s\n", node->sep);
+        printf("\tSEPARATOR:\t%s%d\n", node->sep, node->sep[0]);
         printf("\n\tEND PIPE\n");
     }
 }
