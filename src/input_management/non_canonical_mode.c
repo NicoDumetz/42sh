@@ -18,14 +18,3 @@ void set_non_canonical_mode(void)
     term.c_cc[VTIME] = 0;
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
-
-void set_canonical_mode(void)
-{
-    struct termios term;
-
-    tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag |= (ICANON | ECHO);
-    term.c_cc[VMIN] = 0;
-    term.c_cc[VTIME] = 0;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}

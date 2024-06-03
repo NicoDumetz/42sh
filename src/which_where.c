@@ -86,33 +86,33 @@ int do_where(char *command, char **all_path)
 {
     int check = 0;
 
-    for (int i = 0; built[i].com; i++)
-        if (my_strcmp(built[i].com, command) == 0) {
-            printf("%s is a shell built-in command.\n", command);
-            return (0);
-    }
     for (int i = 0; all_path[i]; i++)
         check += is_here(command, all_path[i]);
     if (check > 0)
         return 0;
+    for (int i = 0; built[i].com; i++)
+        if (my_strcmp(built[i].com, command) == 0) {
+            printf("%s is a shell built-in command.\n", command);
+            return (0);
+        }
     return 1;
 }
 
 int do_which(char *command, char **all_path)
 {
+    for (int i = 0; all_path[i]; i++)
+        if (is_here(command, all_path[i]) == 1)
+            return 0;
     for (int i = 0; built[i].com; i++)
         if (my_strcmp(built[i].com, command) == 0) {
             printf("%s: shell built-in command.\n", command);
             return (0);
         }
-    for (int i = 0; all_path[i]; i++)
-        if (is_here(command, all_path[i]) == 1)
-            return 0;
     fprintf(stderr, "%s :Command not found.\n", command);
     return 1;
 }
 
-int which_functions(char *str, char ***, garbage_t *, pipeline_t *)
+int which_functions(char *str, char ***, garbage_t *)
 {
     char **command = my_str_to_array(str, " ");
     char *path_value = getenv("PATH");
@@ -148,7 +148,7 @@ char *my_getenv(char *name, garbage_t *garbage, char **env)
     return NULL;
 }
 
-int where_functions(char *str, char ***env, garbage_t *garbage, pipeline_t *)
+int where_functions(char *str, char ***env, garbage_t *garbage)
 {
     char **command = my_str_to_array(str, " ");
     char *path_value = my_getenv("PATH", garbage, *env);

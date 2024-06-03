@@ -45,10 +45,7 @@ static void set_fd_out(char *str, pipeline_t *node)
 
 static void set_fd_in(char *str, pipeline_t *pipeline)
 {
-    if (!strcmp(pipeline->sep, "<<"))
-        pipeline->next->input = find_stdin(str);
-    else
-        pipeline->next->input = open(str, O_RDONLY);
+    pipeline->next->input = open(str, O_RDONLY);
     if (pipeline->next->input == -1)
         return write_error(str);
     pipeline->next->token_list = pipeline->token_list;
@@ -70,8 +67,7 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
         set_fd_out(str, pipeline);
         garbage->return_value = new_process(pipeline,
             token_to_str_array(*pipeline->token_list,
-            get_token_list_size(
-                *pipeline->token_list)), *garbage->env, garbage);
+            get_token_list_size(*pipeline->token_list)), *garbage->env);
             free(str);
             return pipeline->next;
     }

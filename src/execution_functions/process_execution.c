@@ -13,23 +13,14 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-static void print_error_redirection(pipeline_t *pipeline)
-{
-    if ((!pipeline->next) &&
-        (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, ">") ||
-        !strcmp(pipeline->sep, "<<") || !strcmp(pipeline->sep, ">>")))
-        fprintf(stderr, "%s", ERR_MISSING_NAME_REDIRECT);
-    else
-        fprintf(stderr, "%s", ERR_NULL_COMMAND);
-}
 
 static bool is_node_correct(garbage_t *garbage, pipeline_t *pipeline)
 {
     if (pipeline->token_list && pipeline->next && pipeline->next->token_list)
         return true;
     else {
-        print_error_redirection(pipeline);
         free_pipeline(garbage->pipeline);
+        fprintf(stderr, "%s", ERR_NULL_COMMAND);
         garbage->return_value = 1;
         return false;
     }
@@ -38,10 +29,6 @@ static bool is_node_correct(garbage_t *garbage, pipeline_t *pipeline)
 
 static bool is_pipeline_correct(garbage_t *garbage, pipeline_t *pipeline)
 {
-    if (!pipeline)
-        return false;
-    if (!pipeline->token_list && !strcmp(pipeline->sep, "&&"))
-        pipeline = pipeline->next;
     for (; pipeline; pipeline = pipeline->next) {
         if (!strcmp(pipeline->sep, "&") || !strcmp(pipeline->sep, ";") ||
             !strcmp(pipeline->sep, "\n") || !pipeline->sep[0])

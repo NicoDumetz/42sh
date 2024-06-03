@@ -93,7 +93,7 @@ static int already_exist_alias(char *var, char *value,
     return 0;
 }
 
-int set_alias(char *str, char ***, garbage_t *garbage, pipeline_t *)
+int set_alias(char *str, char ***, garbage_t *garbage)
 {
     alias_t *add;
     char **command = my_str_to_array(str, " ");
@@ -117,7 +117,7 @@ int set_alias(char *str, char ***, garbage_t *garbage, pipeline_t *)
     return 0;
 }
 
-int unalias(char *str, char ***, garbage_t *garbage, pipeline_t *)
+int unalias(char *str, char ***, garbage_t *garbage)
 {
     alias_t *current = garbage->alias;
     alias_t *prev = NULL;
