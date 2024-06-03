@@ -7,17 +7,19 @@
 
 #include "minishell.h"
 
-char *token_to_str(token_t *start)
+char *token_to_str(token_t *start, int end)
 {
     char *str = malloc_str(0);
     int i = 0;
 
-    for (; start; start = start->next) {
-        if (start->sep) {
-            str = my_str_append_char(str, start->sep);
+    for (token_t *current = start;
+        current && current->index <= end;
+        current = current->next) {
+        if (current->sep) {
+            str = my_str_append_char(str, current->sep);
         }
-        if (start->arg)
-            str = my_str_append(str, start->arg);
+        if (current->arg)
+            str = my_str_append(str, current->arg);
     }
     return str;
 }

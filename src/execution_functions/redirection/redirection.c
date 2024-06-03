@@ -137,14 +137,13 @@ static int find_next_sep(token_t *token)
     return -1;
 }
 
-int execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
+int execute_redirection(garbage_t *garbage, token_t **token_list, token_t *token)
 {
     int result;
     int fd_in = -2;
     int fd_out = -2;
-    char *str = NULL;
+    char *str = token_to_str(*token_list, find_next_sep(token->next));
 
-    str = token_to_str(*pipeline->token_list);
     for (int i = 0; str[i]; i++) {
         if (str[i] == '<') {
             set_fd_in(str, &i, &fd_in, garbage->save_out);
@@ -157,8 +156,7 @@ int execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
     if (fd_out == -1 || fd_in == -1)
         return 1;
     // format_str(str);
-    new_process(token_to_str_array(*pipeline->token_list,
-        get_token_list_size(*pipeline->token_list)), *garbage->env);
+    new_process(token_to_str_array(*token_list, token->index), *garbage->env);
     // result = function(str, env);
     close_fd(fd_in, fd_out);
     return result;
