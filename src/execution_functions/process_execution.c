@@ -14,22 +14,32 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-static bool is_first_node_correct(garbage_t *garbage, pipeline_t *pipeline)
+
+static bool is_node_correct(garbage_t *garbage, pipeline_t *pipeline)
 {
-    if (!pipeline)
-        return false;
-    if (!pipeline->token_list && !strcmp(pipeline->sep, ";"))
+    if ((!pipeline->token_list || !pipeline->next || !pipeline->token_list) &&
+        !strcmp(pipeline->sep, ";"))
         return true;
     else {
         free_pipeline(garbage->pipeline);
-        fprintf(2, "%s", ERR_NULL_COMMAND);
+        fprintf(stderr, "%s", ERR_NULL_COMMAND);
         return false;
+    }
+    return true;
+}
+
+static bool is_pipeline_correct(garbage_t *garbage, pipeline_t *pipeline)
+{
+    for (; pipeline; pipeline = pipeline->next) {
+        if (!is_node_correct(garbage, pipeline))
+            return false;
     }
     return true;
 }
 
 void process_execution(garbage_t *garbage, pipeline_t **pipeline)
 {
-    if (!pipeline || !is_first_node_correct(garbage, *pipeline))
+    if (!pipeline || !is_pipeline_correct(garbage, *pipeline))
         return;
+    printf("\n\n\n\t\t--ALL GOOD SIR--\n\n\n");
 }
