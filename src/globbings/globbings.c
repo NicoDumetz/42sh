@@ -23,15 +23,15 @@ char **make_globbings(char *str)
     return arr;
 }
 
-arg_t *create_new_arg(arg_t *head, char **new_arg, arg_t **actual)
+token_t *create_new_arg(token_t *head, char **new_arg, token_t **actual)
 {
-    arg_t *new_list = NULL;
-    arg_t *current = NULL;
-    arg_t *new_node = NULL;
+    token_t *new_list = NULL;
+    token_t *current = NULL;
+    token_t *new_node = NULL;
 
     for (int i = 0; new_arg[i] != NULL; i++) {
-        new_node = malloc(sizeof(arg_t));
-        new_node->str = new_arg[i];
+        new_node = malloc(sizeof(token_t));
+        new_node->arg = new_arg[i];
         new_node->next = NULL;
         if (new_list == NULL) {
             new_list = new_node;
@@ -47,19 +47,19 @@ arg_t *create_new_arg(arg_t *head, char **new_arg, arg_t **actual)
     return new_list;
 }
 
-int globbings(arg_t **arg)
+int globbings_function(garbage_t *garbage, token_t **token_list)
 {
-    arg_t *head = *arg;
-    arg_t *prev = NULL;
-    arg_t *current = NULL;
-    char **new_arg = make_globbings(head->str);
+    token_t *head = *token_list;
+    token_t *prev = NULL;
+    token_t *current = NULL;
+    char **new_arg = make_globbings(head->arg);
 
     if (new_arg) {
-        *arg = create_new_arg(head, new_arg, &current);
+        *token_list = create_new_arg(head, new_arg, &current);
         free(new_arg);
     }
     while (current && current->next) {
-        new_arg = make_globbings(current->next->str);
+        new_arg = make_globbings(current->next->arg);
         current->next = create_new_arg(current->next, new_arg, &current);
         free(new_arg);
     }

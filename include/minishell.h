@@ -11,32 +11,21 @@
     #include <stdlib.h>
     #include <string.h>
     #include <stdbool.h>
+    #include <glob.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
 
-typedef enum lexing_s {
-    TERM_T = 0,
-    ARG_T,
-    SPACE_T,
-    SEMI_COL_T,
-    PIPE_T,
-    PARENTHESIS_LEFT_T,
-    PARENTHESIS_RIGHT_T,
-    REDIRECT_LEFT_T,
-    REDIRECT_RIGHT_T,
-    SINGLE_QUOTE,
-    DOUBLE_QUOTE_T,
-    BACKSLASH_T,
-    BACKSLASH_N_T,
-    BACkSLASH_T_T,
-    STAR_T,
-    SQUARE_BRACKET_LEFT_T,
-    SQUARE_BRACKET_RIGHT_T,
-    AND_T,
-    EXCLAM_POINT,
-    BACKTICK
-} lexing_t;
+typedef struct alias_s {
+    char *name;
+    char *com;
+    struct alias_s *next;
+} alias_t;
 
+typedef struct var_s {
+    char *var;
+    char *value;
+    struct var_s *next;
+} var_t;
 
 typedef struct token_s {
     char sep;
@@ -56,14 +45,34 @@ typedef struct garbage_s {
     char *raw_command;
     int return_value;
     token_t **token_list;
+    alias_t *alias;
+    var_t *local;
 } garbage_t;
 
-typedef struct feature_tab_s {
+typedef struct redirection_tab_s {
     char sep;
-    void (*feature)(token_t **);
-} feature_tab_t;
+    int (*redirection)(garbage_t *, token_t **);
+} redirection_tab_t;
+
+typedef struct lexing_tab_s {
+    char sep;
+    int (*lexing)(garbage_t *, token_t **);
+} lexing_tab_t;
+
+extern redirection_tab_t r_tab[];
+
+extern lexing_tab_t l_tab[];
 
 token_t **init_token_list(char *str);
+
+void lexing_features(garbage_t *garbage, token_t **token_list);
+
+void execute_command(garbage_t *garbage, token_t **token_list, int index);
+
+int parsing_function(garbage_t *garbage, token_t **token_list);
+
+int globbings_function(garbage_t *garbage, token_t **token_list);
+
 char **token_to_str_array(token_t *start, int end);
 void insert_spaces(char **input);
 void freeing(char *str, char **board);
@@ -82,4 +91,12 @@ void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
 int redirection(char *str, char ***env, int save_out);
 int redirection_errors(char *command, char **pipes, int i);
 int command_errors(char *str, char **pipes, int save_in, int save_out);
+int set_alias(char *name, char *command, garbage_t *garbage);
+void free_alias(garbage_t *garbage);
+char *check_alias(char *token, garbage_t *garbage);
+void unalias(char *name, garbage_t *garbage);
+int set_local(char *var, char *value, garbage_t *garbage);
+void unset_var(char *name, garbage_t *garbage);
+void free_var(garbage_t *garbage);
+char *check_local(char *token, garbage_t *garbage);
 #endif
