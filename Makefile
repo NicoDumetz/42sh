@@ -71,6 +71,7 @@ SRC = main.c \
 	  src/autocompletion/completion_file.c \
 	  src/autocompletion/display_tab.c \
 	  tools/invalid_char.c \
+	  tools/garbage_collector.c\
 
 OBJ = $(SRC:.c=.o)
 
