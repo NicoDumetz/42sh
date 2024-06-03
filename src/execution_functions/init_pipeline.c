@@ -122,7 +122,7 @@ pipeline_t **init_pipeline(char *str)
     if (!pipeline)
         return NULL;
     *pipeline = NULL;
-    for (i = 0; i <= strlen(str); i++) {
+    for (i = 0; i <= strlen(str) && str[i] != '\n'; i++) {
         skip_parenthesis(str, &i);
         if (check_sep(str[i])) {
             node = build_node(str, &i, index);
