@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
-#include "errors.h"
 
 
 static int print_local(garbage_t *garbage)
@@ -29,18 +28,15 @@ static int print_local(garbage_t *garbage)
 int check_local(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
 {
     var_t *current = garbage->local;
-    char *new_arg = remove_quotes(token->arg);
 
-    if (token == NULL || new_arg == NULL || new_arg[0] != '$')
+    if (token == NULL || token->arg == NULL || token->arg[0] != '$')
         return 0;
     for (; current; current = current->next) {
-        if (my_strcmp(current->var, new_arg + 1) == 0) {
-            insert_node(token, current->value, 1, pipeline);
-            free(new_arg);
+        if (my_strcmp(current->var, token->arg + 1) == 0) {
+            insert_node(token, current->value, garbage, pipeline);
             return 0;
         }
     }
-    free(new_arg);
     return 1;
 }
 
@@ -75,8 +71,8 @@ void delete_var(var_t *current, var_t *prev, garbage_t *garbage)
 static int add_local(char *var, char *value,
     garbage_t *garbage, var_t *add)
 {
-    add->var = my_strdup(var);
-    add->value = my_strdup(value);
+    add->var = var;
+    add->value = value;
     add->next = garbage->local;
     garbage->local = add;
     return 0;
@@ -99,22 +95,26 @@ static int already_exist_local(char *var, char *value,
     return 0;
 }
 
-int set_local(char *, char ***, garbage_t *garbage, pipeline_t *pip)
+int set_local(char *str, char ***, garbage_t *garbage, pipeline_t *)
 {
     var_t *add;
-    char *var = pick_token_var(pip, 1);
-    char *value = pick_token_var(pip, 2);
+    char **command = my_str_to_array(str, " ");
+    char *var = my_strdup(command[1]);
+    char *value;
 
     var_len(garbage);
-    if (str_is_alpha(var) == 0) {
-        write(2, VAR, strlen(VAR));
-        return 1;
-    }
-    if (var == NULL)
+    if (var == NULL) {
+        free_array(command);
         return print_local(garbage);
+    }
+    if (command[2] == NULL || command[3] == NULL)
+        value = NULL;
+    else
+        value = my_strdup(command[3]);
     if (already_exist_local(var, value, garbage) == 1)
-        return 0;
+        return free_array(command);
     add = malloc(sizeof(var_t));
+    free_array(command);
     return add_local(var, value, garbage, add);
 }
 

@@ -34,14 +34,17 @@ static void down_cursor(getline_t *getmy, int actual_clear, char *command)
 
 static void count_line_to_clear(getline_t *getmy, int rest, int *actual_clear)
 {
-    if (rest == 1 && getmy->rest == 0)
-        my_printf("\n");
-    if (rest == 0 && getmy->rest == 1)
-        my_printf("\033[1A");
     if (rest > 0)
         (*actual_clear)++;
+    if (*actual_clear < getmy->previous_clear)
+        my_printf("\033[%dA", getmy->previous_clear - *actual_clear);
+    if (*actual_clear > getmy->previous_clear) {
+        for (int i = 0; i < *actual_clear - getmy->previous_clear; i++)
+            my_printf("\n");
+    }
     if (*actual_clear > getmy->clear)
         getmy->clear = *actual_clear;
+    getmy->previous_clear = *actual_clear;
 }
 
 static void display_command2(struct winsize *w, char *command, getline_t

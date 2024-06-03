@@ -109,6 +109,7 @@ static getline_t *init_getline(getline_t *getmy)
     getmy->cursor = 0;
     getmy->cursor_up = 0;
     getmy->clear = 1;
+    getmy->previous_clear = 1;
     return getmy;
 }
 
