@@ -13,5 +13,9 @@
 #include <sys/wait.h>
 
 lexing_tab_t l_tab[] = {
+    {'*', globbings_function},
+    {'?', globbings_function},
+    {91, globbings_function},
+    {93, globbings_function},
     {0, 0}
 };

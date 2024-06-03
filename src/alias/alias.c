@@ -24,7 +24,7 @@ static int print_alias(garbage_t *garbage)
     return 0;
 }
 
-token_t *check_alias(token_t *token, garbage_t *garbage)
+token_t *check_alias(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
 {
     alias_t *current = garbage->alias;
 
@@ -32,7 +32,7 @@ token_t *check_alias(token_t *token, garbage_t *garbage)
         return token;
     for (; current; current = current->next) {
         if (my_strcmp(current->name, token->arg) == 0) {
-            return insert_node(token, current->com, garbage);
+            return insert_node(token, current->com, garbage, pipeline);
         }
     }
     return token;
@@ -97,7 +97,7 @@ int set_alias(char *str, char ***env, garbage_t *garbage)
 {
     alias_t *add;
     char **command = my_str_to_array(str, " ");
-    char *name = my_strdup(command[1]);
+    char *name = command[1];
     char *value;
 
     if (name == NULL) {

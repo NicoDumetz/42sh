@@ -4,11 +4,14 @@
 ** File description:
 ** copy src string into dest string
 */
+#include "stddef.h"
 
 char *my_strcpy(char *dest, char const *src)
 {
     int i;
 
+    if (src == NULL)
+        return NULL;
     for (i = 0; src[i] != '\0'; ++i) {
         dest[i] = src[i];
     }

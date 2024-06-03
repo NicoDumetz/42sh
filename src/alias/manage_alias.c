@@ -45,9 +45,21 @@ int len_alias(garbage_t *garbage)
     return compt;
 }
 
-void reset_index(garbage_t *garbage)
+int check_alias_onpip(pipeline_t *pipeline)
 {
-    token_t *current = *garbage->token_list;
+    token_t *current = *pipeline->token_list;
+
+    for (int i = 0; current; current = current->next) {
+        if (current->arg && (strcmp(current->arg, "alias") == 0 ||
+            strcmp(current->arg, "unalias") == 0))
+            return 1;
+    }
+    return 0;
+}
+
+void reset_index(pipeline_t *pip)
+{
+    token_t *current = *pip->token_list;
 
     for (int i = 0; current; current = current->next) {
         current->index = i;
