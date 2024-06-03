@@ -108,6 +108,7 @@ static garbage_t init_garbage(char **str, char ***env)
     garbage.raw_command = *str;
     garbage.return_value = 0;
     garbage.token_list = NULL;
+    garbage.alias = NULL;
     garbage.token_list = init_token_list(garbage.raw_command);
     if (garbage.token_list)
         print_token_list(garbage.token_list);

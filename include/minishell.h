@@ -15,6 +15,12 @@
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
 
+typedef struct alias_s {
+    char *name;
+    char *com;
+    struct alias_s *next;
+} alias_t;
+
 typedef struct token_s {
     char sep;
     char *arg;
@@ -33,6 +39,7 @@ typedef struct garbage_s {
     char *raw_command;
     int return_value;
     token_t **token_list;
+    alias_t *alias;
 } garbage_t;
 
 typedef struct redirection_tab_s {
@@ -77,4 +84,7 @@ void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
 int redirection(char *str, char ***env, int save_out);
 int redirection_errors(char *command, char **pipes, int i);
 int command_errors(char *str, char **pipes, int save_in, int save_out);
+int set_alias(char *name, char *command, garbage_t *garbage);
+void free_alias(garbage_t *garbage);
+char *check_alias(char *token, garbage_t *garbage);
 #endif
