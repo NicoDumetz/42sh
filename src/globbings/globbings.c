@@ -18,6 +18,8 @@ char **make_globbings(token_t *token)
         glob(" ", GLOB_NOCHECK, NULL, &glob_result);
     if (token->arg)
         glob(token->arg, GLOB_NOCHECK, NULL, &glob_result);
+    if (glob(str, 0, NULL, &glob_result) == GLOB_NOMATCH)
+        return NULL;
     for (; glob_result.gl_pathv[len] != NULL; len++);
     arr = malloc(sizeof(char *) * (len + 1));
     for (int i = 0; i < len; i++)

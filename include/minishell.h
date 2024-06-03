@@ -8,9 +8,11 @@
 #ifndef MINISHELL_HEADER
     #define MINISHELL_HEADER
     #include "my.h"
+    #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
     #include <stdbool.h>
+    #include <glob.h>
     #include <glob.h>
     #include <stdio.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
@@ -75,6 +77,13 @@ typedef struct builtins_s {
 
 typedef struct lexing_tab_s {
     char sep;
+    void (*feature)(token_t **);
+} feature_tab_t;
+int assemble_hard(token_t **current, token_t **head);
+int tab_len(char **);
+void assemble_simple(token_t *current, token_t **head);
+int globbings(token_t **start, int index);
+void free_token(token_t *token);
     int (*lexing)(garbage_t *, token_t **);
 } lexing_tab_t;
 
@@ -121,7 +130,7 @@ int show_env(char *str, char ***env);
 int set_environnement(char *str, char ***env);
 int delete_env(char *str, char ***env);
 int pipe_handling(char *str, char ***env, garbage_t *garbage);
-void pipe_redirect(int i, int num_pipe, int pipeline[][2]);
+void pipe_redirect(int i, int pipeline[][2]);
 void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
     garbage_t *garbage);
 int redirection_errors(char *command, char **pipes, int i);

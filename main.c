@@ -4,7 +4,6 @@
 ** File description:
 ** main.c
 */
-
 #include "my.h"
 #include "minishell.h"
 #include <stdio.h>
@@ -94,8 +93,11 @@ int main(int argc, char **argv, char **env)
 {
     char *str = 0;
     size_t len = 0;
+    int return_value = 0;
     garbage_t garbage;
 
+    (void)argc;
+    (void)argv;
     env = copy_env(env);
     garbage.env = &env;
     ttycheck();
