@@ -36,13 +36,17 @@ static char *extract_var_value(const char *line)
     return strdup(&line[i]);
 }
 
-static char *remove_quotes(const char *str)
+char *remove_quotes(const char *str)
 {
-    int len = my_strlen(str);
-    char *new_str = malloc(sizeof(char) * (len + 1));
+    int len = 0;
+    char *new_str = NULL;
     int j = 0;
     int i = 0;
 
+    if (str == NULL)
+        return NULL;
+    len = my_strlen(str);
+    new_str = malloc(sizeof(char) * (len + 1));
     for (i = 0; i < len; i++) {
         if (str[i] != '"' && str[i] != '\n') {
             new_str[j] = str[i];
@@ -55,24 +59,24 @@ static char *remove_quotes(const char *str)
 
 static char *check_var(char *line, token_t *token)
 {
-    char *arg_no_quotes = remove_quotes(token->arg);
+    char *new_arg = remove_quotes(token->arg);
     char *var_name = extract_var_name(line);
     char *var_value = extract_var_value(line);
 
     if (var_name == NULL || var_value == NULL) {
         free(var_name);
         free(var_value);
-        free(arg_no_quotes);
+        free(new_arg);
         return NULL;
     }
-    if (strcmp(arg_no_quotes + 1, var_name) == 0) {
+    if (strcmp(new_arg + 1, var_name) == 0) {
         free(var_name);
-        free(arg_no_quotes);
+        free(new_arg);
         return var_value;
     }
     free(var_name);
     free(var_value);
-    free(arg_no_quotes);
+    free(new_arg);
     return NULL;
 }
 
