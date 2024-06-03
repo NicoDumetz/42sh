@@ -75,6 +75,10 @@ int rebuild_token(token_t *current, token_t **start, int index)
     while (current && current->index <= index) {
         if (current->sep == '*' || current->sep == '?')
             assemble_simple(current, start);
+        if (current->sep == '[')
+            assemble_hard(&current, start);
+        if (current->sep == ']')
+            assemble_simple(current, start);
         current = current->next;
     }
     return 0;

@@ -19,6 +19,7 @@ SRC = main.c \
 	  src/add_separator.c\
 	  src/globbings/globbings.c\
 	  src/globbings/assemble_simple.c\
+	  src/globbings/assemble_hard.c\
 	  tools/tab_len.c\
 	  tools/token_to_str_array.c\
 	  tools/free_token.c

@@ -63,6 +63,7 @@ typedef struct feature_tab_s {
     char sep;
     void (*feature)(token_t **);
 } feature_tab_t;
+void assemble_hard(token_t **current, token_t **head);
 int tab_len(char **);
 void assemble_simple(token_t *current, token_t **head);
 int globbings(token_t **start, int index);
