@@ -58,14 +58,16 @@ typedef struct garbage_s {
     token_t **token_list;
 } garbage_t;
 
-typedef struct feature_tab_s {
+typedef struct redirection_tab_s {
     char sep;
-    void (*feature)(garbage_t *, token_t **);
-} feature_tab_t;
+    void (*redirection)(garbage_t *, token_t **);
+} redirection_tab_t;
 
-extern feature_tab_t f_tab[];
+extern redirection_tab_t r_tab[];
 
 token_t **init_token_list(char *str);
+
+void lexing_features(garbage_t *garbage, token_t **token_list);
 
 void execute_command(garbage_t *garbage, token_t **token_list, int index);
 

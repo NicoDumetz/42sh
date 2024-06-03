@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-feature_tab_t f_tab[] = {
+redirection_tab_t r_tab[] = {
     {';', (int (*)(garbage_t *, token_t **))parsing_function},
     {0, 0}
 };
