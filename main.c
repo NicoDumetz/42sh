@@ -102,6 +102,8 @@ int main(int, char **, char **env)
         if (garbage.execute == 0)
             process_execution(&garbage, garbage.pipeline);
         gmalloc(0);
+        free(str);
+        str = NULL;
     }
     freeing(str, env);
     cleanup(&garbage);

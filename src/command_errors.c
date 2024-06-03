@@ -8,7 +8,7 @@
 #include "my.h"
 #include <unistd.h>
 
-static int null_command(char **pipes, int save_in, int save_out)
+static int null_command(char **, int save_in, int save_out)
 {
     close(save_in);
     close(save_out);
