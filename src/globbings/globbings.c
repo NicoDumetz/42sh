@@ -146,11 +146,13 @@ int switch_sep_globbings(token_t **current, token_t **start)
 
 int rebuild_token(token_t *current, token_t **start)
 {
+    token_t *next = NULL;
     int count = 0;
     int check = 0;
     int which = 0;
 
     while (current) {
+        next = current->next;
         which = switch_sep_globbings(&current, start);
         if (which == 1)
             count = check_glob(&current, start, &check);
@@ -158,10 +160,7 @@ int rebuild_token(token_t *current, token_t **start)
             continue;
         if (current->sep == ']')
             assemble_simple(current, start);
-        if (current && current->next) {
-            current = current->next;
-        } else
-            break;
+        current = next;
     }
     if (check == -1)
         count = -1;
@@ -178,7 +177,7 @@ int globbings(garbage_t *, token_t **start)
     if (count == -1) {
         fprintf(stderr, "glob: No match.\n");
         free_token_list(start);
-        start = NULL;
+        *start = NULL;
     }
     return count;
 }

@@ -25,6 +25,5 @@ builtins_t built[] = {
     {"history", history_command},
     {"which", which_functions},
     {"where", where_functions},
-    {"repeat", repeat_built},
     {0, 0}
 };

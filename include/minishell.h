@@ -79,7 +79,6 @@ typedef struct garbage_s {
     pipeline_t **pipeline;
     alias_t *alias;
     var_t *local;
-    int execute;
 } garbage_t;
 
 typedef struct redirection_tab_s {
@@ -89,8 +88,7 @@ typedef struct redirection_tab_s {
 
 typedef struct builtins_s {
     char *com;
-    int (*built)(char *str, char ***env,
-        garbage_t *garbage, pipeline_t *pipeline);
+    int (*built)(char *str, char ***env, garbage_t *garbage);
 } builtins_t;
 
 typedef struct lexing_tab_s {
@@ -112,21 +110,22 @@ int parsing_function(garbage_t *garbage, token_t **token_list);
 
 int globbings(garbage_t *garbage, token_t **token_list);
 
-int new_process(
-    pipeline_t *pipeline, char **command, char **env, garbage_t *garbage);
+int inibitors(pipeline_t *pipeline, garbage_t *garbage);
+
+int new_process(pipeline_t *pipeline, char **command, char **env);
 
 pipeline_t *execute_semicolon(garbage_t *garbage, pipeline_t *pipeline);
 
 pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline);
 
 pipeline_t **init_pipeline(char *str);
-int find_repeat(pipeline_t *pipeline, garbage_t *garbage);
+
 void process_execution(garbage_t *garbage, pipeline_t **pipeline);
-int where_functions(char *str, char ***env, garbage_t *garbage, pipeline_t *);
+int where_functions(char *str, char ***env, garbage_t *garbage);
 void free_token_list(token_t **token_list);
-int which_functions(char *str, char ***env, garbage_t *garbage, pipeline_t *);
+int which_functions(char *str, char ***env, garbage_t *garbage);
 void free_pipeline(pipeline_t **pipeline);
-int exit_built(char *, char ***, garbage_t *garbage, pipeline_t *pipeline);
+int exit_built(char *, char ***, garbage_t *garbage);
 void free_token(token_t *token);
 int tab_len(char **tab);
 pipeline_t *execute_pipe(garbage_t *garbage, pipeline_t *commands);
@@ -139,18 +138,13 @@ void insert_spaces(char **input);
 void freeing(char *str, char **board);
 void format_str(char *str);
 int function(char *str, char ***env);
-int change_dir(char *str, char ***env,
-    garbage_t *garbage, pipeline_t *pipeline);
+int change_dir(char *str, char ***env, garbage_t *garbage);
 char **copy_env(char **env);
-int show_env(char *str, char ***env, garbage_t *garbage, pipeline_t *);
-int set_environnement(
-    char *str, char ***env, garbage_t *garbage, pipeline_t *);
-int delete_env(
-    char *str, char ***env, garbage_t *garbage, pipeline_t *pipeline);
+int show_env(char *str, char ***env, garbage_t *garbage);
+int set_environnement(char *str, char ***env, garbage_t *garbage);
+int delete_env(char *str, char ***env, garbage_t *garbage);
 int pipe_handling(char *str, char ***env, garbage_t *garbage);
 void pipe_redirect(int i, int num_pipe, int pipeline[][2]);
-int repeat_built(
-    char *str, char ***env, garbage_t *garbage, pipeline_t *pipeline);
 void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
     garbage_t *garbage);
 int redirection_errors(char *command, char **pipes, int i);
@@ -164,15 +158,13 @@ void print_token_list(token_t **token_list);
 void print_pipeline(pipeline_t **pipeline);
 int contain(char *str, char character);
 char *array_to_str(char **array);
-int check_built(
-    char **command, garbage_t *garbage, pipeline_t *);
-int check_built_on_fork(
-    char **command, char ***env, pipeline_t *, garbage_t *);
-int set_alias(char *str, char ***env, garbage_t *garbage, pipeline_t *);
+int check_built(char **command, garbage_t *garbage);
+int check_built_on_fork(char **command, char ***env);
+int set_alias(char *str, char ***env, garbage_t *garbage);
 int free_array(char **arr);
-int unalias(char *str, char ***env, garbage_t *garbage, pipeline_t *pipeline);
-int set_local(char *str, char ***env, garbage_t *garbage, pipeline_t *);
-int unset_var(char *str, char ***env, garbage_t *garbage, pipeline_t *);
+int unalias(char *str, char ***env, garbage_t *garbage);
+int set_local(char *str, char ***env, garbage_t *garbage);
+int unset_var(char *str, char ***env, garbage_t *garbage);
 void free_var(garbage_t *garbage);
 int check_varenv(token_t *token, garbage_t *garbage,
     pipeline_t *pipeline);
@@ -188,7 +180,7 @@ int var_len(garbage_t *garbage);
 void ttycheck(void);
 
 void add_history(char *command, history_t **history);
-int history_command(char *str, char ***env, garbage_t *garbage, pipeline_t *);
+int history_command(char *str, char ***env, garbage_t *garbage);
 void clear_history(history_t **history);
 void show_reverse_history(history_t **history, int *status_flags);
 void show_no_param_history(history_t **history, int *status_flags);

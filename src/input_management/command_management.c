@@ -61,22 +61,22 @@ static void move_cursor(int cursor, int cursor_up, struct winsize *w)
 {
     if (cursor_up > 0) {
         for (int i = 0; i < cursor_up; i++)
-            my_printf("\033[1A");
-        my_printf("\r\033[%dC", w->ws_col);
+            printf("\033[1A");
+        printf("\r\033[%dC", w->ws_col);
     }
     for (int i = 0; i < cursor; i++)
-        my_printf("\033[1D");
+        printf("\033[1D");
 }
 
 static void down_cursor(int clear, char *command)
 {
     for (int i = 0; i < clear; i++)
-        my_printf("\033[1B");
-    my_printf("\033[2K\r");
+        printf("\033[1B");
+    printf("\033[2K\r");
     for (int i = 1; i < clear; i++)
-        my_printf("\033[1A\033[2K\r");
+        printf("\033[1A\033[2K\r");
     ttycheck();
-    my_printf("%s", command);
+    printf("%s", command);
 }
 
 static void display_command2(struct winsize *w, char *command, int cursor, int

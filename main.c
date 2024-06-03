@@ -27,7 +27,7 @@ void freeing(char *str, char **env)
 void ttycheck(void)
 {
     if (isatty(STDIN_FILENO))
-        my_printf("$> ");
+        printf("$> ");
 }
 
 void print_token_list(token_t **token_list)
@@ -65,14 +65,13 @@ static garbage_t init_garbage(char **str, garbage_t *old)
 
     garbage.env = old->env;
     garbage.raw_command = *str;
-    garbage.return_value = old->return_value;
+    garbage.return_value = 0;
     garbage.save_out = STDOUT_FILENO;
     garbage.save_in = STDIN_FILENO;
     garbage.token_list = NULL;
     garbage.history = old->history;
     garbage.alias = old->alias;
     garbage.local = old->local;
-    garbage.execute = 0;
     garbage.pipeline = init_pipeline(garbage.raw_command);
     format_variable(&garbage, garbage.pipeline);
     return garbage;
@@ -87,7 +86,6 @@ static void init_main(garbage_t *garbage, history_t **history, char **str,
     garbage->env = env;
     garbage->alias = NULL;
     garbage->local = NULL;
-    garbage->return_value = 0;
 }
 
 int main(int, char **, char **env)
@@ -103,7 +101,7 @@ int main(int, char **, char **env)
     while (my_getline(&str, &len, garbage.history, stdin) != -1) {
         garbage = init_garbage(&str, &garbage);
         add_history(str, garbage.history);
-        if (garbage.execute == 0)
+        if (garbage.return_value == 0)
             process_execution(&garbage, garbage.pipeline);
     }
     freeing(str, env);
