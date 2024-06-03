@@ -52,25 +52,19 @@ static void close_fd(int fd_in, int fd_out)
         close(fd_out);
 }
 
-static void set_fd_out(char *str, int *i, pipeline_t *node)
+static void set_fd_out(char *str, pipeline_t *node)
 {
-    int mode = (str[*i + 1] != '>') ? (O_CREAT | O_WRONLY | O_TRUNC) :
-    (O_CREAT | O_WRONLY | O_APPEND);
-    int j = (str[*i + 1] == '>') ? *i + 2 : *i + 1;
-    char *name;
+    int mode =  (O_CREAT | O_WRONLY | O_TRUNC);
+    // (O_CREAT | O_WRONLY | O_APPEND);
+    // int j = (str[*i + 1] == '>') ? *i + 2 : *i + 1;
 
-    name = get_name(str, j, *i);
-    if (name == 0) {
+    if (str == 0) {
         node->output = -1;
         return;
     }
-    node->output = open(name, mode, 0644);
-    *i -= 1;
+    node->output = open(str, mode, 0644);
     if (node->output == -1)
-        return write_error(name);
-    dup2(node->output, STDOUT_FILENO);
-    close(node->output);
-    free(name);
+        return write_error(str);
 }
 
 static void prompt(int save_out)
@@ -123,8 +117,6 @@ static void set_fd_in(char *str, int *i, int *fd_in, int save_out)
     *fd_in = open(name, O_RDONLY);
     if (*fd_in == -1)
         return write_error(name);
-    dup2(*fd_in, STDIN_FILENO);
-    close(*fd_in);
     free(name);
 }
 
@@ -140,24 +132,17 @@ static int find_next_sep(token_t *token)
 pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
 {
     int result;
-    int fd_in = -2;
-    int fd_out = -2;
     char *str = NULL;
 
     str = token_to_str(*pipeline->next->token_list);
-    for (int i = 0; str[i]; i++) {
         if (!strcmp(pipeline->sep, "<")) {
-            set_fd_in(str, &i, &fd_in, pipeline->input);
-            continue;
+            set_fd_in(str, &fd_in, pipeline->input);
         }
         if (!strcmp(pipeline->sep, ">"))
-            set_fd_out(str, &i, pipeline);
-    }
+            set_fd_out(str, pipeline);
     free(str);
-    if (fd_out == -1 || fd_in == -1)
-        return pipeline->next;
     garbage->return_value = new_process(pipeline, token_to_str_array(*pipeline->token_list,
         get_token_list_size(*pipeline->token_list)), *garbage->env);
-    close_fd(fd_in, fd_out);
+    // close_fd(fd_in, fd_out);
     return pipeline->next;
 }
