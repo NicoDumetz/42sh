@@ -96,4 +96,7 @@ fclean:
 	rm -f $(OBJ)
 	make fclean -C lib/my
 
+test:
+	tests/tester.sh
+
 re: fclean all
