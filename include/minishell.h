@@ -108,7 +108,6 @@ typedef struct getline_s {
     int cursor_up;
     int rest;
     int clear;
-    int previous_clear;
 } getline_t;
 
 extern redirection_tab_t r_tab[];
@@ -176,7 +175,7 @@ int redirection_errors(char *command, char **pipes, int i);
 int command_errors(char *str, char **pipes, int save_in, int save_out);
 void free_alias(garbage_t *garbage);
 garbage_t init_local(garbage_t *garbage);
-token_t *insert_node(token_t *token, char *com, garbage_t *garbage,
+token_t *insert_node(token_t *token, char *com, int var_env,
     pipeline_t *pipeline);
 void clean_space(char *str);
 void print_token_list(token_t **token_list);
@@ -252,4 +251,11 @@ int repeat(char *str, char ***env, garbage_t *garbage);
 
 void free_history(history_t **history);
 int get_prompt_size(void);
+char *pick_token(pipeline_t *pip, int who);
+token_t *manage_alias(token_t *token, garbage_t *garbage,
+    pipeline_t *pipeline);
+char *pick_token_var(pipeline_t *pip, int who);
+int str_is_alpha(const char *str);
+char *remove_quotes(const char *str);
+int check_spe_var(token_t *token, pipeline_t *pipeline, garbage_t *garbage);
 #endif

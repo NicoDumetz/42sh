@@ -63,6 +63,8 @@ SRC = main.c \
 	  src/handle_signal.c \
 	  tools/int_to_str.c \
 	  src/execution_functions/redirection/double_left.c \
+	  src/local/check_value.c \
+	  src/var_env/spe_var.c \
 
 OBJ = $(SRC:.c=.o)
 

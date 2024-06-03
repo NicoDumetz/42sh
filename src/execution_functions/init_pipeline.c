@@ -47,10 +47,8 @@ static bool check_sep(char *str, int *i, int index)
 
     if (*i == index && *i != 0)
         return false;
-    if (*i != 0 && str[*i - 1] == '\\') {
-        *i += 1;
+    if (*i != 0 && str[*i - 1] == '\\')
         return false;
-    }
     if (str[*i] == '\0')
         return true;
     for (int j = 0; item[j]; j++) {
