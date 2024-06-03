@@ -128,34 +128,23 @@ static void set_fd_in(char *str, int *i, int *fd_in, int save_out)
     free(name);
 }
 
-static int find_next_sep(token_t *token)
-{
-    for (; token; token = token->next) {
-        if (token->sep && token->sep != ' ')
-            return token->index;
-    }
-    return -1;
-}
-
-int redirection(garbage_t *garbage, token_t **token_list, token_t *token)
+int redirection(char *str, char ***env, int save_out)
 {
     int result;
     int fd_in = -2;
     int fd_out = -2;
-    char *str = token_to_str(*token_list, find_next_sep(token));
 
     for (int i = 0; str[i]; i++) {
-        // if (str[i] == '<') {
-        //     set_fd_in(str, &i, &fd_in, save_out);
-        //     continue;
-        // }
+        if (str[i] == '<') {
+            set_fd_in(str, &i, &fd_in, save_out);
+            continue;
+        }
         if (str[i] == '>')
             set_fd_out(str, &i, &fd_out);
     }
     if (fd_out == -1 || fd_in == -1)
         return 1;
-    // format_str(str);
-    new_process(token_to_str_array(*token_list, token->index));
+    format_str(str);
     result = function(str, env);
     close_fd(fd_in, fd_out);
     return result;
