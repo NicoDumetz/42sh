@@ -29,7 +29,6 @@ SRC = main.c \
 	  tools/token_to_str.c\
 	  src/alias/alias.c \
 	  src/local/local_var.c \
-	  src/inibitors/inibitors.c
 	  tools/clean_str.c \
 	  src/globs_tab.c \
 	  tools/contain_char.c \

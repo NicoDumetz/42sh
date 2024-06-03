@@ -110,10 +110,6 @@ int parsing_function(garbage_t *garbage, token_t **token_list);
 
 int globbings(garbage_t *garbage, token_t **token_list);
 
-int get_string(garbage_t *, token_t **head);
-
-int inibitor(garbage_t *, token_t **head);
-
 int new_process(pipeline_t *pipeline, char **command, char **env);
 
 pipeline_t *execute_semicolon(garbage_t *garbage, pipeline_t *pipeline);

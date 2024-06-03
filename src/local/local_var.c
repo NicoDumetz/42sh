@@ -134,5 +134,5 @@ int unset_var(char *str, char ***, garbage_t *garbage)
         prev = current;
     }
     free_array(command);
-    return 1;
+    return 0;
 }
