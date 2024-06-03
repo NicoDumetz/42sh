@@ -55,14 +55,16 @@ static void close_fd(int fd_in, int fd_out)
 static void set_fd_out(char *str, pipeline_t *node)
 {
     int mode =  (O_CREAT | O_WRONLY | O_TRUNC);
-    // (O_CREAT | O_WRONLY | O_APPEND);
-    // int j = (str[*i + 1] == '>') ? *i + 2 : *i + 1;
+    int mode_2 = (O_CREAT | O_WRONLY | O_APPEND);
 
     if (str == 0) {
         node->output = -1;
         return;
     }
-    node->output = open(str, mode, 0644);
+    if (!strcmp(node->sep, ">"))
+        node->output = open(str, mode, 0644);
+    if (!strcmp(node->sep, ">>"))
+        node->output = open(str, mode_2, 0644);
     if (node->output == -1)
         return write_error(str);
 }
@@ -103,22 +105,22 @@ static void set_input(char *str, int *i, int save_out)
     *i += 1;
 }
 
-static void set_fd_in(char *str, int *i, int *fd_in, int save_out)
-{
-    char *name;
+// static void set_fd_in(char *str, pipelin_t *pipeline)
+// {
+//     char *name;
 
-    if (str[*i + 1] == '<')
-        return set_input(str, i, save_out);
-    name = get_name(str, *i + 1, *i);
-    if (name == 0) {
-        *fd_in = -1;
-        return;
-    }
-    *fd_in = open(name, O_RDONLY);
-    if (*fd_in == -1)
-        return write_error(name);
-    free(name);
-}
+//     if (str[*i + 1] == '<')
+//         return set_input(str, i, save_out);
+//     name = get_name(str, *i + 1, *i);
+//     if (name == 0) {
+//         *fd_in = -1;
+//         return;
+//     }
+//     *fd_in = open(name, O_RDONLY);
+//     if (*fd_in == -1)
+//         return write_error(name);
+//     free(name);
+// }
 
 static int find_next_sep(token_t *token)
 {
@@ -135,10 +137,11 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
     char *str = NULL;
 
     str = token_to_str(*pipeline->next->token_list);
-        if (!strcmp(pipeline->sep, "<")) {
-            set_fd_in(str, &fd_in, pipeline->input);
+    format_str(str);
+        if (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, "<<")) {
+            // set_fd_in(str, pipeline->input);
         }
-        if (!strcmp(pipeline->sep, ">"))
+        if (!strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, ">>"))
             set_fd_out(str, pipeline);
     free(str);
     garbage->return_value = new_process(pipeline, token_to_str_array(*pipeline->token_list,
