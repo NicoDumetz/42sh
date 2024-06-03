@@ -17,5 +17,9 @@ builtins_t built[] = {
     {"setenv", set_environnement},
     {"unsetenv", delete_env},
     {"cd", change_dir},
+    {"alias", set_alias},
+    {"unalias", unalias},
+    {"set", set_local},
+    {"unset", unset_var},
     {0, 0}
 };

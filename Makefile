@@ -34,6 +34,7 @@ SRC = main.c \
 	  src/builtins_tab.c \
 	  tools/array_to_str.c \
 	  src/execution_functions/execute_built.c \
+	  tools/free_array.c \
 
 OBJ = $(SRC:.c=.o)
 

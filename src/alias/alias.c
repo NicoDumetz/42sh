@@ -23,22 +23,6 @@ static int print_alias(garbage_t *garbage)
     }
 }
 
-int set_alias(char *name, char *command, garbage_t *garbage)
-{
-    alias_t *add = malloc(sizeof(alias_t));
-
-    if (add == NULL)
-        return 1;
-    if (name == NULL)
-        return print_alias(garbage);
-    add->name = my_strdup(name);
-    add->com = my_strdup(command);
-    add->next = garbage->alias;
-    garbage->alias = add;
-    garbage->return_value = 0;
-    return 0;
-}
-
 char *check_alias(char *token, garbage_t *garbage)
 {
     alias_t *current = garbage->alias;
@@ -82,17 +66,51 @@ static void delete_alias(alias_t *current, alias_t *prev, garbage_t *garbage)
     return;
 }
 
-void unalias(char *name, garbage_t *garbage)
+static void add_alias(char *name, char *value,
+    garbage_t *garbage, alias_t *add)
+{
+    add->name = my_strdup(name);
+    add->com = my_strdup(value);
+    add->next = garbage->alias;
+    garbage->alias = add;
+    garbage->return_value = 0;
+}
+
+int set_alias(char *str, char ***env, garbage_t *garbage)
+{
+    alias_t *add = malloc(sizeof(alias_t));
+    char **command = my_str_to_array(str, " ");
+    char *name = my_strdup(command[1]);
+    char *value;
+
+    if (add == NULL) {
+        free_array(command);
+        return 1;
+    }
+    if (name == NULL) {
+        free_array(command);
+        return print_alias(garbage);
+    }
+    add_alias(name, command[2], garbage, add);
+    free_array(command);
+    return 0;
+}
+
+int unalias(char *str, char ***env, garbage_t *garbage)
 {
     alias_t *current = garbage->alias;
     alias_t *prev = NULL;
+    char **command = my_str_to_array(str, " ");
+    char *name = command[1];
 
     for (; current != NULL; current = current->next) {
         if (strcmp(name, current->name) == 0) {
             delete_alias(current, prev, garbage);
-            return;
+            free_array(command);
+            return 0;
         }
         prev = current;
     }
-    return;
+    free_array(command);
+    return 0;
 }

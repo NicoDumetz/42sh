@@ -24,22 +24,6 @@ static int print_local(garbage_t *garbage)
     }
 }
 
-int set_local(char *var, char *value, garbage_t *garbage)
-{
-    var_t *add = malloc(sizeof(alias_t));
-
-    if (add == NULL)
-        return 1;
-    if (var == NULL)
-        return print_local(garbage);
-    add->var = my_strdup(var);
-    add->value = my_strdup(value);
-    add->next = garbage->local;
-    garbage->local = add;
-    garbage->return_value = 0;
-    return 0;
-}
-
 char *check_local(char *token, garbage_t *garbage)
 {
     var_t *current = garbage->local;
@@ -83,17 +67,51 @@ static void delete_var(var_t *current, var_t *prev, garbage_t *garbage)
     return;
 }
 
-void unset_var(char *name, garbage_t *garbage)
+static void add_local(char *var, char *value,
+    garbage_t *garbage, var_t *add)
+{
+    add->var = my_strdup(var);
+    add->value = my_strdup(value);
+    add->next = garbage->local;
+    garbage->local = add;
+}
+
+int set_local(char *str, char ***env, garbage_t *garbage)
+{
+    var_t *add = malloc(sizeof(var_t));
+    char **command = my_str_to_array(str, " ");
+    char *var = command[1];
+    char *value;
+
+    if (add == NULL) {
+        free_array(command);
+        return 1;
+    }
+    if (var == NULL) {
+        free_array(command);
+        return print_local(garbage);
+    }
+    if (command[2] == NULL || command[3] == NULL)
+        value = NULL;
+    else
+        value = command[3];
+    add_local(var, value, garbage, add);
+    return 0;
+}
+
+int unset_var(char *str, char ***env, garbage_t *garbage)
 {
     var_t *current = garbage->local;
     var_t *prev = NULL;
+    char **command = my_str_to_array(str, " ");
+    char *name = command[1];
 
     for (; current != NULL; current = current->next) {
         if (strcmp(name, current->var) == 0) {
             delete_var(current, prev, garbage);
-            return;
+            return 1;
         }
         prev = current;
     }
-    return;
+    return 1;
 }

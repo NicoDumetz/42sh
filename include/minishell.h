@@ -70,7 +70,7 @@ typedef struct redirection_tab_s {
 
 typedef struct builtins_s {
     char *com;
-    int (*built)(char *str, char ***env);
+    int (*built)(char *str, char ***env, garbage_t *garbage);
 } builtins_t;
 
 typedef struct lexing_tab_s {
@@ -115,23 +115,19 @@ void insert_spaces(char **input);
 void freeing(char *str, char **board);
 void format_str(char *str);
 int function(char *str, char ***env);
-int change_dir(char *str, char ***env);
+int change_dir(char *str, char ***env, garbage_t *garbage);
 char **copy_env(char **env);
-int show_env(char *str, char ***env);
-int set_environnement(char *str, char ***env);
-int delete_env(char *str, char ***env);
+int show_env(char *str, char ***env, garbage_t *garbage);
+int set_environnement(char *str, char ***env, garbage_t *garbage);
+int delete_env(char *str, char ***env, garbage_t *garbage);
 int pipe_handling(char *str, char ***env, garbage_t *garbage);
 void pipe_redirect(int i, int num_pipe, int pipeline[][2]);
 void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
     garbage_t *garbage);
 int redirection_errors(char *command, char **pipes, int i);
 int command_errors(char *str, char **pipes, int save_in, int save_out);
-int set_alias(char *name, char *command, garbage_t *garbage);
 void free_alias(garbage_t *garbage);
 char *check_alias(char *token, garbage_t *garbage);
-void unalias(char *name, garbage_t *garbage);
-int set_local(char *var, char *value, garbage_t *garbage);
-void unset_var(char *name, garbage_t *garbage);
 void free_var(garbage_t *garbage);
 char *check_local(char *token, garbage_t *garbage);
 void clean_space(char *str);
@@ -141,4 +137,9 @@ int contain(char *str, char character);
 char *array_to_str(char **array);
 int check_built(char **command, garbage_t *garbage);
 int check_built_on_fork(char **command, char ***env);
+int set_alias(char *str, char ***env, garbage_t *garbage);
+void free_array(char **arr);
+int unalias(char *str, char ***env, garbage_t *garbage);
+int set_local(char *str, char ***env, garbage_t *garbage);
+int unset_var(char *str, char ***env, garbage_t *garbage);
 #endif

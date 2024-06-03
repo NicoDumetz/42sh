@@ -84,8 +84,8 @@ static garbage_t init_garbage(char **str, garbage_t *old)
     garbage.save_out = STDOUT_FILENO;
     garbage.save_in = STDIN_FILENO;
     garbage.token_list = NULL;
-    garbage.alias = NULL;
-    garbage.local = NULL;
+    garbage.alias = old->alias;
+    garbage.local = old->local;
     garbage.pipeline = init_pipeline(garbage.raw_command);
     return garbage;
 }
@@ -98,6 +98,8 @@ int main(int argc, char **argv, char **env)
 
     env = copy_env(env);
     garbage.env = &env;
+    garbage.alias = NULL;
+    garbage.local = NULL;
     ttycheck();
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
         garbage = init_garbage(&str, &garbage);
