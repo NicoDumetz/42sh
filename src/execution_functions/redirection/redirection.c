@@ -63,7 +63,6 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
     clean_space(str);
     if (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, "<<")) {
         set_fd_in(str, pipeline);
-        free(str);
         return pipeline;
     }
     if (!strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, ">>")) {
@@ -72,7 +71,6 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
             token_to_str_array(*pipeline->token_list,
             get_token_list_size(
                 *pipeline->token_list)), *garbage->env, garbage);
-            free(str);
             return pipeline->next;
     }
     return NULL;

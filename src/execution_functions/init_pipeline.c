@@ -12,24 +12,6 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-void free_pipeline(pipeline_t **pipeline)
-{
-    pipeline_t *tmp = *pipeline;
-    pipeline_t *node = *pipeline;
-
-    while (tmp) {
-        node = tmp;
-        if (tmp->token_list)
-            free_token_list(tmp->token_list);
-        if (tmp->sep)
-            free(tmp->sep);
-        tmp = tmp->next;
-        free(node);
-    }
-    free(pipeline);
-    pipeline = NULL;
-}
-
 static void reverse_pipeline(pipeline_t **commands)
 {
     pipeline_t *prev = NULL;
@@ -86,7 +68,7 @@ static char *get_sep(char const *str, int *i, int *index)
 static pipeline_t *build_node(char *str, int *i, int *index)
 {
     char *command = NULL;
-    pipeline_t *node = malloc(sizeof(pipeline_t));
+    pipeline_t *node = gmalloc(sizeof(pipeline_t));
 
     command = malloc_str(*i - *index);
     command = my_strncpy(command, &str[*index], *i - *index);
@@ -94,7 +76,6 @@ static pipeline_t *build_node(char *str, int *i, int *index)
         node->token_list = NULL;
     else
         node->token_list = init_token_list(command);
-    free(command);
     node->sep = get_sep(str, i, index);
     node->return_value = -1;
     node->pid = 0;
@@ -162,10 +143,12 @@ static void skip_features(char *str, int *i)
 
 pipeline_t **init_pipeline(char *str)
 {
-    pipeline_t **pipeline = malloc(sizeof(pipeline_t *));
+    pipeline_t **pipeline = gmalloc(sizeof(pipeline_t *));
     pipeline_t *node = NULL;
     int index = 0;
 
+    if (!str)
+        return NULL;
     if (!pipeline)
         return NULL;
     *pipeline = NULL;

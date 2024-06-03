@@ -132,7 +132,7 @@ int my_getline_interact(char **line, history_t **hist)
     if (getmy == NULL)
         return -1;
     init_getline(getmy);
-    *line = malloc(getmy->n * sizeof(char));
+    *line = gmalloc(getmy->n * sizeof(char));
     if (*line == NULL)
         return -1;
     *line[0] = '\0';
@@ -155,6 +155,8 @@ int my_getline(char **line, size_t *n, history_t **hist, FILE *stream)
         return my_getline_interact(line, hist);
     else {
         ret = (int) getline(&str, n, stream);
+        if (ret == -1 || invalid_char(str) == 1)
+            return -1;
         *line = str;
         return ret;
     }

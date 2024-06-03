@@ -29,11 +29,25 @@ static bool is_node_correct(garbage_t *garbage, pipeline_t *pipeline)
         return true;
     else {
         print_error_redirection(pipeline);
-        free_pipeline(garbage->pipeline);
         garbage->return_value = 1;
         return false;
     }
     return true;
+}
+
+static int check_ambigous(pipeline_t *pipeline, garbage_t *garbage)
+{
+    if (strcmp(pipeline->sep, ">") != 0 && strcmp(pipeline->sep, ">>") != 0)
+        return 0;
+    if (pipeline->next &&
+        (strcmp(pipeline->next->sep, "|") == 0 ||
+        strcmp(pipeline->next->sep, ">") == 0 ||
+        strcmp(pipeline->next->sep, ">>") == 0)) {
+        fprintf(stderr, "Ambiguous output redirect.\n");
+        garbage->return_value = 1;
+        return 1;
+    }
+    return 0;
 }
 
 static bool is_pipeline_correct(garbage_t *garbage, pipeline_t *pipeline)
@@ -43,6 +57,8 @@ static bool is_pipeline_correct(garbage_t *garbage, pipeline_t *pipeline)
     if (!pipeline->token_list && !strcmp(pipeline->sep, "&&"))
         pipeline = pipeline->next;
     for (; pipeline; pipeline = pipeline->next) {
+        if (check_ambigous(pipeline, garbage) == 1)
+            return false;
         if (!strcmp(pipeline->sep, "&") || !strcmp(pipeline->sep, ";") ||
             !strcmp(pipeline->sep, "\n") || !pipeline->sep[0])
             continue;

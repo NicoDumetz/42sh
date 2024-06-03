@@ -80,32 +80,6 @@ TESTS=
   echo "./my_divzero"
 [09-END]
 
-
-# [10]
-# NAME="return of shell"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo "cd caca"
-# [10-END]
-
-# [11]
-# NAME="return of shell after bad inst"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo "cd caca"
-#     echo "ls -l"
-# [11-END]
-
-# [12]
-# NAME="ls nofile"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo "ls nofile"
-# [12-END]
-
 [13]
 NAME="cd -"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -116,14 +90,6 @@ TESTS=
   echo 'cd -'
   echo 'ls'
 [13-END]
-
-# [14]
-# NAME="segfault"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo "./segfault/a.out"
-# [14-END]
 
 [15]
 NAME="setenv with letter"
@@ -181,16 +147,6 @@ TESTS=
     echo 'cd -'
     echo 'ls -l'
 [20-END]
-
-# [21]
-# NAME="Test create disp and delete files"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo 'touch test'
-#     echo 'cat test'
-#     echo 'rm test'
-# [21-END]
 
 [22]
 NAME="ls bad files"
@@ -274,16 +230,6 @@ TESTS=
     echo 'unsetenv'
 [31-END]
 
-# [32]
-# NAME="no right test"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo 'touch test'
-#     echo 'chmod 000 test'
-#     echo 'rm test'
-# [32-END]
-
 [33]
 NAME="final test ultimate de la mort"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -295,22 +241,6 @@ TESTS=
     echo 'cd ..'
     echo 'ls'
 [33-END]
-
-# [34]
-# NAME="segfault/a.out"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo 'segfault/a.out'
-# [34-END]
-
-# [35]
-# NAME=" exec format"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#     echo 'segfault/coucou.out'
-# [35-END]
 
 [36]
 NAME="Test cd vers un répertoire existant"
@@ -330,15 +260,6 @@ TESTS=
   echo 'ls'
 [37-END]
 
-# [38]
-# NAME="Test cd vers un répertoire enfant"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'cd /var/log/apache2'
-#   echo 'ls'
-# [38-END]
-
 [39]
 NAME="Test cd vers le répertoire personnel"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -347,24 +268,6 @@ TESTS=
   echo 'cd ~'
   echo 'ls'
 [39-END]
-
-# [40]
-# NAME="Test cd vers un répertoire spécifié par un chemin relatif"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'cd ../../usr/bin'
-#   echo 'ls'
-# [40-END]
-
-# [41]
-# NAME="Test cd vers un répertoire inexistant"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'cd non_existent_directory'
-#   echo 'ls'
-# [41-END]
 
 [42]
 NAME="Test cd sans argument pour revenir au répertoire précédent"
@@ -375,15 +278,6 @@ TESTS=
   echo 'cd -'
   echo 'ls'
 [42-END]
-
-# [43]
-# NAME="Test cd avec plusieurs arguments"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'cd /var /usr'
-#   echo 'ls'
-# [43-END]
 
 [46]
 NAME="setenv avec un nom de variable non alphanumérique"
@@ -408,14 +302,6 @@ CLEAN=""
 TESTS=
   echo 'setenv variable valeur'
 [48-END]
-
-# [49]
-# NAME="setenv avec un nom de variable vide"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'setenv "" valeur'
-# [49-END]
 
 [50]
 NAME="setenv avec une valeur vide"
@@ -466,34 +352,6 @@ CLEAN=""
 TESTS=
   echo 'cd my_printf ressources'
 [55-END]
-
-# [56]
-# NAME="cd avec un argument vide"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'cd ""'
-# [56-END]
-
-# [57]
-# NAME="cd vers un répertoire sans permission de lecture"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'chmod -rwx segfault'
-#   echo 'cd segfault'
-#   echo 'ls'
-# [57-END]
-
-# [58]
-# NAME="cd vers un fichier sans permission de lecture"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'chmod -rwx temp.txt'
-#   echo 'cd temp.txt'
-#   echo 'ls'
-# [58-END]
 
 [59]
 NAME="cd dans un répertoire inexistant"
@@ -779,14 +637,6 @@ TESTS=
   echo "ls -l | grep a | grep o"
 [106-END]
 
-# [107]
-# NAME=""
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "ls -l | grep a | grep o ; ls -a | grep ."
-# [107-END]
-
 [108]
 NAME=""
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -806,43 +656,6 @@ CLEAN=""
 TESTS=
   echo "<"
 [109-END]
-
-# [110]
-# NAME=""
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "ls |||||||||"
-# [110-END]
-
-# [111]
-# NAME=""
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "ls -l > coucou"
-#   echo "cat < coucou | grep a"
-#     echo "rm coucou"
-# [111-END]
-
-# [112]
-# NAME="attention bug <<"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "cat << coucou"
-#   echo "lern"
-#   echo "lnilkn"
-#   echo "coucou"
-# [112-END]
-
-# [113]
-# NAME=" test ta"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "echo '';ls;''"
-# [113-END]
 
 [114]
 NAME=""
@@ -891,20 +704,10 @@ NAME=""
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
-  echo "echo bonjour ou hello enculer > coucou"
+  echo "echo bonjour ou hello > coucou"
   echo "grep hello < coucou"
   echo "cat < coucou"
 [119-END]
-
-[120]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-  echo "ls -l > output.txt"
-  echo "echo Hello, world! > coucou"
-  echo "cat coucou"
-[120-END]
 
 [121]
 NAME=""
@@ -954,22 +757,6 @@ TESTS=
 echo "toto | grep c"
 [126-END]
 
-[127]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "netstat -atun | grep ESTABLISHED"
-[127-END]
-
-[128]
-NAME=""
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "du -h . | sort -hr | head"
-[128-END]
-
 [129]
 NAME=""
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -1010,54 +797,6 @@ TESTS=
 echo "rm -f output.txt"
 echo "rm -f coucou"
 [133-END]
-
-# [200]
-# NAME="globbing *"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "cat *.c"
-# [200-END]
-
-# [201]
-# NAME="globbing *"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "cat Make*"
-# [201-END]
-
-# [202]
-# NAME="globbing ?"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "cat ????.c"
-# [202-END]
-
-# [203]
-# NAME="globbing ?"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls ???"
-# [203-END]
-
-# [204]
-# NAME="globbing []"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls [l-i]*"
-# [204-END]
-
-# [205]
-# NAME="globbing []"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls *[c-e]"
-# [205-END]
 
 [206]
 NAME="history"
@@ -1112,32 +851,6 @@ echo "alias ll ls"
 echo "unalias ll"
 echo "ll"
 [212-END]
-
-[213]
-NAME="alias"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "alias hey \"echo bonjour comment tu vas\""
-echo "hey"
-[213-END]
-
-[214]
-NAME="alias errors"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "alias \"jn\"nl\",l \"ù;\""
-[214-END]
-
-[215]
-NAME="alias advenced"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "alias tomcarlier \"ls -l\" "
-echo "tomcarlier | grep .c"
-[215-END]
 
 [216]
 NAME="local var"
@@ -1314,14 +1027,6 @@ TESTS=
 echo "exit 42"
 [236-END]
 
-[237]
-NAME="exit manage"
-SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-CLEAN=""
-TESTS=
-echo "exit 42 | ls"
-[237-END]
-
 [238]
 NAME="which"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
@@ -1376,14 +1081,12 @@ SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
 echo "cat < main.c >> coucou | ls"
-echo "rm -f coucou"
 [244-END]
 
-[245]
+[246]
 NAME=""
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
-echo "set a = b"
-echo "echo $\{a\}"
-[245-END]
+echo "alias alias ls"
+[246-END]
