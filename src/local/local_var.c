@@ -95,7 +95,7 @@ static int already_exist_local(char *var, char *value,
     return 0;
 }
 
-int set_local(char *str, char ***, garbage_t *garbage)
+int set_local(char *str, char ***, garbage_t *garbage, pipeline_t *)
 {
     var_t *add;
     char **command = my_str_to_array(str, " ");
@@ -118,7 +118,7 @@ int set_local(char *str, char ***, garbage_t *garbage)
     return add_local(var, value, garbage, add);
 }
 
-int unset_var(char *str, char ***, garbage_t *garbage)
+int unset_var(char *str, char ***, garbage_t *garbage, pipeline_t *)
 {
     var_t *current = garbage->local;
     var_t *prev = NULL;

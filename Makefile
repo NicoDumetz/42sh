@@ -54,8 +54,9 @@ SRC = main.c \
 	  src/globbings/assemble_hard.c \
 	  src/globbings/assemble_simple.c \
 	  src/cleanup.c \
-	  src/handle_signal.c \
 	  src/which_where.c \
+	  src/repeat_built.c \
+	  src/handle_signal.c \
 	  tools/int_to_str.c \
 
 OBJ = $(SRC:.c=.o)
