@@ -146,20 +146,18 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
 
     str = token_to_str(*pipeline->next->token_list);
     for (int i = 0; str[i]; i++) {
-        if (str[i] == '<') {
+        if (!strcmp(pipeline->sep, "<")) {
             set_fd_in(str, &i, &fd_in, pipeline->input);
             continue;
         }
-        if (str[i] == '>')
+        if (!strcmp(pipeline->sep, ">"))
             set_fd_out(str, &i, pipeline);
     }
     free(str);
     if (fd_out == -1 || fd_in == -1)
         return pipeline->next;
-    // format_str(str);
     garbage->return_value = new_process(pipeline, token_to_str_array(*pipeline->token_list,
         get_token_list_size(*pipeline->token_list)), *garbage->env);
-    // result = function(str, env);
     close_fd(fd_in, fd_out);
     return pipeline->next;
 }
