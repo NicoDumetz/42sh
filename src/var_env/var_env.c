@@ -36,43 +36,30 @@ static char *check_var(char *line, token_t *token, garbage_t *garbage)
     return NULL;
 }
 
-int check_varenv(token_t *token, garbage_t *garbage, pipeline_t *pipeline)
+token_t *check_varenv(token_t *token, garbage_t *garbage)
 {
     char *value;
     token_t *new;
 
     if (token == NULL || token->arg == NULL || token->arg[0] != '$')
-        return 0;
+        return token;
     for (int i = 0; garbage->env[0][i]; i++) {
         value = check_var(garbage->env[0][i], token, garbage);
         if (value != NULL) {
-            new = insert_node(token, value, garbage, pipeline);
+            new = insert_node(token, value, garbage);
             free(value);
-            return 0;
+            return new;
         }
     }
-    return 1;
+    return token;
 }
 
-token_t *manage_variable(token_t *token, garbage_t *garbage,
-    pipeline_t *pipeline)
+token_t *manage_variable(token_t *token, garbage_t *garbage)
 {
-    int ret;
-    int env;
-
     if (token->arg) {
-            ret = 0;
-            env = 0;
-            if (check_alias_onpip(pipeline) == 0)
-                token = check_alias(token, garbage, pipeline);
-            if (token->arg[0] == '$') {
-                ret = check_local(token, garbage, pipeline);
-                env = check_varenv(token, garbage, pipeline);
-            }
-            if (ret == 1 && env == 1) {
-                fprintf(stderr, "%s: Undefined variable.\n", token->arg + 1);
-                garbage->return_value = 1;
-            }
+            token = check_alias(token, garbage);
+            token = check_local(token, garbage);
+            token = check_varenv(token, garbage);
     }
     return token;
 }

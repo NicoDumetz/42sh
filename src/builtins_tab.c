@@ -14,7 +14,6 @@
 
 builtins_t built[] = {
     {"env", show_env},
-    {"exit", exit_built},
     {"setenv", set_environnement},
     {"unsetenv", delete_env},
     {"cd", change_dir},

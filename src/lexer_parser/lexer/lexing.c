@@ -20,8 +20,7 @@ void free_token_list(token_t **token_list)
     for (int i = 0; head; i++) {
         tmp = head;
         head = head->next;
-        if (tmp->arg)
-            free(tmp->arg);
+        free(tmp->arg);
         free(tmp);
     }
     free(token_list);
