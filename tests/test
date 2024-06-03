@@ -1102,24 +1102,24 @@ echo "rm -f coucou"
 # echo "history -N 10"
 # [210-END]
 
-# [211]
-# NAME="alias"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "alias ll ls"
-# echo "ll"
-# [211-END]
+[211]
+NAME="alias"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "alias ll ls"
+echo "ll"
+[211-END]
 
-# [212]
-# NAME="unalias"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "alias ll ls"
-# echo "unalias ll"
-# echo "ll"
-# [212-END]
+[212]
+NAME="unalias"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "alias ll ls"
+echo "unalias ll"
+echo "ll"
+[212-END]
 
 # [213]
 # NAME="alias"
@@ -1147,52 +1147,52 @@ echo "rm -f coucou"
 # echo "tomcarlier | grep .c"
 # [215-END]
 
-# [216]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set bonjour = coucou"
-# echo "echo bonjour"
-# echo "echo \$bonjour"
-# [216-END]
+[216]
+NAME="local var"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "set bonjour = coucou"
+echo "echo bonjour"
+echo "echo \$bonjour"
+[216-END]
 
-# [217]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set ish oush"
-# echo "echo ish"
-# echo "echo \$ish"
-# [217-END]
+[217]
+NAME="local var"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "set ish oush"
+echo "echo ish"
+echo "echo \$ish"
+[217-END]
 
-# [218]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set coucou = ishhh ljzef"
-# echo "unset coucou"
-# echo "echo coucou"
-# echo "echo \$coucou"
-# [218-END]
+[218]
+NAME="local var"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "set coucou = ishhh ljzef"
+echo "unset coucou"
+echo "echo coucou"
+echo "echo \$coucou"
+[218-END]
 
-# [219]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "unset iojio"
-# [219-END]
+[219]
+NAME="local var"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "unset iojio"
+[219-END]
 
-# [220]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set bonjour = coucou"
-# echo "unset bonjour"
-# echo "echo bonjour"
-# echo "echo \$bonjour"
-# [220-END]
+[220]
+NAME="local var"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "set bonjour = coucou"
+echo "unset bonjour"
+echo "echo bonjour"
+echo "echo \$bonjour"
+[220-END]

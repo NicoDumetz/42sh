@@ -42,6 +42,7 @@ SRC = main.c \
 	  src/alias/manage_alias.c \
 	  src/globbings/assemble_hard.c \
 	  src/globbings/assemble_simple.c \
+	  src/cleanup.c \
 
 
 OBJ = $(SRC:.c=.o)

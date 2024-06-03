@@ -7,11 +7,12 @@
 
 #include "minishell.h"
 
-void free_array(char **arr)
+int free_array(char **arr)
 {
     if (arr == NULL)
-        return;
+        return 0;
     for (int i = 0; arr[i]; i++)
         free(arr[i]);
     free(arr);
+    return 0;
 }
