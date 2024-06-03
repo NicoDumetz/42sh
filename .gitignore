@@ -1,0 +1,5 @@
+vgcore.*
+mysh
+*.o
+*.log
+*.a
