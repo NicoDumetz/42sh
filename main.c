@@ -77,6 +77,8 @@ int main(int argc, char **argv, char **env)
     int return_value = 0;
     garbage_t garbage;
 
+    (void)argc;
+    (void)argv;
     env = copy_env(env);
     ttycheck();
     garbage.line = &str;
