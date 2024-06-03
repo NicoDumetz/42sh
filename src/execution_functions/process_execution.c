@@ -15,8 +15,9 @@
 
 static void print_error_redirection(pipeline_t *pipeline)
 {
-    if ((!pipeline->next) && (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, ">") ||
-        !strcmp(pipeline->sep, "<<") || !strcmp(pipeline->sep, ">>")))
+    if ((!pipeline->next) && (!strcmp(pipeline->sep, "<") ||
+        !strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, "<<") ||
+        !strcmp(pipeline->sep, ">>")))
         fprintf(stderr, "%s", ERR_MISSING_NAME_REDIRECT);
     else
         fprintf(stderr, "%s", ERR_NULL_COMMAND);
