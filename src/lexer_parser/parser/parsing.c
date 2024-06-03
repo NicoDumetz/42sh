@@ -16,6 +16,8 @@ static int process_separator(token_t *token, garbage_t *garbage, token_t **token
 {
     int i = 0;
 
+    if (token->index != 0)
+        garbage->return_value = new_process(token_to_str_array(*token, token->index));
     for (i = 0; r_tab[i].sep != 0 && token->sep != r_tab[i].sep; i++);
     if (r_tab[i].sep == 0)
         return EXIT_FAILURE;
