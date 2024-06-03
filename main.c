@@ -73,7 +73,7 @@ static void travel_command(char *str, char ***env, int *return_value,
     freeing(0, command);
 }
 
-static void print_token_list(token_t **token_list)
+void print_token_list(token_t **token_list)
 {
     token_t *token = NULL;
 
@@ -90,7 +90,7 @@ static void print_token_list(token_t **token_list)
     }
 }
 
-static void print_pipeline(pipeline_t **pipeline)
+void print_pipeline(pipeline_t **pipeline)
 {
     pipeline_t *node = *pipeline;
 
@@ -115,9 +115,6 @@ static garbage_t init_garbage(char **str, char ***env)
     garbage.alias = NULL;
     garbage.local = NULL;
     garbage.pipeline = init_pipeline(garbage.raw_command);
-    print_pipeline(garbage.pipeline);
-    // garbage.token_list = init_token_list(garbage.raw_command);
-    // print_token_list(garbage.token_list);
     return garbage;
 }
 
@@ -133,10 +130,6 @@ int main(int argc, char **argv, char **env)
         garbage = init_garbage(&str, &env);
         process_execution(&garbage, garbage.pipeline);
         // lexing_features(&garbage, garbage.token_list);
-        // parsing_function(&garbage, garbage.token_list);
-        // free_token_list(garbage.token_list);
-        // insert_spaces(&str);
-        // travel_command(str, &env, &garbage);
         ttycheck();
     }
     freeing(str, env);

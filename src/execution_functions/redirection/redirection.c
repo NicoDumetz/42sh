@@ -52,7 +52,7 @@ static void close_fd(int fd_in, int fd_out)
 
 static void set_fd_out(char *str, pipeline_t *node)
 {
-    int mode =  (O_CREAT | O_WRONLY | O_TRUNC);
+    int mode = (O_CREAT | O_WRONLY | O_TRUNC);
     int mode_2 = (O_CREAT | O_WRONLY | O_APPEND);
 
     if (str == 0) {
@@ -107,9 +107,10 @@ static void set_fd_in(char *str, pipeline_t *pipeline)
 {
     // if (!strcmp(pipeline->sep, "<<"));
         // return set_input(str, i, save_out);
-    pipeline->input = open(str, O_RDONLY);
-    if (pipeline->input == -1)
+    pipeline->next->input = open(str, O_RDONLY);
+    if (pipeline->next->input == -1)
         return write_error(str);
+    pipeline->next->token_list = pipeline->token_list;
 }
 
 static int find_next_sep(token_t *token)
@@ -130,11 +131,14 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
     clean_space(str);
     if (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, "<<")) {
         set_fd_in(str, pipeline);
+        free(str);
+        return pipeline;
     }
-    if (!strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, ">>"))
+    if (!strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, ">>")) {
         set_fd_out(str, pipeline);
-    free(str);
-    garbage->return_value = new_process(pipeline, token_to_str_array(*pipeline->token_list,
-        get_token_list_size(*pipeline->token_list)), *garbage->env);
-    return pipeline->next;
+        garbage->return_value = new_process(pipeline, token_to_str_array(*pipeline->token_list,
+            get_token_list_size(*pipeline->token_list)), *garbage->env);
+            free(str);
+            return pipeline->next;
+    }
 }

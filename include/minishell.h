@@ -128,4 +128,6 @@ void unset_var(char *name, garbage_t *garbage);
 void free_var(garbage_t *garbage);
 char *check_local(char *token, garbage_t *garbage);
 void clean_space(char *str);
+void print_token_list(token_t **token_list);
+void print_pipeline(pipeline_t **pipeline);
 #endif

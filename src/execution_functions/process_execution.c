@@ -61,6 +61,5 @@ void process_execution(garbage_t *garbage, pipeline_t **pipeline)
 {
     if (!pipeline || !is_pipeline_correct(garbage, *pipeline))
         return;
-    printf("\n\n\n\t\t--ALL GOOD SIR--\n\n\n");
     execute_pipeline(garbage, *pipeline);
 }
