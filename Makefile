@@ -15,6 +15,7 @@ SRC = main.c \
 	  src/env.c \
 	  src/setenv.c \
 	  src/new_process.c \
+	  src/execution_functions/init_pipeline.c \
 	  src/execution_functions/pipe/pipe.c \
 	  src/execution_functions/pipe/fork.c \
 	  src/execution_functions/redirection/redirection.c \

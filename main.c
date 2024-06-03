@@ -74,13 +74,30 @@ static void travel_command(char *str, char ***env, int *return_value,
 
 static void print_token_list(token_t **token_list)
 {
-    token_t *token = *token_list;
+    token_t *token = NULL;
 
+    if (!token) {
+        printf("empty token list\n");
+        return;
+    }
+    token = *token_list;
     for (; token; token = token->next) {
         if (token->arg)
-            printf("token:%s--\n", token->arg);
+            printf("\ttoken:%s\n", token->arg);
         if (token->sep)
-            printf("token :%c--%d\n", token->sep, token->sep);
+            printf("\ttoken :%c\n", token->sep);
+    }
+}
+
+static void print_pipeline(pipeline_t **pipeline)
+{
+    pipeline_t *node = *pipeline;
+
+    for (; node; node = node->next) {
+        printf("\tSTART PIPE\n");
+        print_token_list(node->token_list);
+        printf("\tSEPARATOR:\t%s\n", node->sep);
+        printf("\n\tEND PIPE\n");
     }
 }
 
@@ -110,7 +127,10 @@ static garbage_t init_garbage(char **str, char ***env)
     garbage.token_list = NULL;
     garbage.alias = NULL;
     garbage.local = NULL;
-    garbage.token_list = init_token_list(garbage.raw_command);
+    garbage.pipeline = init_pipeline(garbage.raw_command);
+    print_pipeline(garbage.pipeline);
+    // garbage.token_list = init_token_list(garbage.raw_command);
+    // print_token_list(garbage.token_list);
     return garbage;
 }
 
@@ -125,12 +145,8 @@ int main(int argc, char **argv, char **env)
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
         garbage = init_garbage(&str, &env);
         // lexing_features(&garbage, garbage.token_list);
-        // printf("----START LAST TOKEN LIST----\n\n");
-        // if (garbage.token_list)
-        //     print_token_list(garbage.token_list);
-        // printf("----END LAST TOKEN LIST----\n\n");
-        parsing_function(&garbage, garbage.token_list);
-        free_token_list(garbage.token_list);
+        // parsing_function(&garbage, garbage.token_list);
+        // free_token_list(garbage.token_list);
         // insert_spaces(&str);
         // travel_command(str, &env, &garbage);
         ttycheck();

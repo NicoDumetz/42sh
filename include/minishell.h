@@ -36,6 +36,17 @@ typedef struct token_s {
     struct token_s *next;
 } token_t;
 
+typedef struct pipeline_s {
+    token_t **token_list;
+    char *sep;
+    int return_value;
+    int pid;
+    int input;
+    int output;
+    int error_output;
+    struct pipeline_s *next;
+} pipeline_t;
+
 typedef struct garbage_s {
     char ***env;
     char **line;
@@ -46,6 +57,7 @@ typedef struct garbage_s {
     char *raw_command;
     int return_value;
     token_t **token_list;
+    pipeline_t **pipeline;
     alias_t *alias;
     var_t *local;
 } garbage_t;
@@ -77,6 +89,8 @@ int new_process(char **command, char **env);
 int execute_semicolon(garbage_t *garbage, token_t **token_list, token_t *token);
 
 int execute_redirection(garbage_t *garbage, token_t **token_list, token_t *token);
+
+pipeline_t **init_pipeline(char *str);
 
 char *token_to_str(token_t *start, int end);
 char **token_to_str_array(token_t *start, int end);
