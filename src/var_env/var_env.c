@@ -48,7 +48,8 @@ char *remove_quotes(const char *str)
     len = my_strlen(str);
     new_str = malloc(sizeof(char) * (len + 1));
     for (i = 0; i < len; i++) {
-        if (str[i] != '"' && str[i] != '\n') {
+        if (str[i] != '"' && str[i] != '\n' &&
+            str[i] != '{' && str[i] != '}') {
             new_str[j] = str[i];
             j++;
         }

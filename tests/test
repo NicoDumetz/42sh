@@ -1378,3 +1378,12 @@ TESTS=
 echo "cat < main.c >> coucou | ls"
 echo "rm -f coucou"
 [244-END]
+
+[245]
+NAME=""
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+echo "set a = b"
+echo "echo $\{a\}"
+[245-END]
