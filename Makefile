@@ -11,6 +11,7 @@ SRC = main.c \
 	  src/feature_tab.c\
 	  src/globbings/globbings.c\
 	  src/cd.c \
+	  src/exit_built.c\
 	  src/env.c \
 	  src/setenv.c \
 	  src/new_process.c \
@@ -35,9 +36,12 @@ SRC = main.c \
 	  tools/array_to_str.c \
 	  src/execution_functions/execute_built.c \
 	  tools/free_array.c \
+	  tools/free_token.c \
 	  src/var_env/var_env.c \
 	  src/local/manage_local.c \
 	  src/alias/manage_alias.c \
+	  src/globbings/assemble_hard.c \
+	  src/globbings/assemble_simple.c \
 
 OBJ = $(SRC:.c=.o)
 
