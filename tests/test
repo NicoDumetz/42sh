@@ -409,13 +409,13 @@ TESTS=
   echo 'setenv variable valeur'
 [48-END]
 
-# [49]
-# NAME="setenv avec un nom de variable vide"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'setenv "" valeur'
-# [49-END]
+[49]
+NAME="setenv avec un nom de variable vide"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv "" valeur'
+[49-END]
 
 [50]
 NAME="setenv avec une valeur vide"
@@ -467,13 +467,13 @@ TESTS=
   echo 'cd my_printf ressources'
 [55-END]
 
-# [56]
-# NAME="cd avec un argument vide"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo 'cd ""'
-# [56-END]
+[56]
+NAME="cd avec un argument vide"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ""'
+[56-END]
 
 # [57]
 # NAME="cd vers un répertoire sans permission de lecture"
@@ -824,16 +824,16 @@ TESTS=
   echo "cat < coucou | grep a"
 [111-END]
 
-# [112]
-# NAME="attention bug <<"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-#   echo "cat << coucou"
-#   echo "lern"
-#   echo "lnilkn"
-#   echo "coucou"
-# [112-END]
+[112]
+NAME="attention bug <<"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "cat << coucou"
+  echo "lern"
+  echo "lnilkn"
+  echo "coucou"
+[112-END]
 
 [113]
 NAME=" test ta"
@@ -1009,190 +1009,3 @@ TESTS=
 echo "rm -f output.txt"
 echo "rm -f coucou"
 [133-END]
-
-# [200]
-# NAME="globbing *"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "cat *.c"
-# [200-END]
-
-# [201]
-# NAME="globbing *"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "cat Make*"
-# [201-END]
-
-# [202]
-# NAME="globbing ?"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "cat ????.c"
-# [202-END]
-
-# [203]
-# NAME="globbing ?"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls ???"
-# [203-END]
-
-# [204]
-# NAME="globbing []"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls [l-i]*"
-# [204-END]
-
-# [205]
-# NAME="globbing []"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls *[c-e]"
-# [205-END]
-
-# [206]
-# NAME="history"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls"
-# echo "history 1"
-# [206-END]
-
-# [207]
-# NAME="history errors"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "history coucou"
-# [207-END]
-
-# [208]
-# NAME="history errors"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "ls"
-# echo "history 1 5"
-# [208-END]
-
-# [209]
-# NAME="history reset"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "history -c"
-# echo "history"
-# [209-END]
-
-# [210]
-# NAME="history erreurs"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo ""
-# echo "history -N 10"
-# [210-END]
-
-# [211]
-# NAME="alias"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "alias ll ls"
-# echo "ll"
-# [211-END]
-
-# [212]
-# NAME="unalias"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "alias ll ls"
-# echo "unalias ll"
-# echo "ll"
-# [212-END]
-
-# [213]
-# NAME="alias"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "alias hey \"echo bonjour comment tu vas\""
-# echo "hey"
-# [213-END]
-
-# [214]
-# NAME="alias errors"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "alias 'jn'nl',l 'ù;'"
-# [214-END]
-
-# [215]
-# NAME="alias advenced"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "alias tomcarlier 'ls -l'"
-# echo "tomcarlier | grep .c"
-# [215-END]
-
-# [216]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set bonjour = coucou"
-# echo "echo bonjour"
-# echo "echo \$bonjour"
-# [216-END]
-
-# [217]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set ish oush"
-# echo "echo ish"
-# echo "echo \$ish"
-# [217-END]
-
-# [218]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set coucou = ishhh ljzef"
-# echo "unset coucou"
-# echo "echo coucou"
-# echo "echo \$coucou"
-# [218-END]
-
-# [219]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "unset iojio"
-# [219-END]
-
-# [220]
-# NAME="local var"
-# SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
-# CLEAN=""
-# TESTS=
-# echo "set bonjour = coucou"
-# echo "unset bonjour"
-# echo "echo bonjour"
-# echo "echo \$bonjour"
-# [220-END]
