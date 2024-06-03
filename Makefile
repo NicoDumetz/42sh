@@ -6,7 +6,6 @@
 ##
 
 SRC = main.c \
-	  src/lexing.c\
 	  src/cd.c \
 	  src/env.c \
 	  src/setenv.c \

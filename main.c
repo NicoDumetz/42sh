@@ -4,7 +4,6 @@
 ** File description:
 ** main.c
 */
-
 #include "my.h"
 #include "minishell.h"
 #include <stdio.h>
@@ -71,64 +70,22 @@ static void travel_command(char *str, char ***env, int *return_value,
     freeing(0, command);
 }
 
-static void print_token_list(token_t **token_list)
-{
-    token_t *token = *token_list;
-
-    for (; token; token = token->next) {
-        if (token->arg)
-            printf("token:%s--\n", token->arg);
-        if (token->sep)
-            printf("token :%c--%d\n", token->sep, token->sep);
-    }
-}
-
-static void free_token_list(token_t **token_list)
-{
-    token_t *head = *token_list;
-    token_t *tmp;
-
-    for (int i = 0; head; i++) {
-        tmp = head;
-        head = head->next;
-        free(tmp->arg);
-        free(tmp);
-    }
-    free(token_list);
-}
-
-static garbage_t init_garbage(char **str, char ***env)
-{
-    garbage_t garbage;
-
-    garbage.env = env;
-    garbage.raw_command = *str;
-    garbage.return_value = 0;
-    garbage.token_list = NULL;
-    garbage.token_list = init_token_list(garbage.raw_command);
-    if (garbage.token_list)
-        print_token_list(garbage.token_list);
-    return garbage;
-}
-
 int main(int argc, char **argv, char **env)
 {
     char *str = 0;
     size_t len = 0;
+    int return_value = 0;
     garbage_t garbage;
 
     env = copy_env(env);
     ttycheck();
-    // garbage.raw_command = &str;
-    // garbage.env = &env;
+    garbage.line = &str;
+    garbage.env = &env;
     while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
-        garbage = init_garbage(&str, &env);
-        free_token_list(garbage.token_list);
-        // insert_spaces(&str);
-        // travel_command(str, &env, &garbage);
+        insert_spaces(&str);
+        travel_command(str, &env, &return_value, &garbage);
         ttycheck();
     }
-    // freeing(str, env);
-    // return return_value;
-    return 0;
+    freeing(str, env);
+    return return_value;
 }
