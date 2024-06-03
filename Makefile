@@ -6,28 +6,26 @@
 ##
 
 SRC = main.c \
-	  src/lexer_parser/lexer/lexing.c\
-	  src/lexer_parser/lexer/lexing_features.c\
-	  src/feature_tab.c\
-	  src/globbings/globbings.c\
 	  src/cd.c \
 	  src/env.c \
 	  src/setenv.c \
 	  src/new_process.c \
-	  src/execution_functions/init_pipeline.c \
-	  src/execution_functions/process_execution.c \
-	  src/execution_functions/pipe/pipe.c \
-	  src/execution_functions/pipe/fork.c \
-	  src/execution_functions/redirection/redirection.c \
-	  src/execution_functions/redirection/redirection_errors.c \
-	  src/execution_functions/conditionnal_execution.c \
+	  src/pipe/pipe.c \
+	  src/pipe/fork.c \
+	  src/redirection/redirection.c \
+	  src/redirection/redirection_errors.c \
 	  src/command_errors.c\
-	  src/add_separator.c\
-	  tools/tab_len.c\
-	  tools/token_to_str_array.c\
-	  tools/token_to_str.c\
-	  src/alias/alias.c \
-	  src/local/local_var.c
+	  src/add_separator.c \
+	  src/history/add_history.c \
+	  src/history/display_history.c \
+	  src/history/history_command.c \
+	  src/history/history_arrows.c \
+	  src/history/my_str_to_minishell_array.c \
+	  src/history/my_str_to_minishell_array2.c \
+	  src/history/my_str_to_minishell_array3.c \
+	  src/input_management/input_management.c \
+	  src/input_management/my_getline.c \
+	  src/input_management/non_canonical_mode.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -35,21 +33,29 @@ CFLAGS += -Llib -lmy -Iinclude -g
 
 NAME = mysh
 
+
 all: $(NAME)
 
 required:
-	make -C lib/my
+	@./tests/banner.sh
+	@printf "\e[1;32m"
+	@make -s -C lib/my
 
 $(NAME): required $(OBJ)
-	gcc -o $(NAME) $(OBJ) $(CFLAGS)
+	@gcc -o $(NAME) $(OBJ) $(CFLAGS)
 
 clean:
+	printf "\e[36m"
 	rm -f $(OBJ)
-	make clean -C lib/my
+	make -s clean -C lib/my
 
 fclean:
+	@printf "\e[35m"
 	rm -f $(NAME)
 	rm -f $(OBJ)
-	make fclean -C lib/my
+	make fclean -s -C lib/my
 
 re: fclean all
+
+run_test:
+	@./tests/tester.sh
