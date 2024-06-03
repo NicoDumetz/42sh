@@ -19,7 +19,6 @@ static void delete_node_string(token_t **head)
     token_t *current = (*head)->next;
 
     for (; current->sep != '\"'; current = next) {
-        if (current->arg)
         next = current->next;
     }
     (*head)->next = current->next;
