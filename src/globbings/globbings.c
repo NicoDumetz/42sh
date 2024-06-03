@@ -162,7 +162,7 @@ int rebuild_token(token_t *current, token_t **start, int index)
             assemble_simple(current, start);
         current = next;
     }
-    if (check != 1)
+    if (check == -1)
         count = -1;
     return count;
 }
