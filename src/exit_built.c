@@ -14,6 +14,7 @@ int exit_built(char *, char ***, garbage_t *garbage)
 {
     int save_exit = garbage->return_value;
 
+    cleanup(garbage);
     free_pipeline(garbage->pipeline);
     exit(save_exit);
 }

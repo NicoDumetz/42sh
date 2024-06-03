@@ -29,7 +29,6 @@ SRC = main.c \
 	  tools/token_to_str.c\
 	  src/alias/alias.c \
 	  src/local/local_var.c \
-	  src/inibitors/inibitors.c
 	  tools/clean_str.c \
 	  src/globs_tab.c \
 	  tools/contain_char.c \
@@ -55,10 +54,11 @@ SRC = main.c \
 	  src/globbings/assemble_hard.c \
 	  src/globbings/assemble_simple.c \
 	  src/cleanup.c \
+	  src/which_where.c
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -Llib -lmy -Iinclude -g
+CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
 
 NAME = 42sh
 
