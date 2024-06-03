@@ -19,7 +19,7 @@ static int is_history_flags(char *arg)
         return 1;
     for (int i = 1; arg[i] != '\0'; i++) {
         if (arg[i] != 'c' && arg[i] != 'h' && arg[i] != 'r') {
-            write(2, "Usage: history [-chr] [# number of events].\n", 44);
+            write(2, "Usage: history [-chrSLMT] [# number of events].\n", 48);
             return 0;
         }
     }
@@ -94,7 +94,7 @@ static int history_flags(char **command, history_t **history)
     return 0;
 }
 
-int history_command(char *str, char ***, garbage_t *garbage)
+int history_command(char *str, char ***, garbage_t *garbage, pipeline_t *)
 {
     char **command = my_str_to_array(str, " ");
     int i;
