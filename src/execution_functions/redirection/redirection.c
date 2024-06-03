@@ -18,14 +18,12 @@ static void write_error(char *name)
     char *error = strerror(errno);
 
     if (error == 0) {
-        free(name);
         return;
     }
     write(2, name, my_strlen(name));
     write(2, ": ", 2);
     write(2, error, my_strlen(error));
     write(2, ".\n", 2);
-    free(name);
 }
 
 static char *get_name(char *str, int j, int i)
@@ -105,22 +103,14 @@ static void set_input(char *str, int *i, int save_out)
     *i += 1;
 }
 
-// static void set_fd_in(char *str, pipelin_t *pipeline)
-// {
-//     char *name;
-
-//     if (str[*i + 1] == '<')
-//         return set_input(str, i, save_out);
-//     name = get_name(str, *i + 1, *i);
-//     if (name == 0) {
-//         *fd_in = -1;
-//         return;
-//     }
-//     *fd_in = open(name, O_RDONLY);
-//     if (*fd_in == -1)
-//         return write_error(name);
-//     free(name);
-// }
+static void set_fd_in(char *str, pipeline_t *pipeline)
+{
+    // if (!strcmp(pipeline->sep, "<<"));
+        // return set_input(str, i, save_out);
+    pipeline->input = open(str, O_RDONLY);
+    if (pipeline->input == -1)
+        return write_error(str);
+}
 
 static int find_next_sep(token_t *token)
 {
@@ -137,15 +127,14 @@ pipeline_t *execute_redirection(garbage_t *garbage, pipeline_t *pipeline)
     char *str = NULL;
 
     str = token_to_str(*pipeline->next->token_list);
-    format_str(str);
-        if (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, "<<")) {
-            // set_fd_in(str, pipeline->input);
-        }
-        if (!strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, ">>"))
-            set_fd_out(str, pipeline);
+    clean_space(str);
+    if (!strcmp(pipeline->sep, "<") || !strcmp(pipeline->sep, "<<")) {
+        set_fd_in(str, pipeline);
+    }
+    if (!strcmp(pipeline->sep, ">") || !strcmp(pipeline->sep, ">>"))
+        set_fd_out(str, pipeline);
     free(str);
     garbage->return_value = new_process(pipeline, token_to_str_array(*pipeline->token_list,
         get_token_list_size(*pipeline->token_list)), *garbage->env);
-    // close_fd(fd_in, fd_out);
     return pipeline->next;
 }

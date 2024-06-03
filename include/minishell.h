@@ -127,4 +127,5 @@ int set_local(char *var, char *value, garbage_t *garbage);
 void unset_var(char *name, garbage_t *garbage);
 void free_var(garbage_t *garbage);
 char *check_local(char *token, garbage_t *garbage);
+void clean_space(char *str);
 #endif
