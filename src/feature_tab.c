@@ -13,7 +13,6 @@
 #include <sys/wait.h>
 
 feature_tab_t f_tab[] = {
-    {'|', (*pipe_feature)},
-    {';', (*semi_col_feature)},
+    {';', (int (*)(garbage_t *, token_t **))parsing_function},
     {0, 0}
 };

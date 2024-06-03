@@ -23,7 +23,7 @@ static int process_separator(char sep, garbage_t *garbage, token_t **token_list)
     return EXIT_SUCCESS;
 }
 
-static int parsing_function(garbage_t *garbage, token_t **token_list)
+int parsing_function(garbage_t *garbage, token_t **token_list)
 {
     token_t *token = *token_list;
     int index = 0;
@@ -37,4 +37,6 @@ static int parsing_function(garbage_t *garbage, token_t **token_list)
         }
         index = token->index;
     }
+    execute_command(garbage, *token_list, index);
+    return EXIT_SUCCESS;
 }
