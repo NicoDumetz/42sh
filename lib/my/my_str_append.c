@@ -17,6 +17,7 @@ char *my_str_append_char(char *dest, char const c)
         str[i] = dest[i];
     }
     str[i] = c;
+    free(dest);
     return str;
 }
 
@@ -35,5 +36,6 @@ char *my_str_append(char *dest, char const *src)
         str[i] = src[j];
         i++;
     }
+    free(dest);
     return str;
 }

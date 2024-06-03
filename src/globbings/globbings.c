@@ -16,7 +16,7 @@ char **make_globbings(char *str)
     if (glob(str, 0, NULL, &glob_result) == GLOB_NOMATCH)
         return NULL;
     for (; glob_result.gl_pathv[len] != NULL; len++);
-    arr = gmalloc(sizeof(char *) * (len + 1));
+    arr = malloc(sizeof(char *) * (len + 1));
     for (int i = 0; i < len; i++)
         arr[i] = strdup(glob_result.gl_pathv[i]);
     arr[len] = NULL;
@@ -26,7 +26,7 @@ char **make_globbings(char *str)
 
 static token_t *create_new_node(char *arg)
 {
-    token_t *new_node = gmalloc(sizeof(token_t));
+    token_t *new_node = malloc(sizeof(token_t));
 
     new_node->sep = '\0';
     new_node->arg = arg;
@@ -48,6 +48,7 @@ static void connect_new_list(
         (*actual)->prev->next = new_list;
     else
         *start = new_list;
+    free_token(actual);
     *actual = prev;
 }
 
@@ -87,12 +88,14 @@ void supp_token_glob(token_t **token, token_t **start)
     if (prev == NULL) {
         *start = next;
         (*start)->prev = NULL;
+        free_token(to_delete);
         *token = next;
         return;
     }
     if (next != NULL)
         next->prev = prev;
     prev->next = next;
+    free_token(to_delete);
     *token = next;
 }
 
@@ -114,6 +117,7 @@ static int check_glob(token_t **token, token_t **start, int *check)
         count = tab_len(new_arg);
     if (*check == 1) {
         create_new_arg(token, start, new_arg);
+        free(new_arg);
     }
     return (count);
 }
@@ -173,6 +177,7 @@ int globbings(garbage_t *, token_t **start)
     correct_index(*start, save_index);
     if (count == -1) {
         fprintf(stderr, "glob: No match.\n");
+        free_token_list(start);
         start = NULL;
     }
     return count;

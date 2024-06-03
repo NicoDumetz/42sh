@@ -68,7 +68,7 @@ static void reset_fd(int save_in, int save_out)
 
 int pipe_handling(char *str, char ***, garbage_t *garbage)
 {
-    char **pipes = my_str_to_garray(str, "|");
+    char **pipes = my_str_to_array(str, "|");
     int num_pipe = count_pipe(pipes);
     int pipeline[num_pipe - 1][2];
     int result = 0;
@@ -81,6 +81,7 @@ int pipe_handling(char *str, char ***, garbage_t *garbage)
     fork_pipes(pipes, pipeline, num_pipe, garbage);
     last_redirect(num_pipe, pipeline);
     reset_fd(garbage->save_in, garbage->save_out);
+    freeing(0, pipes);
     return result;
 }
 

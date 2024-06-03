@@ -23,31 +23,3 @@ char *my_strdup(const char *src)
     dest[size - 1] = '\0';
     return dest;
 }
-
-char *my_gstrdup(const char *src)
-{
-    int size;
-    char *dest;
-
-    if (src == NULL)
-        return NULL;
-    size = my_strlen(src) + 1;
-    dest = gmalloc(size);
-    for (int i = 0; src[i] != '\0'; i++)
-        dest[i] = src[i];
-    dest[size - 1] = '\0';
-    return dest;
-}
-
-char *my_gstrndup(const char *src, int index)
-{
-    char *dest;
-
-    if (src == NULL)
-        return NULL;
-    dest = gmalloc(index + 1);
-    for (int i = 0; i < index; i++)
-        dest[i] = src[i];
-    dest[index] = '\0';
-    return dest;
-}

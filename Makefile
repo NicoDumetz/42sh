@@ -38,6 +38,7 @@ SRC = main.c \
 	  tools/array_to_str.c \
 	  src/execution_functions/execute_built.c \
 	  tools/free_array.c \
+	  tools/free_token.c \
 	  src/var_env/var_env.c \
 	  src/local/manage_local.c \
 	  src/alias/manage_alias.c \
@@ -69,7 +70,6 @@ SRC = main.c \
 	  src/autocompletion/completion_command.c \
 	  src/autocompletion/completion_file.c \
 	  src/autocompletion/display_tab.c \
-	  tools/invalid_char.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -95,8 +95,5 @@ fclean:
 	rm -f $(NAME)
 	rm -f $(OBJ)
 	make fclean -C lib/my
-
-test:
-	tests/tester.sh
 
 re: fclean all

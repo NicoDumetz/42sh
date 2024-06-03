@@ -31,7 +31,7 @@ char *array_to_str(char **array)
     for (int i = 0; i < num; i++)
         len += strlen(array[i]);
     len += num - 1;
-    str = (char *)gmalloc(len + 1);
+    str = (char *)malloc(len + 1);
     str[0] = '\0';
     for (int i = 0; i < num; i++) {
         my_strcat(str, array[i]);

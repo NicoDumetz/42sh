@@ -130,5 +130,4 @@ void add_history(char **command, history_t **history)
     free_excess_node(history);
     add_node_history(pretty_command, history);
     *command = my_strdup(pretty_command);
-    free(pretty_command);
 }

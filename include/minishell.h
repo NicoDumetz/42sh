@@ -277,5 +277,4 @@ int str_is_alpha(const char *str);
 char *remove_quotes(const char *str);
 int check_spe_var(token_t *token, pipeline_t *pipeline, garbage_t *garbage);
 int char_is_alpha(char c);
-int invalid_char(char *str);
 #endif

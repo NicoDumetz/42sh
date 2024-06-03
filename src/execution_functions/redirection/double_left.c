@@ -11,7 +11,7 @@
 static void add_line_to_result(char **result, char *line)
 {
     int len = my_strlen(*result) + my_strlen(line);
-    char *buffer = gmalloc(sizeof(char) * (len + 1));
+    char *buffer = malloc(sizeof(char) * (len + 1));
     int k = 0;
 
     my_putstr("> ");
@@ -26,6 +26,7 @@ static void add_line_to_result(char **result, char *line)
         k++;
     }
     buffer[k] = '\0';
+    free(*result);
     *result = buffer;
 }
 
@@ -35,6 +36,7 @@ int getline_loop(char *line, int fd[2], char *file, char **result)
     if (my_strcmp(file, line) == 0) {
         write(fd[1], *result, my_strlen(*result));
         close(fd[1]);
+        free(line);
         return (1);
     }
     line[my_strlen(line)] = '\n';
@@ -57,6 +59,7 @@ int find_stdin(char *file)
             set_non_canonical_mode();
             return (fd[0]);
         }
+        free(line);
         line = NULL;
         size = 0;
     }

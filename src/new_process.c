@@ -22,12 +22,14 @@ static int test_relative(char **command, char **path)
     if (access(command[0], F_OK) == -1) {
         write(2, command[0], my_strlen(command[0]));
         write(2, ": Command not found.\n", 21);
+        freeing(0, command);
         return 1;
     }
     if (access(command[0], X_OK) == -1 || stat(command[0], &file) == -1 ||
     !S_ISREG(file.st_mode)) {
         write(2, command[0], my_strlen(command[0]));
         write(2, ": Permission denied.\n", 21);
+        freeing(0, command);
         return 1;
     }
     *path = my_strdup(command[0]);
@@ -40,8 +42,8 @@ static char **get_path(char **env)
 
     for (; env[i] && my_strncmp(env[i], "PATH=", 5) != 0; i++);
     if (!env[i])
-        return my_str_to_garray("", ":");
-    return my_str_to_garray(env[i] + 5, ":");
+        return my_str_to_array("", ":");
+    return my_str_to_array(env[i] + 5, ":");
 }
 
 static void error_write(char *command, char *message)
@@ -55,7 +57,8 @@ static int test_path(char **path_var, char **command, char **path)
     struct stat file_stat;
 
     for (int i = 0; path_var[i]; i++) {
-        *path = gmalloc(my_strlen(path_var[i]) + my_strlen(command[0]) + 2);
+        freeing(*path, 0);
+        *path = malloc(my_strlen(path_var[i]) + my_strlen(command[0]) + 2);
         my_strcpy(*path, path_var[i]);
         my_strcat(*path, "/");
         my_strcat(*path, command[0]);
@@ -82,8 +85,11 @@ static int get_command(char **command, char **env, char **path)
     if (strcmp(command[0], "setenv") != 0 &&
         strcmp(command[0], "repeat") != 0 &&
         test_path(path_var, command, path)) {
+        freeing(*path, path_var);
+        freeing(0, command);
         return 1;
     }
+    freeing(0, path_var);
     return 0;
 }
 
@@ -128,5 +134,6 @@ int new_process(
         node->pid = pid;
         reset_in_and_out(node);
     }
+    freeing(path, command);
     return 0;
 }
