@@ -85,18 +85,6 @@ int pipe_handling(char *str, char ***, garbage_t *garbage)
     return result;
 }
 
-void wait_pid_list(pipeline_t *commands)
-{
-    pipeline_t *node = commands;
-
-    while (node) {
-        if (node->pid != 0) {
-            waitpid(node->pid, &node->return_value, 0);
-        }
-        node = node->next;
-    }
-}
-
 static pipeline_t *pipe_loop(garbage_t *garbage, pipeline_t *node, int *i)
 {
     int fd[2][2];
@@ -126,6 +114,5 @@ pipeline_t *execute_pipe(garbage_t *garbage, pipeline_t *commands)
     garbage->return_value = new_process(node, token_to_str_array(
     *node->token_list, get_token_list_size(
             *node->token_list)), *garbage->env, garbage);
-    wait_pid_list(commands);
     return node;
 }
