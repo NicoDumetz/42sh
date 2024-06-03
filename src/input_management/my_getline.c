@@ -132,7 +132,7 @@ int my_getline_interact(char **line, history_t **hist)
     if (getmy == NULL)
         return -1;
     init_getline(getmy);
-    *line = gmalloc(getmy->n * sizeof(char));
+    *line = malloc(getmy->n * sizeof(char));
     if (*line == NULL)
         return -1;
     *line[0] = '\0';
