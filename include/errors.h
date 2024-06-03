@@ -7,5 +7,4 @@
 
 #ifndef SH_ERROR_MESSAGE
     #define SH_ERROR_MESSAGE
-    #define STR_ERROR "Unmatched '\"'.\n"
 #endif // !SH_ERROR_MESSAGE

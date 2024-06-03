@@ -12,6 +12,7 @@
     #include <string.h>
     #include <stdbool.h>
     #include <glob.h>
+    #include <stdio.h>
     #define IS_ALPHA(c) (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
     #define IS_NUM(c) ('0' <= c && c <= '9')
 
@@ -51,7 +52,7 @@ typedef struct garbage_s {
 
 typedef struct redirection_tab_s {
     char sep;
-    int (*redirection)(garbage_t *, token_t **);
+    int (*redirection)(garbage_t *, token_t **, token_t *);
 } redirection_tab_t;
 
 typedef struct lexing_tab_s {
@@ -67,13 +68,11 @@ token_t **init_token_list(char *str);
 
 void lexing_features(garbage_t *garbage, token_t **token_list);
 
-void execute_command(garbage_t *garbage, token_t **token_list, int index);
-
 int parsing_function(garbage_t *garbage, token_t **token_list);
 
 int globbings_function(garbage_t *garbage, token_t **token_list);
 
-int get_string(garbage_t *, token_t **head);
+int new_process(char **command, char **env);
 
 char **token_to_str_array(token_t *start, int end);
 void insert_spaces(char **input);
@@ -85,7 +84,6 @@ char **copy_env(char **env);
 int show_env(char **env);
 int set_environnement(char *str, char ***env);
 int delete_env(char *str, char ***env);
-int new_process(char *str, char **env);
 int pipe_handling(char *str, char ***env, garbage_t *garbage);
 void pipe_redirect(int i, int num_pipe, int pipeline[][2]);
 void fork_pipes(char **pipes, int pipeline[][2], int num_pipe,
