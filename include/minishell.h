@@ -90,7 +90,7 @@ void lexing_features(garbage_t *garbage, token_t **token_list);
 
 int parsing_function(garbage_t *garbage, token_t **token_list);
 
-int globbings_function(garbage_t *garbage, token_t **token_list);
+int globbings(garbage_t *garbage, token_t **token_list);
 
 int new_process(pipeline_t *pipeline, char **command, char **env);
 
@@ -105,9 +105,12 @@ void process_execution(garbage_t *garbage, pipeline_t **pipeline);
 void free_token_list(token_t **token_list);
 
 void free_pipeline(pipeline_t **pipeline);
-
+int exit_built(char *, char ***, garbage_t *garbage);
+void free_token(token_t *token);
+int tab_len(char **tab);
 pipeline_t *execute_pipe(garbage_t *garbage, pipeline_t *commands);
-
+int assemble_hard(token_t **current, token_t **head);
+void assemble_simple(token_t *current, token_t **head);
 char *token_to_str(token_t *start);
 int get_token_list_size(token_t *token);
 char **token_to_str_array(token_t *start, int end);

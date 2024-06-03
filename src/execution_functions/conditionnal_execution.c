@@ -20,6 +20,8 @@ pipeline_t *execute_semicolon(garbage_t *garbage, pipeline_t *pipeline)
         garbage->return_value = EXIT_SUCCESS;
         return pipeline;
     }
+    if (globbings(garbage, pipeline->token_list) == -1)
+        return pipeline;
     command = token_to_str_array(*pipeline->token_list,
     get_token_list_size(*pipeline->token_list));
     if (check_built(command, garbage) == 1) {

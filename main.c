@@ -102,7 +102,7 @@ int main(int argc, char **argv, char **env)
     garbage.alias = NULL;
     garbage.local = NULL;
     ttycheck();
-    while (getline(&str, &len, stdin) != -1 && my_strcmp(str, "exit\n")) {
+    while (getline(&str, &len, stdin) != -1) {
         garbage = init_garbage(&str, &garbage);
         if (garbage.return_value == 0)
             process_execution(&garbage, garbage.pipeline);
