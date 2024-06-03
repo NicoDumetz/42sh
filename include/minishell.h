@@ -79,7 +79,6 @@ typedef struct garbage_s {
     pipeline_t **pipeline;
     alias_t *alias;
     var_t *local;
-    int execute;
 } garbage_t;
 
 typedef struct redirection_tab_s {
