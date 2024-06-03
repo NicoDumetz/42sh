@@ -7,13 +7,13 @@
 
 #include "minishell.h"
 
-void free_collector(collector_t **collector)
+static collector_t **free_collector(collector_t **collector)
 {
     collector_t *node = NULL;
     collector_t *tmp = NULL;
 
     if (!collector)
-        return;
+        return collector;
     node = *collector;
     while (node) {
         tmp = node;
@@ -22,6 +22,8 @@ void free_collector(collector_t **collector)
         free(tmp);
     }
     free(collector);
+    collector = NULL;
+    return NULL;
 }
 
 static collector_t **create_new_node(void *data, collector_t **collector)
@@ -31,8 +33,8 @@ static collector_t **create_new_node(void *data, collector_t **collector)
     new_node = malloc(sizeof(collector_t));
     if (new_node) {
         free(data);
-        free_collector(collector);
-        return NULL;
+        collector = free_collector(collector);
+        exit(84);
     }
     new_node->data = data;
     new_node->next = *collector;
@@ -46,16 +48,16 @@ void *gmalloc(size_t size)
     void *data = NULL;
 
     if (!size) {
-        free_collector(collector);
+        collector = free_collector(collector);
         return NULL;
     }
     data = malloc(size);
     if (!data) {
-        free_collector(collector);
-        return NULL;
+        collector = free_collector(collector);
+        exit(84);
     }
     collector = create_new_node(data, collector);
     if (!collector)
-        return NULL;
+        exit(84);
     return data;
 }
