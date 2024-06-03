@@ -10,7 +10,7 @@
 #include "my.h"
 #include "minishell.h"
 
-int exit_built(char *, char ***, garbage_t *garbage)
+int exit_built(char *, char ***, garbage_t *garbage, pipeline_t *)
 {
     int save_exit = garbage->return_value;
 

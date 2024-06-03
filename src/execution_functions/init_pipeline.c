@@ -41,18 +41,14 @@ static void reverse_pipeline(pipeline_t **commands)
     *commands = prev;
 }
 
-static bool check_sep(char *str, int *i, int index)
+static bool check_sep(char *str, int i, int index)
 {
     char item[] = ";|><&\n";
 
-    if (*i == index && *i != 0)
+    if (i == index && i != 0)
         return false;
-    if (*i != 0 && str[*i - 1] == '\\') {
-        *i += 1;
-        return false;
-    }
     for (int j = 0; item[j]; j++) {
-        if (item[j] == str[*i])
+        if (item[j] == str[i])
             return true;
     }
     return false;
@@ -146,14 +142,9 @@ static void skip_backticks(char *str, int *i)
 
 static void skip_features(char *str, int *i)
 {
-    int save = -1;
-
-    while (save != *i) {
-        save = *i;
-        skip_parenthesis(str, i);
-        skip_quotes(str, i);
-        skip_backticks(str, i);
-    }
+    skip_parenthesis(str, i);
+    skip_quotes(str, i);
+    skip_backticks(str, i);
 }
 
 pipeline_t **init_pipeline(char *str)
@@ -168,7 +159,7 @@ pipeline_t **init_pipeline(char *str)
     *pipeline = NULL;
     for (i = 0; i <= my_strlen(str); i++) {
         skip_features(str, &i);
-        if (check_sep(str, &i, index)) {
+        if (check_sep(str, i, index)) {
             node = build_node(str, &i, &index);
             node->next = *pipeline;
             *pipeline = node;
