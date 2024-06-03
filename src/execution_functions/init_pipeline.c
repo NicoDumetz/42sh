@@ -126,7 +126,7 @@ static void skip_quotes(char *str, int *i)
     }
 }
 
-static void skip_quotes(char *str, int *i)
+static void skip_backticks(char *str, int *i)
 {
     int nb = 0;
 
@@ -153,7 +153,7 @@ pipeline_t **init_pipeline(char *str)
     for (i = 0; i <= strlen(str); i++) {
         skip_parenthesis(str, &i);
         skip_quotes(str, &i);
-        skip_backticks((str, &i));
+        skip_backticks(str, &i);
         if (check_sep(str, i, index)) {
             node = build_node(str, &i, index);
             node->next = *pipeline;
