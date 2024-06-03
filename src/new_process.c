@@ -82,7 +82,8 @@ static int get_command(char **command, char **env, char **path)
     if (contain(command[0], '/'))
         return test_relative(command, path);
     path_var = get_path(env);
-    if (test_path(path_var, command, path)) {
+    if (test_path(path_var, command, path) &&
+        strcmp(command[0], "setenv") != 0) {
         freeing(*path, path_var);
         freeing(0, command);
         return 1;
