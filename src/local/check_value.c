@@ -12,11 +12,12 @@
 #include <sys/wait.h>
 
 
-int char_is_alpha(char c) {
+int char_is_alpha(char c)
+{
     return (c >= 'a' && c <= 'z') ||
-           (c >= 'A' && c <= 'Z') ||
-           (c >= '0' && c <= '9') ||
-           c == '_';
+        (c >= 'A' && c <= 'Z') ||
+        (c >= '0' && c <= '9') ||
+        c == '_';
 }
 
 int str_is_alpha(const char *str)

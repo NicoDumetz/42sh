@@ -104,7 +104,7 @@ int set_local(char *str, char ***, garbage_t *garbage, pipeline_t *pip)
 
     var_len(garbage);
     if (str_is_alpha(var) == 0) {
-        write(2, ERR_VAR, strlen(ERR_VAR));
+        write(2, VAR, strlen(VAR));
         return 1;
     }
     if (var == NULL)
