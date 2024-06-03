@@ -30,21 +30,29 @@ CFLAGS += -Llib -lmy -Iinclude -g -Wall -Wextra
 
 NAME = mysh
 
+
 all: $(NAME)
 
 required:
-	make -C lib/my
+	@./tests/banner.sh
+	@printf "\e[1;32m"
+	@make -s -C lib/my
 
 $(NAME): required $(OBJ)
-	gcc -o $(NAME)  $(OBJ) $(CFLAGS)
+	@gcc -o $(NAME) $(OBJ) $(CFLAGS)
 
 clean:
+	printf "\e[36m"
 	rm -f $(OBJ)
-	make clean -C lib/my
+	make -s clean -C lib/my
 
 fclean:
+	@printf "\e[35m"
 	rm -f $(NAME)
 	rm -f $(OBJ)
-	make fclean -C lib/my
+	make fclean -s -C lib/my
 
 re: fclean all
+
+run_test:
+	@./tests/tester.sh
