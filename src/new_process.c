@@ -140,7 +140,7 @@ int new_process(pipeline_t *node, char **command, char **env)
     int status;
     char *path = 0;
 
-    if (get_command(command, env, &path))
+    if (command[0] == NULL || get_command(command, env, &path))
         return 1;
     pid = fork();
     if (pid == -1)

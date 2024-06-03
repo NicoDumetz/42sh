@@ -10,7 +10,7 @@
 #include "my.h"
 #include "minishell.h"
 
-char *check_var(char *line, char *var, garbage_t *)
+static char *check_var(char *line, char *var, garbage_t *)
 {
     char name[my_strlen(line)];
     char *value = malloc(sizeof(char) * my_strlen(line));
