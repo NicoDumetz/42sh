@@ -60,6 +60,15 @@ pipeline_t *execute_semicolon(garbage_t *garbage, pipeline_t *pipeline)
     return pipeline;
 }
 
+static pipeline_t *skip_command(pipeline_t *pipeline)
+{
+    pipeline = pipeline->next;
+    for (; pipeline && (strcmp(pipeline->sep, ";") &&
+        strcmp(pipeline->sep, "\n") &&
+        strcmp(pipeline->sep, "||")); pipeline = pipeline->next);
+    return pipeline;
+}
+
 pipeline_t *execute_and(garbage_t *garbage, pipeline_t *pipeline)
 {
     char **command;
@@ -74,10 +83,7 @@ pipeline_t *execute_and(garbage_t *garbage, pipeline_t *pipeline)
         return pipeline;
     garbage->return_value = new_process(pipeline, command, *garbage->env);
     if (garbage->return_value != 0) {
-        pipeline = pipeline->next;
-        for (; pipeline && (strcmp(pipeline->sep, ";") &&
-            strcmp(pipeline->sep, "\n") &&
-            strcmp(pipeline->sep, "||")); pipeline = pipeline->next);
+        pipeline = skip_command(pipeline);
     }
     return pipeline;
 }
